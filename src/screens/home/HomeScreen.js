@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./HomeScreen.css"
+import $ from "jquery"
+import styled from 'styled-components'
 
 // HomeScreen의 구성 요소
 import Nav from "../../Nav";
@@ -17,32 +19,40 @@ import PopupReview from '../popup/PopupRelatedVideo'
 
 function HomeScreen(){
     const [visible, setVisible] = useState(false);
-    function visibleModal() {
-        setVisible(prev=>!prev)
-    }
+    const [coordY, setCoordY] = useState(0);
+    useEffect(()=> {
+        $(".popup_btn").mouseup(function() {
+            setVisible(true);
+            setCoordY(window.scrollY);
+            console.log(coordY)
 
-    useEffect(() => {
-        if(visible === true){
-            document.getElementById('test').classList.add("hello")
-        }else{
-            document.getElementById('test').classList.remove("hello");
-        }
-        console.log(document.getElementById('test').classList)
-    }, [visible])
+            $("#homeScreen").addClass('layer-open');
+            $(".layer-open").css({
+                // "transform" : "translateY("+coordY+")"
+                // "top" : -coordY
+                // "background-color" : "green"
+            })
+        })
+    }, [coordY])
 
     return (
-        <div id="test" className="homeScreen">
+        <div id="homeScreen" className="homeScreen">
             <Nav />
 
             <Banner />
+            <button className="popup_btn">Popup Page</button>
 
-            <Row title="금주의 인기순위" visibleModal={visibleModal}/>
-            <Row title="인기 급상승" visibleModal={visibleModal}/>
-            <Row title="RPG" visibleModal={visibleModal}/>
-            <Row title="FPS" visibleModal={visibleModal}/>
-            <Row title="AOS" visibleModal={visibleModal}/>
+            <Row title="금주의 인기순위" />
+            <Row title="인기 급상승" />
+            <Row title="RPG" />
+            <Row title="FPS" />
+            <Row title="AOS" />
 
-            <Modal visible={visible} setVisible={setVisible} visibleModal={visibleModal}> 
+            <Modal 
+                visible={visible} 
+                setVisible={setVisible}
+                coordY={coordY}
+                setCoordY={setCoordY} > 
                 <img 
                     className='modal__logo'
                     src="http://assets.stickpng.com/images/580b57fcd9996e24bc43c529.png"    
@@ -61,6 +71,7 @@ function HomeScreen(){
                     </div>
                 </div>
             </Modal>
+
         </div>
     )
 }

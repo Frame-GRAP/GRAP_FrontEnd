@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import './Row.css';
 import Video from "./Video";
 
-function Row({ title , visibleModal}) {
+function Row({ title }) {
     const [hover, setHover] = useState(false);
     //플랫폼 + code 한번에 받아야함
     const img_url = "https://assets.brand.microsites.netflix.io/assets/493f5bba-81a4-11e9-bf79-066b49664af6_cm_1440w.png?v=49";
@@ -34,8 +34,10 @@ function Row({ title , visibleModal}) {
             <div className="row_posters">
                 {results.map((set) =>
                     <div>
-                        {!hover ? (<img className="row_poster" src={set[0]} onMouseOver={toggleHover}  alt="game"/>)
-                            : (<Video embedId={set[1]} onMouseLeave={toggleHover} visibleModal={visibleModal} />)}
+                        {/* {!hover ? (<img className="row_poster" src={set[0]} onMouseOver={toggleHover}  alt="game"/>)
+                            : (<Video embedId={set[1]} onMouseLeave={toggleHover} visibleModal={visibleModal} />)} */}
+
+                        <img className="row_poster" src={set[0]} onMouseOver={toggleHover}  alt="game"/>    
                     </div>
                 )}
             </div>

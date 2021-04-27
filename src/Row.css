@@ -15,15 +15,51 @@
 }
 
 .row_poster {
-    height: 150px;
-    object-fit: contain;
-    margin-right: 10px;
-    transition: transform 450ms;
+    position: relative;
+    width: 350px;
+    height: 200px;
+    object-fit: cover;
+    margin-right: 20px;
+    padding: 5px;
+    transition: transform 550ms;
 }
 
 .row_poster:hover {
-    transform: scale(1.08);
-    opacity: 1;
+    transform: scale(1.2);
+    z-index: 1;
+}
+
+.row_poster:hover > .row_visible {
+    visibility: hidden;
+}
+
+.row_poster:hover > .row_hidden {
+    visibility: visible;
+    background-color: black;
+}
+
+.row_poster > .row_visible {
+    width: inherit;
+    height: auto;
+}
+
+.row_poster > .row_visible > .row_img {
+    width: inherit;
+    height: auto;
+}
+
+.row_poster > .row_hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    width: inherit;
+    height: auto;
+    padding: 5px;
+}
+
+.row_video {
+    margin-bottom: 10px;
 }
 
 .banner_fadeBottom {

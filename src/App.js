@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import HomeScreen from './screens/home/HomeScreen';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import LoginScreen from "./screens/LoginScreen";
 
 function App() {
     const user = null;
@@ -29,7 +28,6 @@ function App() {
                   <HomeScreen />
               </Route>
               <Route exact path="/login">
-                  <LoginScreen />
               </Route>
           </Switch>
       </Router>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./HomeScreen.css"
 import $ from "jquery"
 import styled from 'styled-components'
+import grap_logo from '../../img/grap_logo2-1.png'
+
 
 // HomeScreen의 구성 요소
 import Nav from "../../Nav";
@@ -11,9 +13,9 @@ import Modal from "../../Modal"
 
 // Modal의 구성 요소
 import PopupMainVideo from '../popup/PopupMainVideo'
-import PopupRecomend from '../popup/PopupRecomend'
 import PopupRelatedVideo from '../popup/PopupRelatedVideo'
-import PopupReview from '../popup/PopupRelatedVideo'
+import PopupReview from '../popup/PopupReview'
+import PopupGameDescription from "../popup/PopupGameDescription";
 
 
 
@@ -33,6 +35,9 @@ function HomeScreen(){
                 // "background-color" : "green"
             })
         })
+        $(".game_info").mouseup(function() {
+            setVisible(true);
+        })
     }, [coordY])
 
     return (
@@ -40,13 +45,12 @@ function HomeScreen(){
             <Nav />
 
             <Banner />
-            <button className="popup_btn">Popup Page</button>
 
-            <Row title="금주의 인기순위" />
-            <Row title="인기 급상승" />
-            <Row title="RPG" />
-            <Row title="FPS" />
-            <Row title="AOS" />
+            <Row title="금주의 인기순위" visible={visible} setVisible={setVisible}/>
+            <Row title="인기 급상승" visible={visible} setVisible={setVisible} />
+            <Row title="RPG" visible={visible} setVisible={setVisible} />
+            <Row title="FPS" visible={visible} setVisible={setVisible} />
+            <Row title="AOS" visible={visible} setVisible={setVisible} />
 
             <Modal 
                 visible={visible} 
@@ -55,18 +59,18 @@ function HomeScreen(){
                 setCoordY={setCoordY} > 
                 <img 
                     className='modal__logo'
-                    src="http://assets.stickpng.com/images/580b57fcd9996e24bc43c529.png"    
+                    src={grap_logo}    
                     alt="" 
                 />
                 <div className="popUp">
                     <div className="video">
-                        Video Info
                         <PopupMainVideo />
+                        {/* <hr className="contour"></hr> */}
+                        <PopupGameDescription />
+                        {/* <hr className="contour"></hr> */}
                         <PopupReview />
-                        <PopupRecomend />
                     </div>
                     <div className="video">
-                        Related Video
                         <PopupRelatedVideo />
                     </div>
                 </div>

@@ -7,8 +7,8 @@ function Video({embedId, onMouseLeave, visibleModal}) {
 
     return (
         <div className="video_responsive" onMouseLeave={onMouseLeave}>
-            <ReactPlayer url={embedId} ></ReactPlayer>
-            <button className="game_info" onClick={visibleModal}>상세정보</button>
+            {/* <ReactPlayer url={embedId} ></ReactPlayer>
+            <button className="game_info" onClick={visibleModal}>상세정보</button> */}
         </div>
     );
 }

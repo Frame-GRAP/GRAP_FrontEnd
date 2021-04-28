@@ -4,6 +4,7 @@
 }
 
 .row_posters {
+    position: relative;
     display: flex;
     overflow-y: hidden;
     overflow-x: scroll;
@@ -14,16 +15,35 @@
     display: none;
 }
 
+.cover {
+    width: 300px;
+    height: 200px;
+    margin-right: 30px;
+}
+
 .row_poster {
-    height: 150px;
-    object-fit: contain;
-    margin-right: 10px;
+
+    position: absolute;
+    width: 300px;
+    height: 200px;
     transition: transform 450ms;
 }
 
-.row_poster:hover {
-    transform: scale(1.08);
-    opacity: 1;
+.row_video {
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    max-width: 100%;
+    height: auto;
+}
+
+.cover:hover > .row_poster{
+    visibility: hidden;
+}
+
+
+.row_video:hover {
+    opacity: 100;
 }
 
 .banner_fadeBottom {

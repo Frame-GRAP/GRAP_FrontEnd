@@ -9,32 +9,6 @@
 .homeScreen {
     background-color: #111;
     height: 100%;
-
-}
-
-/* 나중에 지우기. 그냥 보기쉬우라고 만듦 */
-.popup_btn {
-    height: 50px;
-    width: 200px;
-    background-color: #111;
-    color: white;
-    text-align: center;
-    font-size: large;
-    border: 1px solid #fff;
-    margin-top: 2px;
-    cursor: pointer;
-    position: fixed;
-    top: 500px;
-}
-
-.modal__logo {
-    position: fixed;
-    top: 10px;
-    left: 0;
-    width: 80px;
-    object-fit: contain;
-    padding-left: 20px;
-    cursor: pointer;
 }
 
 .popUp {
@@ -43,15 +17,19 @@
 
 .video {
     color: white;
-    border: 1px solid;
-    text-align: center;
     align-items: center;
     align-content: center;
 }
 .video:nth-child(1) {
-    flex: 9;
+    flex: 3;
 }
 .video:nth-child(2) {
-    flex: 2;
+    flex: 1;
+}
+
+.contour {
+    width: 97%;
+    margin: auto;
+    
 }
 

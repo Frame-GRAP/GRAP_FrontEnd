@@ -1,6 +1,18 @@
 .video_responsive {
-    padding: 30px;
+    opacity: 0;
+    position: relative;
+    padding-top: 50% /* Player ratio: 100 / (1280 / 720) */
+}
+.game_video {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-.contents {
+.game_info{
+    cursor: pointer;
+}
+
+.video_responsive:hover{
+    opacity: 100;
 }

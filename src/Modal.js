@@ -2,6 +2,7 @@ import React, {useRef, useCallback, useEffect} from 'react'
 import styled from 'styled-components'
 import $ from "jquery"
 import {MdClose} from 'react-icons/md'
+import "./Modal.css"
 
 
 function Modal({ visible, setVisible, children, coordY, setCoordY }) {
@@ -106,6 +107,7 @@ const ModalContent = styled.div`
   transform: translateY(-50%);
   margin: 0 auto;
   padding: 50px 50px;
+
 `
 
 const CloseModalButton = styled(MdClose)`

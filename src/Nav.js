@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './Nav.css';
-import grap_logo from './img/grap_logo2-2.png';
+import grap_logo from './img/grap_logo2-1.png';
 import profile from './img/profile_big.png';
 
 function Nav() {

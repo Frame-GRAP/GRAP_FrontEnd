@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Oswald&display=swap');
+
+.title__font {
+    font-size: 20px;
+    font-family: Oswald;
+}
+
+.popup__Related_Video {
+    height: 1250px;
+    border-left: 3px solid rgba(10, 10, 20, 100);
+    padding: 20px 20px;
+    margin: 5px 5px;
+}
+
+.related_poster {
+    width: 90%;
+    margin-bottom: 10px;
+    cursor: pointer;
+}

@@ -2,6 +2,7 @@ import React, {useRef, useCallback, useEffect} from 'react'
 import styled from 'styled-components'
 import $ from "jquery"
 import {MdClose} from 'react-icons/md'
+import {CgCloseO} from 'react-icons/cg'
 import "./Modal.css"
 
 
@@ -13,7 +14,7 @@ function Modal({ visible, setVisible, children, coordY, setCoordY }) {
   const keyPress = useCallback(e=> {
       if(e.key === 'Escape'&& visible){
           setVisible(false);
-          document.getElementById('homeScreen').classList.remove("layer-open")
+          document.getElementById('homeScreen').classList.remove("not_scroll")
       }
   }, [visible, setVisible])
 
@@ -27,12 +28,12 @@ function Modal({ visible, setVisible, children, coordY, setCoordY }) {
   // => 클래스 사라지고 'visible=false'
   useEffect(()=> {
     $(".modal_closeBtn").mouseup(function(){
-      $("#homeScreen").removeClass("layer-open")
+      $("#homeScreen").removeClass("not_scroll")
       setVisible(false);
 
     })
     $(".modal_background").mouseup(function(e){
-      $("#homeScreen").removeClass("layer-open")
+      $("#homeScreen").removeClass("not_scroll")
       if(modalRef.current === e.target){
         setVisible(false);
       }
@@ -78,43 +79,59 @@ const ModalWrapper = styled.div`
   box-sizing: border-box;
   display: ${(props) => (props.visible ? 'block' : 'none')};
   position: fixed;
-  top: 10%;
-  bottom: 10%;
+  top: 20px;
   left: 10%;
   right: 10%;
-  height: 800px;
-  width: 1000px;
-  margin: auto;
+  height: 1000px;
+  width: 2000px;
+  max-width: 1500px;
   z-index: 1000;
   overflow: hidden;
   outline: 0;
+  border-radius: 10px;
 `
 
 
 const ModalContent = styled.div`
   box-sizing: border-box;
   position: relative;
-  overflow: auto;
+  overflow: scroll;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   background-color: #111;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
+  // height: 1000px;
+  // width: 1500px;
+
   height: 100%;
   width: 100%;
-  max-width: 1000px;
+
+  max-width: 1500px;
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
   padding: 50px 50px;
 
+  &::-webkit-scrollbar {
+    width:20px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: gray;
+    background-clip: padding-box;
+    border: 4px solid transparent;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px; 
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
 `
 
-const CloseModalButton = styled(MdClose)`
+const CloseModalButton = styled(CgCloseO)`
     cursor: pointer;
+    color: #fff;
     position: absolute;
-    color: rgba(0, 0, 0, 0.9);
-    top: 0;
+    top: 20px;
     right: 0;
     width: 40px;
     height: 40px;

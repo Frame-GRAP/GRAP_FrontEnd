@@ -31,7 +31,7 @@ for(let i = 0; i < url.length; i++){
     useEffect(()=> {
         $(".game_info").mouseup(function() {
             setVisible(true);
-            $("#homeScreen").addClass('layer-open');
+            $("#homeScreen").addClass('not_scroll');
         })
     }, [visible])
 

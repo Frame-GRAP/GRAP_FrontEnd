@@ -12,8 +12,8 @@ function PopupMainVideo() {
             <ReactPlayer
                 className="game__video" 
                 url={url}  
-                width='100%' height='400px'
-            ></ReactPlayer>
+                width='100%' height='600px'
+            />
         </div>
     )
 }

@@ -34,8 +34,9 @@
     
 }
 .writing__part {
-    width: 480px;
-    height: 50px;
+    /* width: 480px; */
+    width: 85%;
+    height: 40px;
     color: #111;
     background-color: #fff;
     font-family: 'Noto Sans', sans-serif;
@@ -44,9 +45,11 @@
     outline: none;
 }
 .submit__part {
-    height: 50px;
+    width: 12%;
+    height: 45px;
     cursor: pointer;
     color: #fff;
+    
     background-color: #111;
     font-family: 'Noto Sans', sans-serif;
     border: 1px solid #fff;

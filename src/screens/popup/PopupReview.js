@@ -56,7 +56,7 @@ function PopupReview() {
 
                         <div className="etc">
                             고윤혁<br/>
-                            Rating : 3<br/>
+                            Rating : 4<br/>
                             게임 난이도가 너무 어려워요<br/>
                             2020.04.28
                         </div>
@@ -66,7 +66,47 @@ function PopupReview() {
 
                         <div className="etc">
                             배원찬<br/>
-                            Rating : 2<br/>
+                            Rating : 5<br/>
+                            너무 쉬워서 딴 겜 하러감 ㅋ<br/>
+                            2020.04.28
+                        </div>
+                    </div>
+                    <div className="Review">
+                        <img src={Profile_Image} className="profile_Image"></img>
+
+                        <div className="etc">
+                            고윤혁<br/>
+                            Rating : 4<br/>
+                            게임 난이도가 너무 어려워요<br/>
+                            2020.04.28
+                        </div>
+                    </div>
+                    <div className="Review">
+                        <img src={Profile_Image2} className="profile_Image"></img>
+
+                        <div className="etc">
+                            배원찬<br/>
+                            Rating : 5<br/>
+                            너무 쉬워서 딴 겜 하러감 ㅋ<br/>
+                            2020.04.28
+                        </div>
+                    </div>
+                    <div className="Review">
+                        <img src={Profile_Image} className="profile_Image"></img>
+
+                        <div className="etc">
+                            고윤혁<br/>
+                            Rating : 4<br/>
+                            게임 난이도가 너무 어려워요<br/>
+                            2020.04.28
+                        </div>
+                    </div>
+                    <div className="Review">
+                        <img src={Profile_Image2} className="profile_Image"></img>
+
+                        <div className="etc">
+                            배원찬<br/>
+                            Rating : 5<br/>
                             너무 쉬워서 딴 겜 하러감 ㅋ<br/>
                             2020.04.28
                         </div>
@@ -79,11 +119,13 @@ function PopupReview() {
                 <input 
                     type="text" 
                     className="writing__part"
+                    placeholder="  Review Addition"
                     required
                 />&nbsp;&nbsp;
                 <input 
                     type="submit"
-                    value="Register Review" className="submit__part" 
+                    value="Register" 
+                    className="submit__part" 
                     onClick={prevent} 
                 />
             </form>

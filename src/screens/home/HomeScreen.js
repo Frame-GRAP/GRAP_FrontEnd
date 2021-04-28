@@ -23,22 +23,25 @@ function HomeScreen(){
     useEffect(()=> {
         $(".popup_btn").mouseup(function() {
             setVisible(true);
-            setCoordY(window.scrollY);
-            console.log(coordY)
+            // setCoordY(window.scrollY);
+            // console.log(coordY)
 
-            $("#homeScreen").addClass('layer-open');
-            $(".layer-open").css({
-                // "transform" : "translateY("+coordY+")"
-                // "top" : -coordY
-                // "background-color" : "green"
+            $("#homeScreen").addClass('not_scroll');
+            $(".not_scroll").css({
+                // "transform" : "translateY("+coordY+")",
+                "top" : -coordY,
+                "background-color" : "green"
             })
         })
+        console.log(coordY)
+
         $(".game_info").mouseup(function() {
             setVisible(true);
         })
     }, [coordY])
 
     return (
+        <>
         <div id="homeScreen" className="homeScreen">
             <Nav />
 
@@ -49,7 +52,8 @@ function HomeScreen(){
             <Row title="RPG" visible={visible} setVisible={setVisible} />
             <Row title="FPS" visible={visible} setVisible={setVisible} />
             <Row title="AOS" visible={visible} setVisible={setVisible} />
-
+        </div>
+        <div>
             <Modal 
                 visible={visible} 
                 setVisible={setVisible}
@@ -63,9 +67,7 @@ function HomeScreen(){
                 <div className="popUp">
                     <div className="video">
                         <PopupMainVideo />
-                        {/* <hr className="contour"></hr> */}
                         <PopupGameDescription />
-                        {/* <hr className="contour"></hr> */}
                         <PopupReview />
                     </div>
                     <div className="video">
@@ -74,6 +76,8 @@ function HomeScreen(){
                 </div>
             </Modal>
         </div>
+        </>
+       
     )
 }
 

@@ -37,11 +37,10 @@ for(let i = 0; i < url.length; i++){
                             <button className="game_info" onClick={() => history.push("/login")}>상세정보</button>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
-    </div>
-)
+    )
 }
 
 export default Row;

@@ -22,7 +22,7 @@ for(let i = 0; i < url.length; i++){
 
         results[i] = col;
     }
-
+    // 
     return (
         <div className="row">
             <h2>{title}</h2>

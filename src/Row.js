@@ -13,11 +13,12 @@ function Row({ title }) {
     const history = useHistory();
     const isHover = useRef(0);
 
-    for(let i = 0; i < url.length; i++){
-        let col = [];
-        col[0] = thumbnail[i];
-        col[1] = url[i];
-        col[2] = false;
+
+for(let i = 0; i < url.length; i++){
+    let col = [];
+    col[0] = thumbnail[i];
+    col[1] = url[i];
+    col[2] = false;
 
         results[i] = col;
     }
@@ -36,10 +37,11 @@ function Row({ title }) {
                             <button className="game_info" onClick={() => history.push("/login")}>상세정보</button>
                         </div>
                     </div>
-                )}
-            </div>
+                </div>
+            )}
         </div>
-    )
+    </div>
+)
 }
 
 export default Row;

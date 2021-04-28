@@ -1,0 +1,126 @@
+.loginScreen {
+    position: relative;
+    height: 100%;
+    background: url('../img/login_background.jpg') center;
+    background-size: cover;
+}
+
+.loginScreen_gradient {
+    width: 100%;
+    z-index: 1;
+    height: 150vh;
+    background: rgba(0, 0, 0, 0.4) linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.8) 0,
+            rgba(0, 0, 0, 0) 60%,
+            rgba(0, 0, 0, 0.8) 100%
+    );
+}
+
+.loginScreen_logo {
+    position: fixed;
+    left: 0;
+    width: 150px;
+    object-fit: contain;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.loginScreen_body {
+    position: absolute;
+    max-width: 500px;
+    top: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+    color: #fff;
+    left: 0;
+    right: 0;
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.loginScreen_input {
+    margin-bottom: 40px;
+}
+
+.loginScreen_input > form {
+    display: grid;
+    flex-direction: column;
+}
+
+.loginScreen_input > form > h1 {
+    font-size: 3.125rem;
+    margin-bottom: 50px;
+}
+
+.loginScreen_input > form > h2 {
+    font-size: 1.5rem;
+    color: gray;
+    margin-bottom: 30px;
+}
+
+.loginScreen_input > form > input {
+    outline-width: 0;
+    height: 40px;
+    margin: 0px 30px 20px 30px;
+    border-radius: 5px;
+    border: none;
+    padding: 5px 15px;
+}
+
+.loginScreen_input > form > button {
+    padding: 16px 20px;
+    font-size: 1rem;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #e50914;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin: 40px 30px 0px 30px;
+    top: 50%;
+    left: 50%;
+}
+
+.loginScreen_info {
+    color: gray;
+    cursor: pointer;
+    margin-bottom: 40px;
+}
+
+.info_gray{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.loginScreen_sns {
+    margin-bottom: 20px;
+}
+
+.sns_icon {
+    border-radius: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.naver{
+    background: url('../img/naver_login.PNG') transparent;
+    background-size: contain;
+}
+
+.kakao{
+    background: url('../img/kakao_login.png') transparent;
+    background-size: contain;
+}
+
+.google {
+    background: url('../img/google_login.png') transparent;
+    background-size: contain;
+}

@@ -30,6 +30,7 @@ function App() {
               </Route>
               <Route exact path="/signup">
                   <SignupScreen />
+              <Route exact path="/login">
               </Route>
           </Switch>
       </Router>

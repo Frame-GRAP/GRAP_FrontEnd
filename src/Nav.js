@@ -3,6 +3,7 @@ import './Nav.css';
 import grap_logo from './img/grap_logo2-1.png';
 import profile from './img/profile_big.png';
 import {IoSearchCircleSharp} from "react-icons/io5"
+import {FaSearch} from "react-icons/fa"
 import styled from 'styled-components'
 
 function Nav() {
@@ -41,6 +42,7 @@ function Nav() {
                         <input type="text" className="search__typing"></input>
                         <input type="submit" className="search__submit" onClick={preventEvent}></input> {/* 일단 이동하는거 멈추려고 prevent Default 걸어놨음. */}
                         <img src="" ></img> {/* 축소하는 버튼 아이콘 */}
+                        {/*  */}
                     </form>
                 ): ""}           
                 <SearchButton onClick={searchBtn}/>

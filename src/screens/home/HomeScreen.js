@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import grap_logo from '../../img/grap_logo2-1.png'
 
 
+
 // HomeScreen의 구성 요소
 import Nav from "../../Nav";
 import Banner from "../../Banner";
@@ -43,6 +44,7 @@ function HomeScreen(){
     return (
         <>
         <div id="homeScreen" className="homeScreen">
+
             <Nav />
 
             <Banner />

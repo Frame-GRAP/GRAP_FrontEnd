@@ -51,17 +51,14 @@
 .game__Poster {
     flex: 3;
     margin-right: 10px;
-    /* height: 300px; */
-    /* max-height: 200px; */
+    max-height: 230px;
 }
 .game__description {
     flex: 7;
-    
-    /* max-height: 200px; */
 }
 .description{
     overflow-y: scroll;
-    /* border: 1px solid #fff; */
+    max-height: 100px;
     padding: 5px;
 }
 .description::-webkit-scrollbar {

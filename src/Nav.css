@@ -36,3 +36,28 @@
     right: 5%;
     width: 60px;
 }
+
+.Search__Btn {
+    position: fixed;
+    right: 10%;
+    width: 60px;
+}
+
+.Search__form {
+    position: fixed;
+    right: 20%;
+    top: 22px;
+    
+}
+
+.search__typing {
+    height: 30px;
+    background-color: #111;
+    outline: 1px solid #fff;
+    margin-right: 3px;
+    color: #fff;
+}
+.search__submit {
+    height: 35px;
+    font-size: 10px;
+}

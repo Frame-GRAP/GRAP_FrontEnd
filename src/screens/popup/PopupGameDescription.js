@@ -18,7 +18,7 @@ function PopupGameDescription() {
                 <div className="game__description">
                     <h2>Name : Brawlhalla</h2> <br/>
                     <p className="description">
-                        Description : This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.
+                        Description : This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.This game's genre is RPG.
                     </p><br/>        
                     <h4>Download URL </h4><a href="www.naver.com" className="down_link">https://www.naver.com</a>
                     <br/>

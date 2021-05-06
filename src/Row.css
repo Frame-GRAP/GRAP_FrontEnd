@@ -1,79 +1,51 @@
 .row {
     color: white;
-    margin-left: 20px;
 }
 
-.row_posters {
-    position: relative;
-    display: flex;
-    overflow-y: hidden;
-    overflow-x: scroll;
+.row_carousel {
     padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
 }
 
-.row_posters::-webkit-scrollbar {
-    display: none;
+h2 {
+    margin-right: 30px;
+    margin-left: 30px;
 }
 
-.row_poster {
-    position: relative;
-    width: 350px;
-    height: 200px;
-    object-fit: cover;
-    margin-right: 20px;
-    padding: 5px;
-    transition: transform 550ms;
+.row_posters:hover .list_item {
+    transition-delay: 0.3s;
+    transform: translateX(-10%);
 }
 
-.row_poster:hover {
-    transform: scale(1.2);
-    z-index: 1;
+.list_item:hover ~ .list_item {
+    transition-delay: 0.3s;
+    transform: translateX(10%);
 }
 
-.row_poster:hover > .row_visible {
-    visibility: hidden;
+.list_item{
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    margin-bottom: 20px;
 }
 
-.row_poster:hover > .row_hidden {
-    visibility: visible;
+.list_item:hover {
+    transition-delay: 0.3s;
+    transform: scale(1.2) !important;
     background-color: black;
 }
 
-.row_poster > .row_visible {
-    width: inherit;
-    height: auto;
-}
-
-.row_poster > .row_visible > .row_img {
-    width: inherit;
-    height: auto;
-}
-
-.row_poster > .row_hidden {
-    position: absolute;
-    top: 0;
-    left: 0;
-    visibility: hidden;
-    width: inherit;
-    height: auto;
-    padding: 5px;
-}
-
-.row_video {
-    margin-bottom: 10px;
+.react-multi-carousel-dot {
+    margin-right: 5px;
 }
 
 .banner_fadeBottom {
     height: 7.4rem;
     background-image: linear-gradient(
-    180deg,
-    transparent,
-    rgba(37,37,37,0.61),
-    #111
+            180deg,
+            transparent,
+            rgba(37,37,37,0.61),
+            #111
     );
 }
 
-/* .game_info {
-    width: 100%;
-    margin: auto;
-} */

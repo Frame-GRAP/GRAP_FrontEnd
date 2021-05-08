@@ -1,46 +1,65 @@
 import React, {useRef, useState, useEffect} from "react";
 import './Row.css';
 import Video from "./Video";
-import ReactPlayer from "react-player";
-import { useHistory } from "react-router-dom";
 import $ from "jquery"
-
-
 import Image2 from "./img/Related_Image2.png"
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import ReactPlayer from "react-player";
 
-function Row({ title, visible, setVisible  }) {
+function Row({ title, gameData, visible, setVisible, gameId, setGameId, posY }) {
     //플랫폼 + code 한번에 받아야함
-    const img_url = "https://assets.brand.microsites.netflix.io/assets/493f5bba-81a4-11e9-bf79-066b49664af6_cm_1440w.png?v=49";
-    const video_url = "https://www.youtube.com/watch?v=7C2z4GqqS5E";
+    const video_url = "https://www.youtube.com/watch?v=ubzs4LQdJrc";
     const url = [video_url, video_url, video_url, video_url, video_url, video_url, video_url, video_url];
     const thumbnail = [Image2, Image2, Image2, Image2, Image2, Image2, Image2, Image2];
     const results = [];
-    const history = useHistory();
-    const isHover = useRef(0);
 
 
-for(let i = 0; i < url.length; i++){
-    let col = [];
-    col[0] = thumbnail[i];
-    col[1] = url[i];
-    col[2] = false;
 
+    for(let i = 0; i < 20; i++){
+        let col = [];
+        col[0] = thumbnail[i];
+        col[1] = url[i];
         results[i] = col;
     }
 
-    useEffect(()=> {
-        $(".game_info").mouseup(function() {
-            setVisible(true);
-            $("#homeScreen").addClass('not_scroll');
-        })
-    }, [visible])
-
+    const responsive = {
+        desktop: {
+            breakpoint: { max: 3000, min: 1024 },
+            items: 4,
+            slidesToSlide: 4 // optional, default to 1.
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 2,
+            slidesToSlide: 2 // optional, default to 1.
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 1,
+            slidesToSlide: 1 // optional, default to 1.
+        }
+    };
 
     return (
-        <div className="row">
+        <div className="row">            
             <h2>{title}</h2>
             <div className="row_posters">
-                {results.map((set, index) =>
+                <Carousel className="row_carousel"
+                          swipeable={false}
+                          draggable={false}
+                          showDots={true}
+                          infinite={true}
+                          responsive={responsive}
+                          itemClass="list_item"
+                          sliderClass="row_posters"
+                          dotListClass="dot_list">
+                    {results.map((set, index) =>
+                        <Video className="row_poster" url={set} setVisible={setVisible} posY={posY}/>
+                    )}
+                </Carousel>
+
+                {/* {results.map((set, index) =>
                     <div className="row_poster">
                         <div className="row_visible">
                             <img className="row_img" src={set[0]} alt="game"/>
@@ -50,8 +69,31 @@ for(let i = 0; i < url.length; i++){
                             <button className="game_info">상세정보</button>
                         </div>
                     </div>
-                )}
+                )} */}
             </div>
+
+
+            {/* <h2>{title}</h2>
+            <div className="row_posters">
+                {gameData.map((set, index) =>
+                    <div className="row_poster">
+                        <div className="row_visible">
+                            <img className="row_img" src={gameData[index].headerImg} alt="game"/>
+                        </div>
+                        <div className="row_hidden">
+                            <ReactPlayer 
+                                className="row_video" 
+                                url={set[1]} 
+                                width='100%' height='100%' 
+                                playing={false}></ReactPlayer>
+                            <button 
+                                className="game_info" 
+                                // value={gameData[index].id}
+                            >상세정보</button>
+                        </div>
+                    </div>
+                )}
+            </div> */}
         </div>
     )
 }

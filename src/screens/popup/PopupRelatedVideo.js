@@ -15,6 +15,8 @@ function PopupRelatedVideo() {
         Related_Image3,
         Related_Image4
     ];
+
+    // 처음부터 말고 스크롤할때 영상 나오게
     // hover하면 영상 내용 나오게
     return (
         <div className="popup__Related_Video">

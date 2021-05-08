@@ -1,23 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Oswald&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css');
 
+/* Total Review CSS */
 .popup__Review {
     padding: 20px 20px;
     margin: 5px 5px;
 }
-
 .title__font {
     font-size: 25px;
     font-family: 'Oswald', sans-serif;
 }
 
-.review_title{
-    
-}
+
+/* Reviews 데이터 받아온 것 CSS, Scroll 기능 등 */
 .Reviews {
     width: 100%;
-    /* border: 1px solid white; */
     border-radius: 0.5rem;
+    margin-top: 20px;
 }
 
 .Review__contents {
@@ -26,40 +25,11 @@
     overflow-y: scroll;
     font-family: 'Noto Sans', sans-serif;
     padding: 15px;
+    margin-bottom: 15px;
 }
-
-.Review__write {
-    margin-top: 10px;
-    width: 100%;
-    
-}
-.writing__part {
-    /* width: 480px; */
-    width: 85%;
-    height: 40px;
-    color: #111;
-    background-color: #fff;
-    font-family: 'Noto Sans', sans-serif;
-    border: 1px solid #fff;
-    border-radius: 0.5rem;
-    outline: none;
-}
-.submit__part {
-    width: 12%;
-    height: 45px;
-    cursor: pointer;
-    color: #fff;
-    
-    background-color: #111;
-    font-family: 'Noto Sans', sans-serif;
-    border: 1px solid #fff;
-    border-radius: 0.5rem;
-}
-
 .Review__contents::-webkit-scrollbar {
     width: 20px;
 }
-
 .Review__contents::-webkit-scrollbar-thumb {
     background-color: gray;
     background-clip: padding-box;
@@ -70,25 +40,91 @@
     border-bottom-right-radius: 50px;
 }
 
-/* Rating */
-/* .rating:nth-child(3){
-    color: #F05522;
-} */
+
+/* Each Review's CSS */
 
 .Review {
     display: flex;
-    font-size: 12px;
-    margin-bottom: 10px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    width: 95%;
+    padding: 10px;
+    margin: auto;
     font-family: 'Noto Sans', sans-serif;
+    font-size: 12px;
 }
-.profile_Image {
-    flex: 1;
-    /* border: 1px solid white; */
-    margin-right: 5px;
-    height: 70px;
-    width: 70px;
+/* CSS in one Reveiw (이미지, 리뷰내용, 신고버튼) */
+.Review__profile__image { flex: 1; margin-right: 10px; height: 70px; width: 50px;}
+.Reveiw__items { flex: 9; padding-right: 20px;}
+.Review__declaration {
+    flex: 2;
+    margin-top: 5px;
 }
-.etc {
-    flex: 10;
-    /* border: 1px solid white; */
+.Review__likes{display: flex; font-size: 15px; color: gray}
+.like {margin-right: 10px; cursor: pointer;}
+.Name{
+    font-size: 15px;
+}
+.date{color:gray;}
+
+
+.Review__declaration__btn {
+    cursor: pointer;
+    background-color: #111;
+    color: #fff;
+    margin: 10px;
+}
+.Review__declaration__btn:hover{
+    font-size: 13px;
+}
+
+
+
+/* Review Input Part */
+
+.Review__write {
+    margin-top: 15px;
+    margin: auto;
+    width: 92%;
+}
+
+.Review__rating {
+    margin-bottom: 10px;
+}
+.Reveiw__rating__select {
+    height: 30px;
+    width: 100px;
+    background-color:#111;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+.Review__like{
+    width: 23px;
+    height: 23px;
+    cursor: pointer;
+}
+
+.writing__part {
+    width: 75%;
+    height: 40px;
+
+    color: #111;
+    background-color: #fff;
+    font-family: 'Noto Sans', sans-serif;
+    border: 1px solid #fff;
+    border-radius: 0.5rem;
+    outline: none;
+}
+.submit__part {
+    width: 10%;
+    height: 45px;
+    cursor: pointer;
+    color: #fff;
+    
+    background-color: #111;
+    font-family: 'Noto Sans', sans-serif;
+    border: 1px solid #fff;
+    border-radius: 0.5rem;
 }

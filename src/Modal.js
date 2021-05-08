@@ -1,48 +1,11 @@
 import React, {useRef, useCallback, useEffect} from 'react'
 import styled from 'styled-components'
 import $ from "jquery"
-import {MdClose} from 'react-icons/md'
 import {CgCloseO} from 'react-icons/cg'
 import "./Modal.css"
 
 
-function Modal({ visible, setVisible, children, coordY, setCoordY }) {
-  // 배경 누르면 팝업창 닫기 위한 변수
-  const modalRef = useRef();
- 
-  // ESC 누르면 팝업창 사라짐
-  const keyPress = useCallback(e=> {
-      if(e.key === 'Escape'&& visible){
-          setVisible(false);
-          document.getElementById('homeScreen').classList.remove("not_scroll")
-      }
-  }, [visible, setVisible])
-
-  useEffect(() => {
-    document.addEventListener('keydown', keyPress);
-    return () => document.removeEventListener('keydown', keyPress);
-  }, [keyPress])
-
-
-  // 배경 누르기, X 버튼 누르기 
-  // => 클래스 사라지고 'visible=false'
-  useEffect(()=> {
-    $(".modal_closeBtn").mouseup(function(){
-      $("#homeScreen").removeClass("not_scroll")
-      setVisible(false);
-
-    })
-    $(".modal_background").mouseup(function(e){
-      $("#homeScreen").removeClass("not_scroll")
-      if(modalRef.current === e.target){
-        setVisible(false);
-      }
-    })
-
-
-
-  }, [coordY])
-
+function Modal({ children, modalRef, gameData, gameId, visible, posY}) {
   return (
     <>
         {/* 팝업창 띄워져있을 때에는 바탕화면 스크롤은 안되게 */}
@@ -79,13 +42,14 @@ const ModalWrapper = styled.div`
   box-sizing: border-box;
   display: ${(props) => (props.visible ? 'block' : 'none')};
   position: fixed;
-  top: 20px;
-  left: 10%;
-  right: 10%;
-  height: 1000px;
-  width: 2000px;
+  top: 40px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 100%;
+  width: 1500px;
   max-width: 1500px;
-  z-index: 1000;
+  z-index: 999;
   overflow: hidden;
   outline: 0;
   border-radius: 10px;

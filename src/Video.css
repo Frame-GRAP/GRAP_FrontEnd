@@ -1,18 +1,40 @@
-.video_responsive {
-    opacity: 0;
-    position: relative;
-    padding-top: 50% /* Player ratio: 100 / (1280 / 720) */
-}
-.game_video {
-    position: absolute;
-    top: 0;
-    left: 0;
+.row_container {
+    height: 200px;
+    padding: 5px;
+    transition: all 400ms;
+    border: 2px solid white;
+    border-radius: 5px;
+    text-align: center;
 }
 
-.game_info{
+.row_item {
+    overflow: hidden;
+}
+
+.row_img {
+    object-fit: cover;
+}
+
+.row_video {
+    border: 5px solid white;
+    border-radius: 5px;
+    margin-bottom: 7px;
+}
+
+.game_info {
     cursor: pointer;
+    color: #fff;
+    outline: none;
+    font-weight: 700;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: rgba(51, 51, 51, 0.5);
+    padding: 3px 5px 3px 5px;
 }
 
-.video_responsive:hover{
-    opacity: 100;
+.game_info:hover {
+    color: #000;
+    background-color: #e6e6e6;
+    transition: all 0.2s;
 }

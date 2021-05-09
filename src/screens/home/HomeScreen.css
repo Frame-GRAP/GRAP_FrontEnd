@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Oswald&display=swap');
+
 .layer-open {
     background-color: #111;
     overflow: hidden;
@@ -9,7 +11,15 @@
 .homeScreen {
     background-color: #111;
     height: 100%;
+    /* position: static; */
 }
+
+.not_scroll { /* 여기 지금 position값 변경될 때마다 reactPlayer부분 이상하게 변함. */
+    /* position: fixed;
+    height: 3000px;
+    overflow: hidden; */
+}
+
 
 .popUp {
     display: flex;
@@ -21,15 +31,54 @@
     align-content: center;
 }
 .video:nth-child(1) {
-    flex: 3;
+    flex: 7;
 }
 .video:nth-child(2) {
-    flex: 1;
+    flex: 3;
 }
 
-.contour {
-    width: 97%;
-    margin: auto;
+/* 신고 페이지 */
+.declare_part {
+    color: #fff;
+}
+.declare_item {
+    color: #fff;
+    margin-left: 5px;
+    margin-top: 20px;
+}
+.declare_selection {
+    margin-left: 10px;
+    cursor: pointer;
+}
+.declare_radio{
+    height: 17px;
+    width: 17px;
+    background-color: #99a1a7;
+}   
+
+.hr_tag {
+    margin-top: 40px;
+}
+
+.declare_submit_part{
+    float: right;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    margin: 20px;
     
 }
+.declare_cancel, .declare_submit{
+    height: 30px;
+    width: 100px;
+    margin-right: 30px;
+    cursor: pointer;
 
+    color: #fff;
+    background-color: gray
+    
+
+    /* outline: 1px solid #fff; */
+
+
+}

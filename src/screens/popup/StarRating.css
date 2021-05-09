@@ -1,0 +1,7 @@
+.star__radio {
+    display: none;
+}
+.star {
+    cursor: pointer;
+    transition: color 200ms;
+}

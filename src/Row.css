@@ -49,3 +49,83 @@ h2 {
     );
 }
 
+
+/*.row {
+    color: white;
+    margin-left: 20px;
+}
+
+.row_posters {
+    position: relative;
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    padding: 20px;
+}
+
+.row_posters::-webkit-scrollbar {
+    display: none;
+}
+
+.row_poster {
+    position: relative;
+    width: 350px;
+    height: 200px;
+    object-fit: cover;
+    margin-right: 20px;
+    padding: 5px;
+    transition: transform 550ms;
+}
+
+.row_poster:hover {
+    transform: scale(1.2);
+    z-index: 1;
+}
+
+.row_poster:hover > .row_visible {
+    visibility: hidden;
+}
+
+.row_poster:hover > .row_hidden {
+    visibility: visible;
+    background-color: black;
+}
+
+.row_poster > .row_visible {
+    width: inherit;
+    height: auto;
+}
+
+.row_poster > .row_visible > .row_img {
+    width: inherit;
+    height: auto;
+}
+
+.row_poster > .row_hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    width: inherit;
+    height: auto;
+    padding: 5px;
+}
+
+.row_video {
+    margin-bottom: 10px;
+}
+
+.banner_fadeBottom {
+    height: 7.4rem;
+    background-image: linear-gradient(
+    180deg,
+    transparent,
+    rgba(37,37,37,0.61),
+    #111
+    );
+}*/
+
+/* .game_info {
+    width: 100%;
+    margin: auto;
+} */

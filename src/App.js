@@ -34,6 +34,9 @@ function App() {
               <Route exact path="/login">
                     
               </Route>
+              {/* <Route exact path="/mypage">
+                <Mypage />
+              </Route> */}
           </Switch>
       </Router>
     </div>

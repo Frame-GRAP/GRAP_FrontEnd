@@ -117,62 +117,26 @@ function HomeScreen(){
                 setVisible={setVisible}
                 posY={posY}
             />
-            {/* <Row 
+            <Row 
                 title="All Games" 
-                gameData={gameData}
+                gameData={gameData} 
                 videoData={videoData}
                 visible={visible}
-                setVisible={setVisible}   
-                gameId={gameId}
-                setGameId={setGameId}
+                popupGameData={popupGameData}
+                setPopupGameData={setPopupGameData}
+                setVisible={setVisible}
                 posY={posY}
-            />            */}
-        
-            {/*<Row 
-                title="금주의 인기순위" 
+            />            
+            <Row 
+                title="All Games" 
                 gameData={gameData} 
+                videoData={videoData}
                 visible={visible}
-                setVisible={setVisible}   
-                gameId={gameId}
-                setGameId={setGameId}
+                popupGameData={popupGameData}
+                setPopupGameData={setPopupGameData}
+                setVisible={setVisible}
                 posY={posY}
             />
-            <Row 
-                title="인기 급상승" 
-                gameData={gameData} 
-                visible={visible} 
-                setVisible={setVisible}       
-                gameId={gameId}
-                setGameId={setGameId}
-                posY={posY}
-            />
-            <Row 
-                title="RPG" 
-                gameData={gameData} 
-                visible={visible} 
-                setVisible={setVisible}       
-                gameId={gameId}
-                setGameId={setGameId}
-                posY={posY}
-            />
-            <Row 
-                title="FPS" 
-                gameData={gameData} 
-                visible={visible} 
-                setVisible={setVisible}       
-                gameId={gameId}
-                setGameId={setGameId}
-                posY={posY}
-            />
-            <Row 
-                title="AOS" 
-                gameData={gameData} 
-                visible={visible} 
-                setVisible={setVisible}       
-                gameId={gameId}
-                setGameId={setGameId}
-                posY={posY}
-            />*/}
 
         </div>
         <div>

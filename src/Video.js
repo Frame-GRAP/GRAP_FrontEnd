@@ -53,9 +53,22 @@ function Video({url, popupGameData, setPopupGameData, OneOfGameData, gameData, v
                 </div>
             ) : (
                 <div className="row_item">
-                    <ReactPlayer className="row_video" url={"https://www.youtube.com/watch?v=MOLTi3aI7D4"} width='95%' height='95%' playing={true}/>
-                    <button className="game_info" id={OneOfGameData.id} onClick={OpenModal}>상세정보</button>
-                    <button className="add_mylist" onClick={() => history.push("/register")}>찜</button>
+                    <ReactPlayer 
+                        className="row_video" 
+                        url={"https://www.youtube.com/watch?v=MOLTi3aI7D4"} 
+                        width='95%' 
+                        height='95%' 
+                        playing={true}
+                    />
+                    <button 
+                        className="game_info" 
+                        id={OneOfGameData.id} 
+                        onClick={OpenModal}
+                    >상세정보</button>
+                    <button 
+                        className="add_mylist" 
+                        onClick={() => history.push("/register")}
+                    >찜</button>
                 </div>
             )}
         </div>

@@ -168,7 +168,10 @@ function HomeScreen(){
                             />
                         </div>
                         <div className="video">
-                            <PopupRelatedVideo />
+                            <PopupRelatedVideo 
+                                videoData={videoData} 
+                                popupGameData={popupGameData}
+                            />
                         </div>
                     </div>
                 </>

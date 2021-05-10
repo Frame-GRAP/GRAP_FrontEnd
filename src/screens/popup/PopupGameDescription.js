@@ -18,26 +18,23 @@ function PopupGameDescription({popupGameData}) {
                 </div>
 
 
-                <div className="game__description">
-                    <h2>Name : Brawlhalla</h2> <br/>
-                    {/* <h2>Name : {popupGameData[0].name}</h2> <br/> */}
-                    <p className="description">
-                        {/* {popupGameData[0].description} */}
-                        {popupGameData[0].lastVideoCrawled}
-
+                <div className="game__Description">
+                    <h2>Name : {popupGameData[0].name}</h2><br/>
+                    <p className="detail__Description">
+                        Description : {popupGameData[0].description}<br/>
+                        Developer : {popupGameData[0].developer}<br/>
+                        Publisher : {popupGameData[0].publisher}<br/>
+                        ReleaseDate : {popupGameData[0].releaseDate}<br/>
+                        Crawling Date : {popupGameData[0].lastVideoCrawled}<br/>
                     </p><br/>        
                     <h4>Download URL </h4>
                     <a 
-                        href="www.naver.com"
-                        // href={popupGameData[0].downloadedUrl}
+                        href={popupGameData[0].downloadUrl}
                         className="down_link">
-                        www.naver.com
-                        {/* {popupGameData[0].downloadedUrl} */}
+                        {popupGameData[0].downloadUrl}
                     </a>
                     <br/>
                 </div>
-                
-
             </div>
         </div>
     )

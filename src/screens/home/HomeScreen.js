@@ -22,7 +22,7 @@ function HomeScreen(){
     const [gameData, setGameData] = useState([]);
     const [videoData, setVideoData] = useState([]);
     const [popupGameData, setPopupGameData] = useState([]);
-    
+
 
     const [visible, setVisible] = useState(false);
 
@@ -36,7 +36,7 @@ function HomeScreen(){
         async function fetchData() {
             const request1 = await axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/all");
             // const request2 = await axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/video/all");
-   
+
             setGameData(request1.data);
             // setVideoData(request2.data);
         }
@@ -45,7 +45,7 @@ function HomeScreen(){
         // console.log(videoData.filter(function(e) {
         //     return e.id === gameData[89].videosId[0];
         // })[0].urlKey)
-        
+
     }, []);
     // console.log(gameData); // gameData 개수 : 96개
     // console.log(videoData); // videoData 개수 : 536개
@@ -53,16 +53,18 @@ function HomeScreen(){
     function CancleDeclare() {
         setDeclare_visible(false);
     }
+
     function SubmitDeclare() {
         // Post할 내용 : {신고내용, 유저Id} - DB 나오는 내용에 따라 변동 가능.
         console.log(declare_contents);
         alert("댓글 신고가 완료되었습니다.");
         setDeclare_visible(false);
     }
+
     function GetReport(e){
         setDeclare_contents(e.target.innerText);
     }
-        
+
     // ESC 누르면 팝업창 사라짐
     const keyPress = useCallback(e=> {
         if(e.key === 'Escape'&& visible){
@@ -98,7 +100,7 @@ function HomeScreen(){
             }
         })
     }, [])
-    
+
 
     return (
         <>
@@ -107,9 +109,9 @@ function HomeScreen(){
 
             <Banner />
 
-            <Row 
-                title="All Games" 
-                gameData={gameData} 
+            <Row
+                title="All Games"
+                gameData={gameData}
                 videoData={videoData}
                 visible={visible}
                 popupGameData={popupGameData}
@@ -117,19 +119,9 @@ function HomeScreen(){
                 setVisible={setVisible}
                 posY={posY}
             />
-            <Row 
-                title="All Games" 
-                gameData={gameData} 
-                videoData={videoData}
-                visible={visible}
-                popupGameData={popupGameData}
-                setPopupGameData={setPopupGameData}
-                setVisible={setVisible}
-                posY={posY}
-            />            
-            <Row 
-                title="All Games" 
-                gameData={gameData} 
+            <Row
+                title="All Games"
+                gameData={gameData}
                 videoData={videoData}
                 visible={visible}
                 popupGameData={popupGameData}
@@ -137,32 +129,41 @@ function HomeScreen(){
                 setVisible={setVisible}
                 posY={posY}
             />
-
+            <Row
+                title="All Games"
+                gameData={gameData}
+                videoData={videoData}
+                visible={visible}
+                popupGameData={popupGameData}
+                setPopupGameData={setPopupGameData}
+                setVisible={setVisible}
+                posY={posY}
+            />
         </div>
         <div>
             <Modal
                 modalRef={modalRef}
-                visible={visible} 
+                visible={visible}
                 gameData={gameData}
                 posY={posY} >
-                {(visible && 
+                {(visible &&
                 <>
                     <img
                         className='modal__logo'
-                        src={grap_logo}    
-                        alt="" 
+                        src={grap_logo}
+                        alt=""
                     />
                     <div className="popUp">
                         <div className="video">
-                            <PopupMainVideo 
-                                setDeclare_visible={setDeclare_visible} 
+                            <PopupMainVideo
+                                setDeclare_visible={setDeclare_visible}
                                 setDeclare_part={setDeclare_part}
                                 popupGameData={popupGameData}
                                 videoData={videoData}
                             />
                             <PopupGameDescription popupGameData={popupGameData} />
-                            <PopupReview 
-                                setDeclare_visible={setDeclare_visible} 
+                            <PopupReview
+                                setDeclare_visible={setDeclare_visible}
                                 setDeclare_part={setDeclare_part}
                                 popupGameData={popupGameData}
                             />
@@ -174,12 +175,12 @@ function HomeScreen(){
                 </>
                 )}
             </Modal>
-            <PopupDeclaration 
+            <PopupDeclaration
                 declare_visible={declare_visible}
                 setDeclare_visible={setDeclare_visible}
             >
                 <h3 className="declare_part">
-                    {declare_part ? "동영상 신고" : "댓글 신고"}  
+                    {declare_part ? "동영상 신고" : "댓글 신고"}
                 </h3><br/>
 
                 <div className="declare_item">
@@ -213,7 +214,7 @@ function HomeScreen(){
             </PopupDeclaration>
         </div>
         </>
-       
+
     )
 }
 

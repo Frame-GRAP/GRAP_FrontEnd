@@ -6,6 +6,9 @@ import profile from './img/profile_big.png';
 import membership from './img/membership.jpg';
 import {useHistory} from "react-router-dom";
 
+import {CgSearch} from 'react-icons/cg'
+
+
 function Nav() {
     const history = useHistory();
     const [show, handleShow] = useState(false);
@@ -40,7 +43,11 @@ function Nav() {
                 <div className="nav_secondary">
                     <div className="secondary_element">
                         <div className="search_element">
-                            <img className="nav_search" src={search} alt="search" onClick={() => history.push("/")}/>
+                            {/* <img className="nav_search" src={search} alt="search" onClick={() => history.push("/")}/> */}
+                            <CgSearch           
+                            className="nav_search" 
+                            onClick={() => history.push("/")}
+                            />
                         </div>
                     </div>
                     <div className="secondary_element">

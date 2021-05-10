@@ -5,6 +5,9 @@ import PopupDeclaration from "./PopupDeclaration"
 
 function PopupMainVideo({setDeclare_visible, setDeclare_part, popupGameData, vidoeData}) {
     const url = ["https://www.youtube.com/watch?v=s0fD66ncSbk"];
+    const url2 = ["https://clips.twitch.tv/embed?clip=SpookyAbstemiousDiscSeemsGood-dX0ZurIT4rxawcOU&parent=127.0.0.1"];
+    // const url3 = `https://clips.twitch.tv/embed?clip=${urlKey}=127.0.0.1`;
+
     function OpenVideoDeclaration(){
         setDeclare_visible(true);
         setDeclare_part(true);
@@ -14,10 +17,21 @@ function PopupMainVideo({setDeclare_visible, setDeclare_part, popupGameData, vid
         <>
         <div className="popup__Main_video">
             <div className="Main__title title__font">Streamer Video</div><br/>
-            <ReactPlayer
+            {/* <ReactPlayer
                 className="game__video" 
-                url={url}  
+                url={url}
                 width='100%' height='600px'
+                playing={true}
+            /> */}
+            <iframe
+                className="game__video"
+                src={url2}
+                frameborder="0"
+                allowfullscreen="true"
+                scrolling="no"
+                height="600px"
+                width="100%"
+                allow="autoplay"
             />
         </div>
 

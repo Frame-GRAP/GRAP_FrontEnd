@@ -3,7 +3,7 @@ import './Row.css';
 import Video from "./Video";
 import $ from "jquery"
 import Image2 from "./img/Related_Image2.png"
-import Carousel from 'react-multi-carousel';
+import Multi_Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ReactPlayer from "react-player";
 
@@ -47,10 +47,10 @@ function Row({ title, gameData, videoData, popupGameData, setPopupGameData, visi
     // })
 
     return (
-        <div className="row">            
+        <div className="row">
             <h2>{title}</h2>
             <div className="row_posters">
-                <Carousel className="row_carousel"
+                <Multi_Carousel className="row_carousel"
                           swipeable={false}
                           draggable={false}
                           showDots={true}
@@ -59,69 +59,22 @@ function Row({ title, gameData, videoData, popupGameData, setPopupGameData, visi
                           itemClass="list_item"
                           sliderClass="row_posters"
                           dotListClass="dot_list">
-                    {/* {results.map((set, index) =>
-                        <Video 
-                            className="row_poster" 
-                            url={set} 
-                            setVisible={setVisible} 
-                            posY={posY}
-                            gameData={gameData}
-                        />
-                    )} */}
                     {
-                        gameData.map((set, index) => ( 
-                            // (set.videosId.length>0) &&                   
-                            <Video 
-                                className="row_poster" 
+                        gameData.map((set, index) => (
+                            <Video
+                                className="row_poster"
                                 OneOfGameData={set}
                                 gameData={gameData}
                                 videoData={videoData}
                                 popupGameData={popupGameData}
                                 setPopupGameData={setPopupGameData}
-                                setVisible={setVisible} 
+                                setVisible={setVisible}
                                 posY={posY}
                             />
-                        ))  
+                        ))
                     }
-                    
-                    
-                </Carousel>
-
-                {/* {results.map((set, index) =>
-                    <div className="row_poster">
-                        <div className="row_visible">
-                            <img className="row_img" src={set[0]} alt="game"/>
-                        </div>
-                        <div className="row_hidden">
-                            <ReactPlayer className="row_video" url={set[1]} width='100%' height='100%' playing={false}></ReactPlayer>
-                            <button className="game_info">상세정보</button>
-                        </div>
-                    </div>
-                )} */}
+                </Multi_Carousel>
             </div>
-
-
-            {/* <h2>{title}</h2>
-            <div className="row_posters">
-                {gameData.map((set, index) =>
-                    <div className="row_poster">
-                        <div className="row_visible">
-                            <img className="row_img" src={gameData[index].headerImg} alt="game"/>
-                        </div>
-                        <div className="row_hidden">
-                            <ReactPlayer 
-                                className="row_video" 
-                                url={set[1]} 
-                                width='100%' height='100%' 
-                                playing={false}></ReactPlayer>
-                            <button 
-                                className="game_info" 
-                                // value={gameData[index].id}
-                            >상세정보</button>
-                        </div>
-                    </div>
-                )}
-            </div> */}
         </div>
     )
 }

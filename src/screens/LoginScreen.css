@@ -123,4 +123,5 @@
 .google {
     background: url('../img/google_login.png') transparent;
     background-size: contain;
+    cursor: pointer;
 }

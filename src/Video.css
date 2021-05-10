@@ -12,6 +12,7 @@
 }
 
 .row_img {
+    width: 200px;
     object-fit: cover;
 }
 
@@ -21,7 +22,17 @@
     margin-bottom: 7px;
 }
 
-.game_info {
+.row_item{
+    transition-delay: 0.3s;
+    transition: all 0.3s ease;
+}
+
+.row_item:hover {
+    transition-delay: 0.3s;
+    background-color: black;
+}
+
+.game_info, .add_mylist {
     cursor: pointer;
     color: #fff;
     outline: none;
@@ -33,7 +44,7 @@
     padding: 3px 5px 3px 5px;
 }
 
-.game_info:hover {
+.game_info:hover, .add_mylist:hover {
     color: #000;
     background-color: #e6e6e6;
     transition: all 0.2s;

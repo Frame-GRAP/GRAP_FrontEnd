@@ -12,26 +12,26 @@ function PopupGameDescription({popupGameData}) {
 
                 <div className="game__Poster">
                     <img 
-                        src="https://steamcdn-a.akamaihd.net/steam/apps/291550/header.jpg"
-                        // src={popupGameData[0].headerImg}
+                        // src="https://steamcdn-a.akamaihd.net/steam/apps/291550/header.jpg"
+                        src={popupGameData.headerImg}
                     />
                 </div>
 
 
                 <div className="game__Description">
-                    <h2>Name : {popupGameData[0].name}</h2><br/>
+                    <h2>{popupGameData.name}</h2><br/>
                     <p className="detail__Description">
-                        Description : {popupGameData[0].description}<br/>
-                        Developer : {popupGameData[0].developer}<br/>
-                        Publisher : {popupGameData[0].publisher}<br/>
-                        ReleaseDate : {popupGameData[0].releaseDate}<br/>
-                        Crawling Date : {popupGameData[0].lastVideoCrawled}<br/>
+                        Description : {popupGameData.description}<br/>
+                        Developer : {popupGameData.developer}<br/>
+                        Publisher : {popupGameData.publisher}<br/>
+                        ReleaseDate : {popupGameData.releaseDate}<br/>
+                        Crawling Date : {popupGameData.lastVideoCrawled}<br/>
                     </p><br/>        
                     <h4>Download URL </h4>
                     <a 
-                        href={popupGameData[0].downloadUrl}
+                        href={popupGameData.downloadUrl}
                         className="down_link">
-                        {popupGameData[0].downloadUrl}
+                        {popupGameData.downloadUrl}
                     </a>
                     <br/>
                 </div>

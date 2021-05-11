@@ -49,8 +49,8 @@ function Banner() {
                 showThumbs={false}
                 onChange={onChange}>
                 {results.map((set, idx) =>
-                    <div className="banner_container">
-                        <div className="banner_item">
+                    <div className="banner_container" key={idx}>
+                        <div className="banner_item" >
                             <BannerVideo check={curVideo(idx)} url={set}/>
                         </div>
                         <div className="banner_contents">

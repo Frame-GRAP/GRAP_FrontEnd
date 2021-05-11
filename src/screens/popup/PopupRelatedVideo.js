@@ -1,36 +1,33 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import "./PopupRelatedVideo.css"
 import { useHistory } from "react-router-dom";
 import ReactPlayer from "react-player";
-import Related_Image1 from "../../img/Related_Image1.png"
-import Related_Image2 from "../../img/Related_Image2.png"
-import Related_Image3 from "../../img/Related_Image3.png"
-import Related_Image4 from "../../img/Related_Image4.png"
 
+function PopupRelatedVideo({popupGameData}) {
+    const [videoData, setVideoData] = useState([]);
 
-function PopupRelatedVideo({videoData, popupGameData}) {
-    const img_url = [
-        Related_Image1, 
-        Related_Image2, 
-        Related_Image3,
-        Related_Image4
-    ];
+    // Video Data Fetch
+    const axios = require('axios');
+    useEffect(()=> {
+        async function fetchData() {
+            const request = await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`);
+
+            setVideoData(request.data);
+            return request;
+        }
+        
+        fetchData();
+    }, []);
 
     return (
         <div className="popup__Related_Video">
             <div className="title__font">Related Video</div><br />
 
-            <img className="related_poster" src={img_url[0]} alt="game"/>         
-            <img className="related_poster" src={img_url[1]} alt="game"/>         
-            <img className="related_poster" src={img_url[2]} alt="game"/>            
-            <img className="related_poster" src={img_url[3]} alt="game"/>       
-            <img className="related_poster" src={img_url[0]} alt="game"/>         
-            <img className="related_poster" src={img_url[1]} alt="game"/>         
-            <img className="related_poster" src={img_url[2]} alt="game"/>            
-            <img className="related_poster" src={img_url[3]} alt="game"/>    
-            {/* popupGameData에서 Id 받아서 VideoData 에 id값이 같은 것의 객체들을 map으로 하여 썸네일(image)들을 연결.*/}
-            {/* url 누르면 setPopupGameData 해서 새로운 id주면 바뀌지 않을까?? 되면 좋겠다 ㅠㅠ..... */}
-
+            {videoData.map((set, index) => {
+                return (
+                    <img className="related_poster" src={set.image} alt="game" key={index}/>
+                )
+            })}
         </div>
     )
 }

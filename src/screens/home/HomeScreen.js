@@ -21,8 +21,9 @@ import PopupDeclaration from '../popup/PopupDeclaration'
 function HomeScreen(){
     const [gameData, setGameData] = useState([]);
     const [videoData, setVideoData] = useState([]);
+
+    const [popupUrl, setPopupUrl] = useState('http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/3');
     const [popupGameData, setPopupGameData] = useState([]);
-    
 
     const [visible, setVisible] = useState(false);
 
@@ -30,25 +31,33 @@ function HomeScreen(){
     const [declare_part, setDeclare_part] = useState(true);
     const [declare_contents, setDeclare_contents] = useState("");
 
+
     // Data Fetch
+    // GameData 가져오기
     const axios = require('axios');
     useEffect(()=> {
         async function fetchData() {
-            const request1 = await axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/all");
-            // const request2 = await axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/video/all");
-   
-            setGameData(request1.data);
-            // setVideoData(request2.data);
+            const request = await axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/all");
+
+            setGameData(request.data);
+            return request;
+        }
+
+        fetchData();
+    }, []);
+
+    // popupGameData 가져오기 (popupUrl이 바뀔때 마다)
+    useEffect(()=> {
+        async function fetchData() {
+            const request = await axios.get(popupUrl);
+
+            setPopupGameData(request.data);
+            return request;
         }
         fetchData();
 
-        // console.log(videoData.filter(function(e) {
-        //     return e.id === gameData[89].videosId[0];
-        // })[0].urlKey)
-        
-    }, []);
-    // console.log(gameData); // gameData 개수 : 96개
-    // console.log(videoData); // videoData 개수 : 536개
+    }, [popupUrl])    
+    
 
     function CancleDeclare() {
         setDeclare_visible(false);
@@ -110,30 +119,27 @@ function HomeScreen(){
             <Row 
                 title="All Games" 
                 gameData={gameData} 
-                videoData={videoData}
-                visible={visible}
                 popupGameData={popupGameData}
                 setPopupGameData={setPopupGameData}
+                setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
                 posY={posY}
             />
             <Row 
                 title="All Games" 
                 gameData={gameData} 
-                videoData={videoData}
-                visible={visible}
                 popupGameData={popupGameData}
                 setPopupGameData={setPopupGameData}
+                setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
                 posY={posY}
-            />            
+            />
             <Row 
                 title="All Games" 
                 gameData={gameData} 
-                videoData={videoData}
-                visible={visible}
                 popupGameData={popupGameData}
                 setPopupGameData={setPopupGameData}
+                setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
                 posY={posY}
             />
@@ -187,23 +193,23 @@ function HomeScreen(){
 
                 <div className="declare_item">
                     <input type="radio" name="declare_radio" className="declare_radio" id="type1"  />
-                    <label for="type1" className="declare_selection" onClick={GetReport}>{declare_part ? "성적인 콘텐츠":"성적인 댓글"}</label><br/>
+                    <label htmlFor="type1" className="declare_selection" onClick={GetReport}>{declare_part ? "성적인 콘텐츠":"성적인 댓글"}</label><br/>
                 </div>
                 <div className="declare_item">
                     <input type="radio" name="declare_radio" className="declare_radio" id="type2" />
-                    <label for="type2" className="declare_selection" onClick={GetReport}>{declare_part ? "폭력적 또는 혐오스러운 콘텐츠":"폭력적 또는 혐오스러운 댓글"}</label><br/>
+                    <label htmlFor="type2" className="declare_selection" onClick={GetReport}>{declare_part ? "폭력적 또는 혐오스러운 콘텐츠":"폭력적 또는 혐오스러운 댓글"}</label><br/>
                 </div>
                 <div className="declare_item">
                     <input type="radio" name="declare_radio" className="declare_radio" id="type3" />
-                    <label for="type3" className="declare_selection" onClick={GetReport}>{declare_part ? "증오 또는 학대하는 콘텐츠":"증오 또는 학대하는 댓글"}</label><br/>
+                    <label htmlFor="type3" className="declare_selection" onClick={GetReport}>{declare_part ? "증오 또는 학대하는 콘텐츠":"증오 또는 학대하는 댓글"}</label><br/>
                 </div>
                 <div className="declare_item">
                     <input type="radio" name="declare_radio" className="declare_radio" id="type4" />
-                    <label for="type4" className="declare_selection" onClick={GetReport}>{declare_part ? "유해하거나 위험한 행위":"스팸 또는 사용자를 현혹하는 댓글"}</label><br/>
+                    <label htmlFor="type4" className="declare_selection" onClick={GetReport}>{declare_part ? "유해하거나 위험한 행위":"스팸 또는 사용자를 현혹하는 댓글"}</label><br/>
                 </div>
                 { declare_part && <div className="declare_item">
                     <input type="radio" name="declare_radio" className="declare_radio" id="type5" />
-                    <label for="type5" className="declare_selection" onClick={GetReport}>스팸 또는 사용자를 현혹하는 콘텐츠</label><br/>
+                    <label htmlFor="type5" className="declare_selection" onClick={GetReport}>스팸 또는 사용자를 현혹하는 콘텐츠</label><br/>
                 </div> }
 
                 <hr className="hr_tag"/>

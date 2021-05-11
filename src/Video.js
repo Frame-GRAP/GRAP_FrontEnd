@@ -1,11 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import {useHistory} from "react-router-dom";
 import ReactPlayer from "react-player";
 import $ from "jquery"
 import './Video.css';
-import {useHistory} from "react-router-dom";
-import temp from "./img/grap_logo2-2.png";
 
-function Video({url, popupGameData, setPopupGameData, OneOfGameData, gameData, videoData, setVisible, posY}) {
+function Video({setPopupUrl, OneOfGameData, setVisible, posY}) {
     const [content, toggleContent] = useState(true);
     const [delayHandler, setDelayHandler] = useState(null)
     const history = useHistory();
@@ -25,37 +24,27 @@ function Video({url, popupGameData, setPopupGameData, OneOfGameData, gameData, v
     }
 
     function OpenModal(e){
-        // 상세정보 누른 target의 id 값을 받아와서 setPopupGameData 이용하여 Popup에 쓰일 데이터 실시간 갱신
         const popupId = Number(e.target.id);
-        console.log("popupId : " + popupId);
-
-        const data = gameData.filter(function(e) {
-            return e.id === popupId;
-        });
-        // console.log(data);
-        setPopupGameData(data);
-
-        // console.log("popupGameData is")
-        console.log(popupGameData);
+        setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
 
         setVisible(true);
         posY = Math.round($(window).scrollTop());
-        // console.log(posY);
+
         $("#homeScreen").addClass('not_scroll')
         $(".not_scroll").css("top", -posY)
     }
-
+    
     return (
         <div className="row_container" onMouseEnter={show} onMouseLeave={hide}>
             { content ? (
                 <div className="row_item">
-                    <img className="row_img" src={temp} alt="game"/>
+                    <img className="row_img" src={OneOfGameData.headerImg} alt="game"/>
                 </div>
             ) : (
                 <div className="row_item">
                     <ReactPlayer 
-                        className="row_video" 
-                        url={"https://www.youtube.com/watch?v=MOLTi3aI7D4"} 
+                        className="row_video"
+                        url={"https://www.youtube.com/watch?v=siMrYkh8F44"} 
                         width='95%' 
                         height='95%' 
                         playing={true}

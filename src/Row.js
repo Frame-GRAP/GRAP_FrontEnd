@@ -1,26 +1,11 @@
-import React, {useRef, useState, useEffect} from "react";
+import React from "react";
 import './Row.css';
 import Video from "./Video";
-import $ from "jquery"
-import Image2 from "./img/Related_Image2.png"
 import Multi_Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import ReactPlayer from "react-player";
 
-function Row({ title, gameData, videoData, popupGameData, setPopupGameData, visible, setVisible, gameId, setGameId, posY }) {
-    //플랫폼 + code 한번에 받아야함
-    const video_url = "https://www.youtube.com/watch?v=ubzs4LQdJrc";
-    const url = [video_url, video_url, video_url, video_url, video_url, video_url, video_url, video_url];
-    const thumbnail = [Image2, Image2, Image2, Image2, Image2, Image2, Image2, Image2];
-    const results = [];
 
-    for(let i = 0; i < 20; i++){
-        let col = [];
-        col[0] = thumbnail[i];
-        col[1] = url[i];
-        results[i] = col;
-    }
-
+function Row({ title, gameData, popupGameData, setPopupGameData, setPopupUrl, setVisible, posY }) {
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -39,13 +24,6 @@ function Row({ title, gameData, videoData, popupGameData, setPopupGameData, visi
         }
     };
 
-    // console.log(gameData);
-    // console.log(videoData);
-
-    // gameData.forEach((set, index) => {
-    //     console.log(set);
-    // })
-
     return (
         <div className="row">
             <h2>{title}</h2>
@@ -61,16 +39,16 @@ function Row({ title, gameData, videoData, popupGameData, setPopupGameData, visi
                           dotListClass="dot_list">
                     {
                         gameData.map((set, index) => (
+                            (set.videosId.length > 0) && (
                             <Video
-                                className="row_poster"
+                                key={index}
+                                className="row_poster"                                
                                 OneOfGameData={set}
-                                gameData={gameData}
-                                videoData={videoData}
-                                popupGameData={popupGameData}
-                                setPopupGameData={setPopupGameData}
+                                setPopupUrl={setPopupUrl}
                                 setVisible={setVisible}
                                 posY={posY}
                             />
+                            )
                         ))
                     }
                 </Multi_Carousel>

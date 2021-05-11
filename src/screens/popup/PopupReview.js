@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
 import "./PopupReview.css"
+import axios from 'axios'
 
 import StarRating from './StarRating'
 import ReviewStarRating from './ReviewStarRating'
@@ -11,6 +12,7 @@ function PopupReview({setDeclare_visible, setDeclare_part, popupGameData}) {
     const [like, setLike] = useState(0);
     const [dislike, setDislike] = useState(0);
     const [rating, setRating] = useState(0);
+    const [loggedInUserId, setLoggedInUserId] = useState(0);
 
     const commentRef = useRef();
 
@@ -23,6 +25,22 @@ function PopupReview({setDeclare_visible, setDeclare_part, popupGameData}) {
         // 변수에 값 저장하여 백엔드로 axios.get or post
         // 보낼 값 : 평점(rating), 리뷰(comment), 유저Id, 댓글 단 날짜.
         console.log(rating, commentRef.current.value);
+        // axios({
+        //     method: 'post',
+        //     url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${loggedInUserId}/game/${popupGameData[0].id}/review`,
+        //     data: {
+        //         content: commentRef.current.value,
+        //         rating: rating
+        //     }
+        // }).then((res) => {
+        //     if(res){
+        //         console.log(res);
+        //         // 받아온 response(=review id)를 해당 리뷰의 id로 추가.
+
+        //     }
+        //     else
+        //         alert("fail");
+        // })
 
         // Default 값으로 변경
         setRating(0);
@@ -51,9 +69,9 @@ function PopupReview({setDeclare_visible, setDeclare_part, popupGameData}) {
                     {/* User Profile(Image, ID), Register Date, Rating, Review */}
 
                     {/* Review ForEach문 */}
-                    {[...Array(5)].map(() => {
+                    {[...Array(5)].map((index) => {
                         return (
-                            <div className="Review">
+                            <div className="Review" key={index}>
                                 <img src={User_Icon} className="Review__profile__image"></img>
                                 <div className="Reveiw__items">
                                     <span className="Name">고윤혁</span><br/>
@@ -63,7 +81,6 @@ function PopupReview({setDeclare_visible, setDeclare_part, popupGameData}) {
                                     <span className="date">2020.04.28</span><br/><br/>
                                     
                                     <div className="Review__likes">
-                                        {/* 여기 좋아요, 싫어요 수 나중에 DB에서 받아오는 코드 써야함. */}
                                         <AiFillLike className="Review__like" onClick={()=>setLike(prev=>prev+1)}/>&nbsp;&nbsp;{like} &nbsp;
                                         <AiFillDislike className="Review__like" onClick={()=>setDislike(prev=>prev+1)}/>&nbsp;&nbsp;{dislike} 
                                     </div>

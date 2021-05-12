@@ -7,16 +7,10 @@ function PopupGameDescription({popupGameData}) {
     return (
         <div className="popup__Description">
             <div className="title__font">Game Description</div>
-            {/* 이름, 설명, download url */}
             <div className="description__contents">
-
                 <div className="game__Poster">
-                    <img 
-                        // src="https://steamcdn-a.akamaihd.net/steam/apps/291550/header.jpg"
-                        src={popupGameData.headerImg}
-                    />
+                    <img src={popupGameData.headerImg} />
                 </div>
-
 
                 <div className="game__Description">
                     <h2>{popupGameData.name}</h2><br/>

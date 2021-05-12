@@ -3,8 +3,9 @@ import {useHistory} from "react-router-dom";
 import ReactPlayer from "react-player";
 import $ from "jquery"
 import './Video.css';
+import axios from "axios"
 
-function Video({setPopupUrl, OneOfGameData, setVisible, posY}) {
+function Video({OneOfGameData, setVisible, setPopupUrl, posY}) {
     const [content, toggleContent] = useState(true);
     const [delayHandler, setDelayHandler] = useState(null)
     const history = useHistory();
@@ -23,7 +24,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY}) {
         clearTimeout(delayHandler);
     }
 
-    function OpenModal(e){
+    function OpenModal(e) {
         const popupId = Number(e.target.id);
         setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
 
@@ -34,6 +35,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY}) {
         $(".not_scroll").css("top", -posY)
     }
     
+
     return (
         <div className="row_container" onMouseEnter={show} onMouseLeave={hide}>
             { content ? (

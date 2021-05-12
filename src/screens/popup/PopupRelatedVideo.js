@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import "./PopupRelatedVideo.css"
-import { useHistory } from "react-router-dom";
-import ReactPlayer from "react-player";
 
-function PopupRelatedVideo({popupGameData}) {
+function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
     const [videoData, setVideoData] = useState([]);
 
     // Video Data Fetch
@@ -17,17 +15,31 @@ function PopupRelatedVideo({popupGameData}) {
         }
         
         fetchData();
-    }, []);
+    }, [popupGameData]);
+    console.log(videoData);
+
+    function toggleMainVideo(e){
+        const relatedVideoIndex = Number(e.target.id);
+        setPopupMainVideoIndex(relatedVideoIndex);
+    }
 
     return (
         <div className="popup__Related_Video">
-            <div className="title__font">Related Video</div><br />
-
-            {videoData.map((set, index) => {
-                return (
-                    <img className="related_poster" src={set.image} alt="game" key={index}/>
-                )
-            })}
+            <div className="related__Title title__font">Related Video</div>
+            <div className="related__Video">
+                {videoData.map((set, index) => {
+                    return (
+                        <img 
+                            className="related_poster" 
+                            src={set.image} 
+                            id={index}
+                            alt="game"
+                            key={index}
+                            onClick={toggleMainVideo}
+                        />
+                    )
+                })}
+            </div>
         </div>
     )
 }

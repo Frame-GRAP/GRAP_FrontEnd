@@ -1,13 +1,86 @@
-import React, {useRef, useCallback, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
-import $ from "jquery"
 import {CgCloseO} from 'react-icons/cg'
 import "./PopupDeclaration.css"
+import axios from 'axios'
 
-function PopupDeclaration( { children, declare_visible, setDeclare_visible } ) {
-    function CloseVideoDelaration(){
+import {selectUser} from './../../features/userSlice'
+import {useSelector} from "react-redux";
+
+function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible, setDeclare_visible, declare_part, declare_contents, setDeclare_contents, declare_reviewId } ) {
+    const user = useSelector(selectUser);
+    const [reportType, setReportType] = useState("")
+    const [videoId, setVideoId] = useState(1);
+
+    function CloseVideoDelaration(){ // 신고창 X 버튼
         setDeclare_visible(false);
     }
+    function CancleDeclare() { // 신고창 취소 버튼
+      setDeclare_visible(false);
+    }
+    function SubmitVideoDeclare() {
+        // Post할 내용 : {신고내용, 유저Id} - DB 나오는 내용에 따라 변동 가능.
+        console.log(user.user_id, declare_part, declare_contents, reportType, videoId);
+
+
+        /*axios({
+            method: 'post',
+            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/video/${videoId}/report`,
+            data: {
+              reportType: reportType,
+              content: declare_contents
+            }
+        }).then((res) => {
+            if(res){
+                console.log(res);
+                alert("댓글 신고가 완료되었습니다.");
+                // 받아온 response(=review id)를 해당 리뷰의 id로 추가.
+            }
+            else
+                alert("Declare's data sending fail");
+        })*/
+
+        alert("영상 신고가 완료되었습니다.");
+        setDeclare_visible(false);
+    }
+    function SubmitReviewDeclare() {
+        // Post할 내용 : {신고내용, 유저Id} - DB 나오는 내용에 따라 변동 가능.
+        console.log(user.user_id, declare_part, declare_contents, declare_reviewId );
+
+        /* axios({
+            method: 'post',
+            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${declare_reviewId}/report`,
+            data: {
+              reportType: reportType,
+              content: declare_contents
+            }
+        }).then((res) => {
+            if(res){
+                console.log(res);
+                alert("댓글 신고가 완료되었습니다.");
+                // 받아온 response(=review id)를 해당 리뷰의 id로 추가.
+            }
+            else
+                alert("Declare's data sending fail");
+        }) */
+
+        alert("댓글 신고가 완료되었습니다.");
+        setDeclare_visible(false);
+    }
+    function GetReport(e){ // reportType을 받아오기 위한 함수
+        setDeclare_contents(e.target.innerText);
+        setReportType(e.target.htmlFor)
+    }
+
+    useEffect(() => { // popupGameData 또는 popupMainVideoIndex가 바뀌면 그에 따른 '메인 비디오에 들어갈 Id(=videoId)'를 갱신한다.
+      async function fetchData() {
+        const request = await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`);
+
+        setVideoId(request.data[popupMainVideoIndex].id);
+      }
+    
+      fetchData();
+    }, [popupGameData, popupMainVideoIndex]);
 
     return (
         <DeclareBackground className="declare_background" declare_visible={declare_visible} >
@@ -16,7 +89,78 @@ function PopupDeclaration( { children, declare_visible, setDeclare_visible } ) {
         
                 <DeclarationContent className="declare_contents" >
                 <CloseDeclarationButton aria-label='close declare' className="declare_closeBtn" onClick={CloseVideoDelaration}/>
-                {children}
+                  <h3 className="declare_part">
+                    {/* declare_part:1 = 동영상 / declare_part:0 = 댓글 */}
+                      {declare_part ? "동영상 신고" : "댓글 신고"}  
+                  </h3><br/>
+
+                  {declare_part ? (
+                    <>
+                      <div className="declare_item">
+                      <input type="radio" name="declare_radio" className="declare_radio" id="성"  />
+                      <label htmlFor="성" className="declare_selection" onClick={GetReport}>성적인 콘텐츠</label><br/>
+                      </div>
+                      <div className="declare_item">
+                          <input type="radio" name="declare_radio" className="declare_radio" id="폭력" />
+                          <label htmlFor="폭력" className="declare_selection" onClick={GetReport}>폭력적 또는 혐오스러운 콘텐츠</label><br/>
+                      </div>
+                      <div className="declare_item">
+                          <input type="radio" name="declare_radio" className="declare_radio" id="학대" />
+                          <label htmlFor="학대" className="declare_selection" onClick={GetReport}>증오 또는 학대하는 콘텐츠</label><br/>
+                      </div>
+                      <div className="declare_item">
+                          <input type="radio" name="declare_radio" className="declare_radio" id="유해" />
+                          <label htmlFor="유해" className="declare_selection" onClick={GetReport}>유해하거나 위험한 행위</label><br/>
+                      </div>
+                      <div className="declare_item">
+                          <input type="radio" name="declare_radio" className="declare_radio" id="스팸" />
+                          <label htmlFor="스팸" className="declare_selection" onClick={GetReport}>스팸 또는 사용자를 현혹하는 콘텐츠</label><br/>
+                      </div> 
+
+                      <hr className="hr_tag"/>
+
+                      <div className="declare_submit_part">
+                          <button onClick={CancleDeclare} className="declare_cancel">취소</button>
+                          {declare_part ? (
+                            <button onClick={SubmitVideoDeclare} className="declare_submit">신고</button>
+                          ) : (
+                            <button onClick={SubmitReviewDeclare} className="declare_submit">신고</button>
+                          )}
+                      </div>      
+                    </>             
+                  ) : (
+                    <>
+                      <div className="declare_item">
+                      <input type="radio" name="declare_radio" className="declare_radio" id="성"  />
+                      <label htmlFor="성" className="declare_selection" onClick={GetReport}>성적인 댓글</label><br/>
+                      </div>
+                      <div className="declare_item">
+                          <input type="radio" name="declare_radio" className="declare_radio" id="폭력" />
+                          <label htmlFor="폭력" className="declare_selection" onClick={GetReport}>폭력적 또는 혐오스러운 댓글</label><br/>
+                      </div>
+                      <div className="declare_item">
+                          <input type="radio" name="declare_radio" className="declare_radio" id="학대" />
+                          <label htmlFor="학대" className="declare_selection" onClick={GetReport}>증오 또는 학대하는 댓글</label><br/>
+                      </div>
+                      <div className="declare_item">
+                          <input type="radio" name="declare_radio" className="declare_radio" id="스팸" />
+                          <label htmlFor="스팸" className="declare_selection" onClick={GetReport}>스팸 또는 사용자를 현혹하는 댓글</label><br/>
+                      </div>
+
+                      <hr className="hr_tag"/>
+
+                      <div className="declare_submit_part">
+                          <button onClick={CancleDeclare} className="declare_cancel">취소</button>
+                          {declare_part ? (
+                            <button onClick={SubmitVideoDeclare} className="declare_submit">신고</button>
+                          ) : (
+                            <button onClick={SubmitReviewDeclare} className="declare_submit">신고</button>
+                          )}
+                      </div>     
+                    </>
+                  )}
+
+
                 </DeclarationContent>
             
             </DeclarationWrapper>

@@ -5,7 +5,7 @@ import Multi_Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 
-function Row({ title, gameData, popupGameData, setPopupGameData, setPopupUrl, setVisible, posY }) {
+function Row({ title, gameData, setPopupUrl, setVisible, posY }) {
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -44,8 +44,8 @@ function Row({ title, gameData, popupGameData, setPopupGameData, setPopupUrl, se
                                 key={index}
                                 className="row_poster"                                
                                 OneOfGameData={set}
-                                setPopupUrl={setPopupUrl}
                                 setVisible={setVisible}
+                                setPopupUrl={setPopupUrl}
                                 posY={posY}
                             />
                             )

@@ -1,93 +1,116 @@
 import React, {useState, useEffect, useRef} from 'react'
 import "./PopupReview.css"
 import axios from 'axios'
+import {selectUser} from './../../features/userSlice'
+import {useSelector} from "react-redux";
 
 import StarRating from './StarRating'
 import ReviewStarRating from './ReviewStarRating'
 import User_Icon from "../../img/user_icon.png"
 import {AiFillLike, AiFillDislike} from 'react-icons/ai'
 
-
-function PopupReview({setDeclare_visible, setDeclare_part, popupGameData}) {
+function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDeclare_reviewId}) {
     const [like, setLike] = useState(0);
     const [dislike, setDislike] = useState(0);
     const [rating, setRating] = useState(0);
-    const [loggedInUserId, setLoggedInUserId] = useState(0);
+    const [reviewData, setReviewData] = useState([]);
+    const [reviewNum, setReviewNum] = useState(0);
 
     const commentRef = useRef();
-
-    // 리뷰에서 추가적으로 해야될 것
-    // 1. 좋아요, 싫어요 버튼 누를 시 업데이트 된 좋아요, 싫어요 값 보내야 함!!!!!
-    // 2. 댓글 수정 기능
-    // 3. 댓글 삭제 기능
-
+    const user = useSelector(selectUser);
+    
     function RegistReview(){
         // 변수에 값 저장하여 백엔드로 axios.get or post
         // 보낼 값 : 평점(rating), 리뷰(comment), 유저Id, 댓글 단 날짜.
-        console.log(rating, commentRef.current.value);
-        // axios({
-        //     method: 'post',
-        //     url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${loggedInUserId}/game/${popupGameData[0].id}/review`,
-        //     data: {
-        //         content: commentRef.current.value,
-        //         rating: rating
-        //     }
-        // }).then((res) => {
-        //     if(res){
-        //         console.log(res);
-        //         // 받아온 response(=review id)를 해당 리뷰의 id로 추가.
+        console.log(popupGameData.id, user.user_id, rating, commentRef.current.value);
 
-        //     }
-        //     else
-        //         alert("fail");
-        // })
-
+        if(commentRef.current.value==="") {
+            alert("리뷰란을 입력하시오.")
+        }else{
+            if(window.confirm("리뷰를 등록하시겠습니까?")===true){
+                axios({
+                    method: 'post',
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/game/${popupGameData.id}/review`,
+                    data: {
+                        content: commentRef.current.value,
+                        rating: rating
+                    }
+                })
+                setReviewNum(prev=>prev+1); // 즉시 리뷰 갱신하기 위해서 쓰는거
+            }
+        }
         // Default 값으로 변경
         setRating(0);
-        commentRef.current.value = "";
+        commentRef.current.value = "";       
     }
 
-    function OpenReviewDeclaration(){
+    function OpenReviewDeclaration(e){ // 신고 창 여는 함수
         setDeclare_visible(true);
-        setDeclare_part(false);
+        setDeclare_part(false); // Part : 리뷰 신고
+        setDeclare_reviewId(e.target.id); // 신고할 Review Id
     }
+    function DeleteReview(e){ // 리뷰 삭제
+        if(window.confirm("정말 삭제하시겠습니까?")===true) {
+            axios({
+                method: 'DELETE',
+                url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/review/${e.target.id}`
+            })
+            setReviewNum(prev=>prev-1)
+        }else{
+            return;
+        }
+    }
+
+    useEffect(() => { // popupGameData 또는 review의 개수가 바뀌면 reviewData 갱신.
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/review/all`
+        ).then((res) => {
+            if(res){
+                setReviewData(res.data);
+                setReviewNum(res.data.length);
+            }
+            else{
+                alert("fail");
+            }
+        })
+    }, [popupGameData, reviewNum])
+
+    /*let sum = 0;
+    reviewData.forEach((set, index) => {
+        sum+=set.rating;
+    })
+    let total_rating = Math.ceil((sum/reviewData.length)*100)/100;*/
 
     return (
         <div className="popup__Review">
-            {/* Review 번호 매겨서 일정 개수 이상되면 
-            다음 페이지로 넘어가게 */}
             <div className="title__font">Review</div>
             <br/>
-            <div className="total_rating">
-                Game Rating : 4.5
-                <StarRating starRatingNum={4.5} />
-
-            </div>
+            {/* <div className="total_rating">
+                Game Rating : {total_rating}
+                <StarRating starRatingNum={total_rating} />
+            </div> */}
 
             <div className="Reviews">
                 <div className="Review__contents">
-                    {/* User Profile(Image, ID), Register Date, Rating, Review */}
-
-                    {/* Review ForEach문 */}
-                    {[...Array(5)].map((index) => {
+                    {reviewData.map((set, index) => {
                         return (
                             <div className="Review" key={index}>
                                 <img src={User_Icon} className="Review__profile__image"></img>
                                 <div className="Reveiw__items">
-                                    <span className="Name">고윤혁</span><br/>
+                                    <span className="Name">{set.id}</span><br/>
                                     <span className="Rating">
-                                        <StarRating starRatingNum={4} />
+                                        <StarRating starRatingNum={set.rating} />
                                     </span>
-                                    <span className="date">2020.04.28</span><br/><br/>
+                                    <span className="date">{set.modifiedDate}</span><br/><br/>
                                     
                                     <div className="Review__likes">
                                         <AiFillLike className="Review__like" onClick={()=>setLike(prev=>prev+1)}/>&nbsp;&nbsp;{like} &nbsp;
                                         <AiFillDislike className="Review__like" onClick={()=>setDislike(prev=>prev+1)}/>&nbsp;&nbsp;{dislike} 
                                     </div>
-                                    <span className="comment">마계에서 마을 밖 특정지형에 모험가가 껴서 아무 행동도 못하는 현상이 발생하던데 빠른 조치 부탁드립니다. 그 외엔 재밌게 플레이하고 있습니다.</span><br/>
+                                    <span className="comment">{set.content}</span><br/>
                                 </div>
                                 <div className="Review__declaration">
-                                    <span className="Review__declaration__btn" onClick={OpenReviewDeclaration} >신고</span>
+                                    <span className="Review__declaration__btn" id={set.id} onClick={OpenReviewDeclaration} >신고</span>
+                                    <span className="Review__declaration__btn" id={set.id} onClick={DeleteReview} >삭제</span>
                                 </div>
                             </div>   
                         ) 

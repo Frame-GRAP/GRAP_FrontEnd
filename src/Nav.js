@@ -5,13 +5,17 @@ import search from './img/search.jpg';
 import profile from './img/profile_big.png';
 import membership from './img/membership.jpg';
 import {useHistory} from "react-router-dom";
-
 import {CgSearch} from 'react-icons/cg'
+import {useDispatch, useSelector} from "react-redux";
+import {logout, selectUser} from "./features/userSlice";
+import axios from "axios";
 
 
 function Nav() {
     const history = useHistory();
     const [show, handleShow] = useState(false);
+    const user = useSelector(selectUser);
+    const dispatch = useDispatch();
 
     const transitionNavBar = () => {
         if(window.scrollY > 100){
@@ -26,9 +30,13 @@ function Nav() {
         return () => window.removeEventListener("scroll", transitionNavBar);
     }, []);
 
+    const SignOut = async event => {
+        dispatch(logout())
+        console.log(user);
+        history.push("/");
+    }
+
     return (
-        /*{`nav ${show && "nav_black"}`}*/
-        /*"nav nav_black"*/
         <div className={`nav ${show && "nav_black"}`}>
             <div className="nav_contents">
                 <div className="nav_logo">
@@ -44,8 +52,8 @@ function Nav() {
                     <div className="secondary_element">
                         <div className="search_element">
                             {/* <img className="nav_search" src={search} alt="search" onClick={() => history.push("/")}/> */}
-                            <CgSearch           
-                            className="nav_search" 
+                            <CgSearch
+                            className="nav_search"
                             onClick={() => history.push("/")}
                             />
                         </div>
@@ -61,10 +69,10 @@ function Nav() {
                             <div className="dropdown_content">
                                 <ul className="drop_list">
                                     <li className="drop_item">
-                                        <a href="">마이페이지</a>
+                                        <span onClick={() => {history.push("/mypage")}}>마이페이지</span>
                                     </li>
                                     <li className="drop_item">
-                                        <a href="">로그아웃</a>
+                                        <span onClick={SignOut}>로그아웃</span>
                                     </li>
                                 </ul>
                             </div>

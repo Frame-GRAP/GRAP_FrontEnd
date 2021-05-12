@@ -4,11 +4,14 @@ import grap_logo from '../img/grap_logo2-2.png';
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import GoogleLogin from 'react-google-login';
+import {useDispatch} from "react-redux";
+import {login} from "../features/userSlice";
 
 function LoginScreen(){
     const history = useHistory();
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+    const dispatch = useDispatch();
 
     const responseSuccess= (response) => {
         const user = response.profileObj;
@@ -22,7 +25,11 @@ function LoginScreen(){
             }
         }).then((res) => {
             if(res){
-                console.log(res);
+                dispatch(login({
+                    user_id : res.data,
+                    name : user.name
+                }))
+
                 history.push("/");
             }
             else

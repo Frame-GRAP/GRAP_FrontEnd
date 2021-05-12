@@ -1,47 +1,39 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import HomeScreen from './screens/home/HomeScreen';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import SignupScreen from "./screens/SignupScreen";
 import LoginScreen from "./screens/LoginScreen";
+import {useDispatch, useSelector} from "react-redux";
+import {logout, selectUser} from "./features/userSlice";
 
 function App() {
-    const user = null;
+    const user = useSelector(selectUser);
+    const dispatch = useDispatch();
 
-  return (
-    <div className="app">
-        {/*<Router>
-            {!user ? (<LoginScreen />)
-                : ( <Switch>
-                    <Route exact path="/">
-                        <HomeScreen />
-                    </Route>
-                </Switch>)}
-            <Switch>
-                <Route exact path="/">
-                    <HomeScreen />
-                </Route>
-            </Switch>
-        </Router>*/}
+    useEffect(() => {
+        if(!user){
+            dispatch(logout());
+        }
+    }, [dispatch]);
 
-      <Router>
-          <Switch>
-              <Route exact path="/">
-                  <HomeScreen />
-              </Route>
-              <Route exact path="/signup">
-                  <SignupScreen />
-              </Route>
-              <Route exact path="/login">
+    console.log(user);
+
+    return (
+        <div className="app">
+            <Router>
+                {!user ? (
                     <LoginScreen />
-              </Route>
-              {/* <Route exact path="/mypage">
-                <Mypage />
-              </Route> */}
-          </Switch>
-      </Router>
-    </div>
-  );
+                ) : (
+                    <Switch>
+                        <Route exact path="/">
+                            <HomeScreen />
+                        </Route>
+                    </Switch>
+                )}
+            </Router>
+        </div>
+    );
 }
 
 export default App;

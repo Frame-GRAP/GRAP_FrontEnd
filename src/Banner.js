@@ -2,35 +2,39 @@ import React, {useEffect, useState} from "react";
 import './Banner.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import Image2 from "./img/Related_Image2.png";
-import Video from "./Video";
-import ReactPlayer from "react-player";
 import BannerVideo from "./BannerVideo";
+import axios from "axios";
 
 function Banner() {
-    const video_url2 = "https://www.youtube.com/watch?v=ubzs4LQdJrc";
-    const url = [video_url2, video_url2, video_url2];
-    const thumbnail = [Image2, Image2, Image2];
-    const results = [];
+    const [mainGame, setMainGame] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cur, setCur] = useState(0);
 
-    for(let i = 0; i < 3; i++){
-        let col = [];
-        col[0] = thumbnail[i];
-        col[1] = url[i];
-        results[i] = col;
-    }
-
     useEffect(() => {
+        async function fetchData() {
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/5`)
+                .then(async (res) => {
+                    setMainGame(res.data);
+                });
+            return mainGame;
+        }
+        fetchData();
         setTimeout(() => {
             setLoading(false);
         }, 5000);
     }, []);
 
+    function truncate(string, n){
+        return string?.length > n ? string.substr(0, n - 1) + '...' : string;
+    }
+
     const onChange = (index) => {
         setCur(index);
     }
+
+    useEffect(() => {
+        curVideo()
+    }, [cur])
 
     const curVideo = (idx) => {
         if(cur === idx && loading === false){
@@ -48,20 +52,20 @@ function Banner() {
                 infiniteLoop={true}
                 showThumbs={false}
                 onChange={onChange}>
-                {results.map((set, idx) =>
-                    <div className="banner_container" key={idx}>
-                        <div className="banner_item" >
-                            <BannerVideo check={curVideo(idx)} url={set}/>
-                        </div>
-                        <div className="banner_contents">
-                            <h1 className="banner_title">League of Legend</h1>
-                            <h1 className="banner_description">게임설명</h1>
-                            <div className="banner_buttons">
-                                <button className="banner_button">상세정보</button>
-                            </div>
+                <div className="banner_container">
+                    <div className="banner_item">
+                        <BannerVideo check={curVideo(0)} mainGameData={mainGame}/>
+                    </div>
+                    <div className="banner_contents">
+                        <h1 className="banner_title">{mainGame.name}</h1>
+                        <h1 className="banner_description">{truncate(mainGame?.description, 150)}</h1>
+                        <div className="banner_buttons">
+                            <button className="banner_button">상세정보</button>
+                            <button className="banner_button">찜</button>
                         </div>
                     </div>
-                )}
+                    />
+                </div>
             </Carousel>
             <div className="banner_fadeBottom" />
         </header>

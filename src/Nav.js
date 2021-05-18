@@ -45,7 +45,7 @@ function Nav() {
                 <div className="nav_menu">
                     <ul className="nav_menu">
                         <li className="nav_home" onClick={() => history.push("/")}>홈</li>
-                        <li className="nav_zzim" onClick={() => history.push("/my-list")}>내가 찜한 콘텐츠</li>
+                        <li className="nav_zzim" onClick={() => history.push("/myList")}>내가 찜한 콘텐츠</li>
                     </ul>
                 </div>
                 <div className="nav_secondary">

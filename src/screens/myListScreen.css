@@ -1,0 +1,25 @@
+.myListScreen {
+    position: relative;
+    background-color: #111111;
+    height: 100%;
+}
+
+.myListScreen_body {
+    position: relative;
+    top: 100px;
+    width: 100%;
+    background-color: #111111;
+}
+
+.myListScreen_body > h2 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.myListScreen_result {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20%, auto));
+    gap: 40px 10px;
+    place-items: center;
+    padding: 20px;
+}

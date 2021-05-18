@@ -145,7 +145,7 @@ function HomeScreen(){
 
                     <div className="popUp">
                         <div className="video">
-                            <PopupMainVideo 
+                            <PopupMainVideo
                                 popupGameData={popupGameData}
                                 popupMainVideoIndex={popupMainVideoIndex}
                                 setDeclare_visible={setDeclare_visible} 

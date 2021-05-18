@@ -60,8 +60,8 @@
 /* CSS in one Reveiw (이미지, 리뷰내용, 신고버튼) */
 .Review__profile__image { flex: 1; margin-right: 10px; height: 70px; width: 50px;}
 .Reveiw__items { flex: 9; padding-right: 20px;}
-.Review__declaration {
-    flex: 2;
+.Review__btns {
+    flex: 2.1;
     margin-top: 5px;
 }
 .Review__likes{display: flex; font-size: 15px; color: gray}
@@ -72,13 +72,13 @@
 .date{color:gray;}
 
 
-.Review__declaration__btn {
+.Review__btn {
     cursor: pointer;
     background-color: #111;
     color: #fff;
     margin: 10px;
 }
-.Review__declaration__btn:hover{
+.Review__btn:hover{
     font-size: 13px;
 }
 
@@ -130,4 +130,33 @@
     font-family: 'Noto Sans', sans-serif;
     border: 1px solid #fff;
     border-radius: 0.5rem;
+}
+
+
+/* Modify */
+.modify__content{
+    width: 75%;
+    height: 30px;
+
+    font-family: 'Noto Sans', sans-serif;
+    border: 1px solid #fff;
+    border-radius: 0.5rem;
+    outline: none;
+}
+.modify__btn{
+    width: 10%;
+    height: 35px;
+    cursor: pointer;
+    color: #fff;
+
+    background-color: #111;
+    font-family: 'Noto Sans', sans-serif;
+    border: 1px solid #fff;
+    border-radius: 0.5rem;
+
+    margin-top: 5px;
+    margin-left: 5px;
+}
+.modify__btn:nth-child(3){
+    background-color:gray;
 }

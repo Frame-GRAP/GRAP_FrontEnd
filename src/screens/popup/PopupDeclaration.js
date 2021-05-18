@@ -19,11 +19,9 @@ function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible
       setDeclare_visible(false);
     }
     function SubmitVideoDeclare() {
-        // Post할 내용 : {신고내용, 유저Id} - DB 나오는 내용에 따라 변동 가능.
         console.log(user.user_id, declare_part, declare_contents, reportType, videoId);
 
-
-        /*axios({
+        axios({
             method: 'post',
             url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/video/${videoId}/report`,
             data: {
@@ -33,21 +31,18 @@ function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible
         }).then((res) => {
             if(res){
                 console.log(res);
-                alert("댓글 신고가 완료되었습니다.");
+                alert("영상 신고가 완료되었습니다.");
                 // 받아온 response(=review id)를 해당 리뷰의 id로 추가.
             }
             else
                 alert("Declare's data sending fail");
-        })*/
-
-        alert("영상 신고가 완료되었습니다.");
+        })
         setDeclare_visible(false);
     }
     function SubmitReviewDeclare() {
-        // Post할 내용 : {신고내용, 유저Id} - DB 나오는 내용에 따라 변동 가능.
-        console.log(user.user_id, declare_part, declare_contents, declare_reviewId );
+        console.log(user.user_id, declare_part, declare_contents, declare_reviewId);
 
-        /* axios({
+        axios({
             method: 'post',
             url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${declare_reviewId}/report`,
             data: {
@@ -62,9 +57,7 @@ function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible
             }
             else
                 alert("Declare's data sending fail");
-        }) */
-
-        alert("댓글 신고가 완료되었습니다.");
+        })
         setDeclare_visible(false);
     }
     function GetReport(e){ // reportType을 받아오기 위한 함수

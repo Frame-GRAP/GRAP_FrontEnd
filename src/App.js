@@ -1,11 +1,14 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import HomeScreen from './screens/home/HomeScreen';
+import Mypage from "./screens/mypage/Mypage";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import SignupScreen from "./screens/SignupScreen";
 import LoginScreen from "./screens/LoginScreen";
 import {useDispatch, useSelector} from "react-redux";
 import {logout, selectUser} from "./features/userSlice";
+import MyListScreen from './screens/myListScreen';
+
 
 function App() {
     const user = useSelector(selectUser);
@@ -28,6 +31,12 @@ function App() {
                     <Switch>
                         <Route exact path="/">
                             <HomeScreen />
+                        </Route>
+                        <Route exact path="/mypage">
+                            <Mypage />
+                        </Route>
+                        <Route exact path="/myList">
+                            <MyListScreen />
                         </Route>
                     </Switch>
                 )}

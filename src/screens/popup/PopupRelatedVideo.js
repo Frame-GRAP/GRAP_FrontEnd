@@ -16,7 +16,6 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
         
         fetchData();
     }, [popupGameData]);
-    console.log(videoData);
 
     function toggleMainVideo(e){
         const relatedVideoIndex = Number(e.target.id);

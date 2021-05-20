@@ -11,6 +11,9 @@
     font-family: 'Oswald', sans-serif;
 }
 
+.comment{
+    font-size: 14px;
+}
 
 /* Reviews 데이터 받아온 것 CSS, Scroll 기능 등 */
 .Reviews {

@@ -19,6 +19,7 @@ function StarRating({starRatingNum}) {
                             <FaStar
                                 color={ratingValue <= (starRatingNum || hover) ? "#ffc107" : "#e4e5e9"}
                                 size={15} 
+                                key={i}
                             />
                             
                         );
@@ -31,6 +32,7 @@ function StarRating({starRatingNum}) {
                             <FaStar
                                 color="#ffc107"
                                 size={15} 
+                                key={i}
                             />
                         );
                     })}

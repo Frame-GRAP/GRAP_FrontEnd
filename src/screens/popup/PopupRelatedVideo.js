@@ -1,33 +1,45 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import "./PopupRelatedVideo.css"
-import { useHistory } from "react-router-dom";
-import ReactPlayer from "react-player";
-import Related_Image1 from "../../img/Related_Image1.png"
-import Related_Image2 from "../../img/Related_Image2.png"
-import Related_Image3 from "../../img/Related_Image3.png"
-import Related_Image4 from "../../img/Related_Image4.png"
 
+function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
+    const [videoData, setVideoData] = useState([]);
 
-function PopupRelatedVideo() {
-    const img_url = [
-        Related_Image1, 
-        Related_Image2, 
-        Related_Image3,
-        Related_Image4
-    ];
+    // Video Data Fetch
+    const axios = require('axios');
+    useEffect(()=> {
+        async function fetchData() {
+            const request = await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`);
+
+            setVideoData(request.data);
+            return request;
+        }
+        
+        fetchData();
+    }, [popupGameData]);
+    console.log(videoData);
+
+    function toggleMainVideo(e){
+        const relatedVideoIndex = Number(e.target.id);
+        setPopupMainVideoIndex(relatedVideoIndex);
+    }
 
     return (
         <div className="popup__Related_Video">
-            <div className="title__font">Related Video</div><br />
-            <img className="related_poster" src={img_url[0]} alt="game"/>         
-            <img className="related_poster" src={img_url[1]} alt="game"/>         
-            <img className="related_poster" src={img_url[2]} alt="game"/>            
-            <img className="related_poster" src={img_url[3]} alt="game"/>       
-            <img className="related_poster" src={img_url[0]} alt="game"/>         
-            <img className="related_poster" src={img_url[1]} alt="game"/>         
-            <img className="related_poster" src={img_url[2]} alt="game"/>            
-            <img className="related_poster" src={img_url[3]} alt="game"/>         
-
+            <div className="related__Title title__font">Related Video</div>
+            <div className="related__Video">
+                {videoData.map((set, index) => {
+                    return (
+                        <img 
+                            className="related_poster" 
+                            src={set.image} 
+                            id={index}
+                            alt="game"
+                            key={index}
+                            onClick={toggleMainVideo}
+                        />
+                    )
+                })}
+            </div>
         </div>
     )
 }

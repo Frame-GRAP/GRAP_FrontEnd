@@ -68,6 +68,10 @@
 .nav_search, .nav_membership, .dropdown_user {
     cursor: pointer;
     width: 45px;
+    height: 45px;
+}
+.nav_search{
+    color: #fff;
 }
 
 .dropdown_element {
@@ -93,6 +97,7 @@
 .drop_item {
     color: black;
     display: block;
+    cursor: pointer;
     margin-top: 10px;
     margin-bottom: 10px;
 }

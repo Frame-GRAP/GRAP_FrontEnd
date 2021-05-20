@@ -2,26 +2,44 @@ import React, { useRef } from "react";
 import "./LoginScreen.css"
 import grap_logo from '../img/grap_logo2-2.png';
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import GoogleLogin from 'react-google-login';
+import {useDispatch} from "react-redux";
+import {login} from "../features/userSlice";
 
 function LoginScreen(){
     const history = useHistory();
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+    const dispatch = useDispatch();
 
-    /*
-    const signIn = (e) => {
-        e.preventDefault();
-        auth.signInWithEmailAndPassword(
-            emailRef.current.value,
-            passwordRef.current.value
-        )
-            .then((authUser) => {
-                console.log(authUser);
-            })
-            .catch((error) => {
-                alert(error.message)
-            });
-    }*/
+    const responseSuccess= (response) => {
+        const user = response.profileObj;
+        axios({
+            method: 'post',
+            url: 'http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user',
+            data: {
+                name: user.name,
+                email: user.email,
+                picture: user.imageUrl
+            }
+        }).then((res) => {
+            if(res){
+                dispatch(login({
+                    user_id : res.data,
+                    name : user.name
+                }))
+
+                history.push("/");
+            }
+            else
+                alert("fail");
+        })
+    }
+
+    const responseFail = (err) => {
+        alert(err);
+    }
 
     return (
         <div className="loginScreen">
@@ -55,9 +73,13 @@ function LoginScreen(){
                     <a href="">
                         <span className="sns_icon kakao"></span>
                     </a>
-                    <a href="">
-                        <span className="sns_icon google"></span>
-                    </a>
+                    <GoogleLogin
+                        className="sns_icon google"
+                        clientId="803232667536-pn5n3kpul7vsq0uftg6np601iikka7e6.apps.googleusercontent.com"
+                        buttonText={GoogleLogin}
+                        onSuccess={responseSuccess}
+                        onFailure={responseFail}
+                    />
                 </div>
             </div>
         </div>

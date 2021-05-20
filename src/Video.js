@@ -1,61 +1,111 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import {useHistory} from "react-router-dom";
 import ReactPlayer from "react-player";
 import $ from "jquery"
 import './Video.css';
-import {useHistory} from "react-router-dom";
-import temp from "./img/grap_logo2-2.png";
+import axios from "axios";
+import {useSelector} from "react-redux";
+import {selectUser} from "./features/userSlice";
 
-function Video({url, popupGameData, setPopupGameData, OneOfGameData, gameData, videoData, setVisible, posY}) {
+function Video({setPopupUrl, OneOfGameData, setVisible, posY}) {
     const [content, toggleContent] = useState(true);
-    const [delayHandler, setDelayHandler] = useState(null)
-    const history = useHistory();
+    const [delayHandler, setDelayHandler] = useState(null);
+    const [videoData, setVideoData] = useState([]);
+    const user = useSelector(selectUser);
+
+    useEffect(() => {
+        async function fetchData() {
+            const gameId = OneOfGameData.id;
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
+                .then( (res) => {
+                    setVideoData(res.data[0]);
+                }).catch((err)=> {
+                    console.log(err);
+                });
+            return videoData;
+        }
+        fetchData();
+    }, [])
 
     const show = () => {
         setDelayHandler(setTimeout(() => {
             toggleContent(false);
-        }, 700))
+        }, 700));
         clearTimeout(delayHandler);
     }
 
     const hide = () => {
         setDelayHandler(setTimeout(() => {
             toggleContent(true);
-        }, 700))
+        }, 700));
         clearTimeout(delayHandler);
     }
 
     function OpenModal(e){
-        // 상세정보 누른 target의 id 값을 받아와서 setPopupGameData 이용하여 Popup에 쓰일 데이터 실시간 갱신
         const popupId = Number(e.target.id);
-        console.log("popupId : " + popupId);
-
-        const data = gameData.filter(function(e) {
-            return e.id === popupId;
-        });
-        // console.log(data);
-        setPopupGameData(data);
-
-        // console.log("popupGameData is")
-        console.log(popupGameData);
+        setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
 
         setVisible(true);
         posY = Math.round($(window).scrollTop());
-        // console.log(posY);
+
         $("#homeScreen").addClass('not_scroll')
         $(".not_scroll").css("top", -posY)
+    }
+
+    const addMyList = (gameId, e) => {
+        e.preventDefault();
+        const userId = user.user_id;
+        axios({
+            method: 'post',
+            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/game/${gameId}/favor`,
+        }).then((res) => {
+            console.log(res);
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    let player_Url;
+    if(videoData.platform === "twitch"){
+        player_Url = `https://clips.twitch.tv/embed?clip=${videoData.urlKey}&parent=localhost&autoplay=true`
+    }else if(videoData.platform === "youtube"){
+        player_Url = `https://www.youtube.com/watch?v=${videoData.urlKey}`
     }
 
     return (
         <div className="row_container" onMouseEnter={show} onMouseLeave={hide}>
             { content ? (
                 <div className="row_item">
-                    <img className="row_img" src={temp} alt="game"/>
+                    <img className="row_img" src={OneOfGameData.headerImg} alt="game"/>
                 </div>
             ) : (
                 <div className="row_item">
-                    <ReactPlayer className="row_video" url={"https://www.youtube.com/watch?v=MOLTi3aI7D4"} width='95%' height='95%' playing={true}/>
-                    <button className="game_info" id={OneOfGameData.id} onClick={OpenModal}>상세정보</button>
-                    <button className="add_mylist" onClick={() => history.push("/register")}>찜</button>
+                    {(videoData.platform === "youtube") ? (
+                        <ReactPlayer
+                            className="row_video"
+                            url={player_Url}
+                            width='95%'
+                            height='95%'
+                            playing={true}
+                        />) : (
+                        <iframe
+                            className="row_video"
+                            src={player_Url}
+                            scrolling="no"
+                            width='95%'
+                            height='95%'
+                            frameBorder="0"
+                        />)
+                    }
+                    <button
+                        className="game_info"
+                        id={OneOfGameData.id}
+                        onClick={OpenModal}
+                    >상세정보</button>
+                    <button
+                        className="add_mylist"
+                        onClick={(e) => addMyList(OneOfGameData.id, e)}
+                    >찜</button>
                 </div>
             )}
         </div>

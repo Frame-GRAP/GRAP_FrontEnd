@@ -18,53 +18,50 @@ import PopupReview from '../popup/PopupReview'
 import PopupGameDescription from "../popup/PopupGameDescription";
 import PopupDeclaration from '../popup/PopupDeclaration'
 
+import {selectUser} from './../../features/userSlice'
+import {useSelector} from "react-redux";
+
 function HomeScreen(){
+    const [visible, setVisible] = useState(false);
+
     const [gameData, setGameData] = useState([]);
     const [videoData, setVideoData] = useState([]);
+
+    const [popupUrl, setPopupUrl] = useState("");
     const [popupGameData, setPopupGameData] = useState([]);
-
-
-    const [visible, setVisible] = useState(false);
+    const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(0);
 
     const [declare_visible, setDeclare_visible] = useState(false);
     const [declare_part, setDeclare_part] = useState(true);
     const [declare_contents, setDeclare_contents] = useState("");
+    const [declare_reviewId, setDeclare_reviewId] = useState(0);
+
 
     // Data Fetch
     const axios = require('axios');
     useEffect(()=> {
         async function fetchData() {
-            const request1 = await axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/all");
-            // const request2 = await axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/video/all");
+            const request = await axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/all");
 
-            setGameData(request1.data);
-            // setVideoData(request2.data);
+            setGameData(request.data);
+            return request;
+        }
+
+        fetchData();
+    }, []);
+
+    // popupGameData Fetch (popupUrl이 바뀔때 마다)
+    useEffect(()=> {
+        async function fetchData() {
+            const request = await axios.get(popupUrl);
+
+            setPopupGameData(request.data);
+            return request;
         }
         fetchData();
 
-        // console.log(videoData.filter(function(e) {
-        //     return e.id === gameData[89].videosId[0];
-        // })[0].urlKey)
-
-    }, []);
-    // console.log(gameData); // gameData 개수 : 96개
-    // console.log(videoData); // videoData 개수 : 536개
-
-    function CancleDeclare() {
-        setDeclare_visible(false);
-    }
-
-    function SubmitDeclare() {
-        // Post할 내용 : {신고내용, 유저Id} - DB 나오는 내용에 따라 변동 가능.
-        console.log(declare_contents);
-        alert("댓글 신고가 완료되었습니다.");
-        setDeclare_visible(false);
-    }
-
-    function GetReport(e){
-        setDeclare_contents(e.target.innerText);
-    }
-
+    }, [popupUrl])
+        
     // ESC 누르면 팝업창 사라짐
     const keyPress = useCallback(e=> {
         if(e.key === 'Escape'&& visible){
@@ -100,7 +97,7 @@ function HomeScreen(){
             }
         })
     }, [])
-
+    
 
     return (
         <>
@@ -109,112 +106,85 @@ function HomeScreen(){
 
             <Banner />
 
-            <Row
-                title="All Games"
+            <Row 
+                title="All Games" 
                 gameData={gameData}
-                videoData={videoData}
-                visible={visible}
-                popupGameData={popupGameData}
-                setPopupGameData={setPopupGameData}
+                setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
                 posY={posY}
             />
-            <Row
-                title="All Games"
+            <Row 
+                title="All Games" 
                 gameData={gameData}
-                videoData={videoData}
-                visible={visible}
-                popupGameData={popupGameData}
-                setPopupGameData={setPopupGameData}
+                setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
                 posY={posY}
             />
-            <Row
-                title="All Games"
+            <Row 
+                title="All Games" 
                 gameData={gameData}
-                videoData={videoData}
-                visible={visible}
-                popupGameData={popupGameData}
-                setPopupGameData={setPopupGameData}
+                setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
                 posY={posY}
             />
+
         </div>
         <div>
             <Modal
                 modalRef={modalRef}
-                visible={visible}
+                visible={visible} 
                 gameData={gameData}
                 posY={posY} >
-                {(visible &&
+                {(visible && 
                 <>
                     <img
                         className='modal__logo'
-                        src={grap_logo}
-                        alt=""
+                        src={grap_logo}    
+                        alt="" 
                     />
+
                     <div className="popUp">
                         <div className="video">
-                            <PopupMainVideo
-                                setDeclare_visible={setDeclare_visible}
-                                setDeclare_part={setDeclare_part}
+                            <PopupMainVideo 
                                 popupGameData={popupGameData}
-                                videoData={videoData}
+                                popupMainVideoIndex={popupMainVideoIndex}
+                                setDeclare_visible={setDeclare_visible} 
+                                setDeclare_part={setDeclare_part}
                             />
-                            <PopupGameDescription popupGameData={popupGameData} />
-                            <PopupReview
-                                setDeclare_visible={setDeclare_visible}
-                                setDeclare_part={setDeclare_part}
-                                popupGameData={popupGameData}
+                            <PopupGameDescription 
+                                popupGameData={popupGameData} 
+                            />
+                            <PopupReview 
+                                popupGameData={popupGameData}  
+                                setDeclare_visible={setDeclare_visible} 
+                                setDeclare_part={setDeclare_part}  
+                                setDeclare_reviewId={setDeclare_reviewId}           
                             />
                         </div>
                         <div className="video">
-                            <PopupRelatedVideo />
+                            <PopupRelatedVideo 
+                                popupGameData={popupGameData}
+                                setPopupMainVideoIndex={setPopupMainVideoIndex}
+                            />
                         </div>
                     </div>
                 </>
                 )}
             </Modal>
-            <PopupDeclaration
-                declare_visible={declare_visible}
+            
+            <PopupDeclaration 
+                popupGameData={popupGameData}
+                popupMainVideoIndex={popupMainVideoIndex}
+                declare_visible={declare_visible} 
                 setDeclare_visible={setDeclare_visible}
-            >
-                <h3 className="declare_part">
-                    {declare_part ? "동영상 신고" : "댓글 신고"}
-                </h3><br/>
-
-                <div className="declare_item">
-                    <input type="radio" name="declare_radio" className="declare_radio" id="type1"  />
-                    <label for="type1" className="declare_selection" onClick={GetReport}>{declare_part ? "성적인 콘텐츠":"성적인 댓글"}</label><br/>
-                </div>
-                <div className="declare_item">
-                    <input type="radio" name="declare_radio" className="declare_radio" id="type2" />
-                    <label for="type2" className="declare_selection" onClick={GetReport}>{declare_part ? "폭력적 또는 혐오스러운 콘텐츠":"폭력적 또는 혐오스러운 댓글"}</label><br/>
-                </div>
-                <div className="declare_item">
-                    <input type="radio" name="declare_radio" className="declare_radio" id="type3" />
-                    <label for="type3" className="declare_selection" onClick={GetReport}>{declare_part ? "증오 또는 학대하는 콘텐츠":"증오 또는 학대하는 댓글"}</label><br/>
-                </div>
-                <div className="declare_item">
-                    <input type="radio" name="declare_radio" className="declare_radio" id="type4" />
-                    <label for="type4" className="declare_selection" onClick={GetReport}>{declare_part ? "유해하거나 위험한 행위":"스팸 또는 사용자를 현혹하는 댓글"}</label><br/>
-                </div>
-                { declare_part && <div className="declare_item">
-                    <input type="radio" name="declare_radio" className="declare_radio" id="type5" />
-                    <label for="type5" className="declare_selection" onClick={GetReport}>스팸 또는 사용자를 현혹하는 콘텐츠</label><br/>
-                </div> }
-
-                <hr className="hr_tag"/>
-
-                <div className="declare_submit_part">
-                    <button onClick={CancleDeclare} className="declare_cancel">취소</button>
-                    <button onClick={SubmitDeclare} className="declare_submit">신고</button>
-                </div>
-
-            </PopupDeclaration>
+                declare_part={declare_part} 
+                declare_contents={declare_contents}
+                setDeclare_contents={setDeclare_contents}
+                declare_reviewId={declare_reviewId}
+            />
         </div>
         </>
-
+       
     )
 }
 

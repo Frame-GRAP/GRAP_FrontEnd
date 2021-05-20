@@ -1,22 +1,22 @@
-.mylistScreen {
+.myListScreen {
     position: relative;
     background-color: #111111;
     height: 150vh;
 }
 
-.mylistScreen_body {
+.myListScreen_body {
     position: relative;
     top: 100px;
     width: 100%;
     background-color: #111111;
 }
 
-.mylist_body > h2 {
+.myListScreen_body > h2 {
     color: white;
     margin-bottom: 20px;
 }
 
-.mylist_result {
+.myListScreen_result {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20%, auto));
     gap: 40px 10px;

@@ -7,10 +7,12 @@ import axios from "axios";
 import {useSelector} from "react-redux";
 import {selectUser} from "./features/userSlice";
 
-function Video({setPopupUrl, OneOfGameData, setVisible, posY}) {
+function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
+    const [loading, setLoading] = useState(true);
     const [content, toggleContent] = useState(true);
     const [delayHandler, setDelayHandler] = useState(null);
     const [videoData, setVideoData] = useState([]);
+    const [isAdded, setIsAdded] = useState(false);
     const user = useSelector(selectUser);
 
     useEffect(() => {
@@ -24,8 +26,20 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY}) {
                 });
             return videoData;
         }
+        async function check() {
+            myGame.map((gameId) => {
+                if(gameId === OneOfGameData.id){
+                    setIsAdded(true);
+                }
+            })
+        }
         fetchData();
-    }, [])
+        check();
+        setLoading(false);
+        return () => {
+            setLoading(true);
+        }
+    }, [OneOfGameData]);
 
     const show = () => {
         setDelayHandler(setTimeout(() => {
@@ -59,6 +73,21 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY}) {
             method: 'post',
             url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/game/${gameId}/favor`,
         }).then((res) => {
+            setIsAdded(true);
+            console.log(res);
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    const deleteMyList = (gameId, e) => {
+        e.preventDefault();
+        const userId = user.user_id;
+        axios({
+            method: 'delete',
+            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/game/${gameId}/favor`,
+        }).then((res) => {
+            setIsAdded(false);
             console.log(res);
         }).catch((err)=>{
             console.log(err);
@@ -67,11 +96,13 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY}) {
 
     let player_Url;
     if(videoData.platform === "twitch"){
-        player_Url = `https://clips.twitch.tv/embed?clip=${videoData.urlKey}&parent=localhost&autoplay=true`
+        player_Url = `https://clips.twitch.tv/embed?clip=${videoData.urlKey}&parent=localhost&autoplay=true&origin=http://localhost:3000`
     }else if(videoData.platform === "youtube"){
-        player_Url = `https://www.youtube.com/watch?v=${videoData.urlKey}`
+        player_Url = `https://www.youtube.com/embed/${videoData.urlKey}?autoplay=1&mute=0`
     }
 
+
+    if(loading) return (<div>Loading...</div>);
     return (
         <div className="row_container" onMouseEnter={show} onMouseLeave={hide}>
             { content ? (
@@ -80,32 +111,29 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY}) {
                 </div>
             ) : (
                 <div className="row_item">
-                    {(videoData.platform === "youtube") ? (
-                        <ReactPlayer
-                            className="row_video"
-                            url={player_Url}
-                            width='95%'
-                            height='95%'
-                            playing={true}
-                        />) : (
-                        <iframe
-                            className="row_video"
-                            src={player_Url}
-                            scrolling="no"
-                            width='95%'
-                            height='95%'
-                            frameBorder="0"
-                        />)
-                    }
+                    <iframe
+                        className="row_video"
+                        width="95%" height="95%"
+                        src={player_Url}
+                        scrolling="no"
+                        frameBorder="0"
+                        allow="autoplay"/>
                     <button
                         className="game_info"
                         id={OneOfGameData.id}
                         onClick={OpenModal}
                     >상세정보</button>
-                    <button
-                        className="add_mylist"
-                        onClick={(e) => addMyList(OneOfGameData.id, e)}
-                    >찜</button>
+                    {!isAdded ? (
+                        <button
+                            className="add_mylist"
+                            onClick={(e) => addMyList(OneOfGameData.id, e)}
+                        >찜</button>
+                    ) : (
+                        <button
+                            className="add_mylist"
+                            onClick={(e) => deleteMyList(OneOfGameData.id, e)}
+                        >찜 취소</button>)}
+
                 </div>
             )}
         </div>

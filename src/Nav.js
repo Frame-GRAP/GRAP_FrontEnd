@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import './Nav.css';
-import grap_logo from './img/grap_logo2-2.png';
+import grap_logo from './img/grap_logo2-1.png';
 import search from './img/search.jpg';
 import profile from './img/profile_big.png';
 import membership from './img/membership.jpg';
@@ -40,7 +40,7 @@ function Nav() {
         <div className={`nav ${show && "nav_black"}`}>
             <div className="nav_contents">
                 <div className="nav_logo">
-                    <img className='logo' src={grap_logo} alt="logo"/>
+                    <img className='logo' src={grap_logo} alt="logo" onClick={() => history.push("/")}/>
                 </div>
                 <div className="nav_menu">
                     <ul className="nav_menu">

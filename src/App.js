@@ -8,6 +8,7 @@ import LoginScreen from "./screens/LoginScreen";
 import {useDispatch, useSelector} from "react-redux";
 import {logout, selectUser} from "./features/userSlice";
 import MyListScreen from './screens/myListScreen';
+import UserInfo from './screens/mypage/UserInfo';
 
 
 function App() {
@@ -37,6 +38,9 @@ function App() {
                         </Route>
                         <Route exact path="/myList">
                             <MyListScreen />
+                        </Route>
+                        <Route exact path="/userInfo">
+                            <UserInfo />
                         </Route>
                     </Switch>
                 )}

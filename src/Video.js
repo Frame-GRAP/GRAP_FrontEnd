@@ -17,7 +17,7 @@ function Video({OneOfGameData, setVisible, setPopupUrl, posY}) {
     const user = useSelector(selectUser);
     let player_Url;
     if(platform === "twitch"){
-        player_Url = `https://clips.twitch.tv/embed?clip=${urlKey}&parent=localhost`
+        player_Url = `https://clips.twitch.tv/embed?clip=${urlKey}&parent=localhost&autoplay=true&origin=http://localhost:3000`
     }else if(platform === "youtube"){
         player_Url = `https://www.youtube.com/embed/${urlKey}?autoplay=1&mute=0`
     }  

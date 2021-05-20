@@ -1,0 +1,57 @@
+.userInfo{
+    height: 100vh;
+    color: #fff;
+}
+.userInfo_nav_logo{
+    margin-bottom: 50px;
+}
+
+
+.question_items{
+    border: 1px solid #fff;
+    background-color: rgba(128, 128, 128, 0.226);
+
+    width: 600px;
+    min-width: 40%;
+    max-width: 70%;
+
+    margin: auto;
+    padding: 30px;
+    
+}
+.question{
+    margin-top: 10px;
+    margin-bottom: 50px;
+    margin-left: 30px;
+}
+.question_title{
+    font-size: 25px;
+}
+.question_item{
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+
+.userInfo_submit{
+    text-align: center;
+    margin-top: 100px;
+}
+.userInfo_btn {
+    height: 50px;
+    width: 180px;
+    background-color: #e6e6e656;
+    color: #e6e6e6e7;
+
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.userInfo_btn:hover{
+    background-color: #e6e6e613;
+    transition-timing-function: ease-in-out;
+    transition: all 0.5s;
+}

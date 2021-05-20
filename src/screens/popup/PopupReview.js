@@ -20,6 +20,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     const [reviewData, setReviewData] = useState([]);
     const [reviewNum, setReviewNum] = useState(0);
     const [modifyBtn, setModifyBtn] = useState(false);
+    const [likeBtn, setLikeBtn] = useState(false);
 
     const user = useSelector(selectUser);
     const commentRef = useRef();
@@ -77,6 +78,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         console.log(reviewId, modifyRating, modifyRef.current.value);
         if(modifyRef.current.value==="") {
             alert("수정할 리뷰란을 입력하시오.")
+            return;
         }else{
             if(window.confirm("리뷰를 수정하시겠습니까?")===true){
                 axios({
@@ -89,7 +91,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 })
             }
         }
-        setModifyBtn(false);
+
 
         // Default 값으로 변경
         setModifyRating(0);
@@ -120,55 +122,49 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         console.log(reviewId);
 
         let user_ReviewValue;
-        const Review_ids = reviewData.map((set) => {
-            return {'review_id': set.review_id};
-        })
-
         axios({ // user_ReviewValue 저장
             method : 'get',
             url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`
         }).then((res)=> {
             if(res){
-                console.log(res);
                 user_ReviewValue = res.data;
             }else{
                 console.log("error");
             }
         }).then(()=>{
             console.log("user_ReviewValue : " + user_ReviewValue);
-            if(user_ReviewValue){ // 해당 리뷰에 대한 유저의 평가가 존재함
-                if(user_ReviewValue===true){ // 기존에 있던 평가 : Like
-                    // DELETE
-                    console.log("(Like)Delete~!")
-                    /*axios({            
-                        method : 'DELETE',
-                        url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/reviewValue/1` // reviewValueId가 뭐냐고 ㅅㅂ
-                    }).then((res)=> {
-                        if(res){
-                            console.log(res);
-                        }else{
-                            console.log("error");
-                        }
-                    })*/
-                }else{ // 기존에 있던 평가 : Dislike
-                    // PUT. Dislike -> Like
-                    console.log("(Like)Put~!")
+            if(user_ReviewValue===true){ // 기존에 있던 평가 : Like
+                // DELETE
+                console.log("(Like)Delete~!")
+                axios({            
+                    method : 'delete',
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue` 
+                }).then((res)=> {
+                    if(res){
+                        console.log(res);
+                    }else{
+                        console.log("error");
+                    }
+                })
+            }else if(user_ReviewValue===false){ // 기존에 있던 평가 : Dislike
+                // PUT. Dislike -> Like
+                console.log("(Like)Put~!")
 
-                    /*axios({            
-                        method : 'PUT',
-                        url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/reviewValue/1`, // valueId 이거아직 아님
-                        data : {
-                            value: 'true' // dislike -> like
-                        }
-                    }).then((res)=> {
-                        if(res){
-                            console.log(res);
-                        }else{
-                            console.log("error");
-                        }
-                    })*/
-                }
-            }else{ // 해당 리뷰에 대한 유저의 평가가 존재 안함
+                axios({            
+                    method : 'put',
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`,
+                    data : {
+                        value: 1 // dislike -> like
+                    }
+                }).then((res)=> {
+                    if(res){
+                        console.log(res);
+                    }else{
+                        console.log("error");
+                    }
+                })
+            }
+            else if(user_ReviewValue===null){ // 해당 리뷰에 대한 유저의 평가가 존재 안함
                 // POST
                 console.log("(Like)Post~!")
 
@@ -187,6 +183,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 })
             }
         })
+        setLikeBtn(!likeBtn);
     }
 
     function UpDislike(e){
@@ -194,55 +191,48 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         console.log(reviewId);
 
         let user_ReviewValue;
-        const Review_ids = reviewData.map((set) => {
-            return {'review_id': set.review_id};
-        })
-
         axios({ // user_ReviewValue 저장
             method : 'get',
             url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`
         }).then((res)=> {
             if(res){
-                console.log(res);
+                console.log(res.data);
                 user_ReviewValue = res.data;
             }else{
                 console.log("error");
             }
         }).then(()=>{
-            console.log("user_ReviewValue : " + user_ReviewValue);
-        }).then(()=>{
-            if(user_ReviewValue){ // 해당 리뷰에 대한 유저의 평가가 존재함
-                if(user_ReviewValue===false){ // 기존에 있던 평가 : Dislike
-                    // DELETE
-                    console.log("(Dislike)Delete~!")
-                    /*axios({            
-                        method : 'DELETE',
-                        url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/reviewValue/0` // ReviewValueId가 뭐냐고 ㅅㅂ
-                    }).then((res)=> {
-                        if(res){
-                            console.log(res);
-                        }else{
-                            console.log("error");
-                        }
-                    })*/
-                }else{ // 기존에 있던 평가 : Like
-                    // PUT. Like -> Dislike
-                    console.log("(Dislike)Put~!")
-                    /*axios({            
-                        method : 'PUT',
-                        url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/reviewValue/0`,
-                        data : {
-                            value: 'false' // like -> dislike
-                        }
-                    }).then((res)=> {
-                        if(res){
-                            console.log(res);
-                        }else{
-                            console.log("error");
-                        }
-                    })*/
-                }
-            }else{ // 해당 리뷰에 대한 유저의 평가가 존재 안함
+            if(user_ReviewValue===false){ // 기존에 있던 평가 : Dislike
+                // DELETE
+                console.log("(Dislike)Delete~!")
+                axios({            
+                    method : 'DELETE',
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`
+                }).then((res)=> {
+                    if(res){
+                        console.log(res);
+                    }else{
+                        console.log("error");
+                    }
+                })
+            }else if(user_ReviewValue===true){ // 기존에 있던 평가 : Like
+                // PUT. Like -> Dislike
+                console.log("(Dislike)Put~!")
+                axios({            
+                    method : 'PUT',
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`,
+                    data : {
+                        value: 0 // like -> dislike
+                    }
+                }).then((res)=> {
+                    if(res){
+                        console.log(res);
+                    }else{
+                        console.log("error");
+                    }
+                })
+                
+            }else if(user_ReviewValue===null){ // 해당 리뷰에 대한 유저의 평가가 존재 안함
                 // POST
                 console.log("(Dislike)Post~!");
                 axios({            
@@ -260,30 +250,40 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 })
             }
         })
-
-        // Print Current Dislike Num
-        /*Review_ids.forEach((set) =>{
-            axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/review/${set.review_id}/reviewValueFalse`
-            ).then((res) => {
-                if(res){
-                    console.log("id: " + set.review_id, res);
-                }
-                else{
-                    alert("fail");
-                }
-            })
-        })*/
+        setLikeBtn(!likeBtn);
     }
 
-    const [reviewValues, setReviewValues] = useState([]);
     useEffect(() => { // popupGameData 또는 review의 개수가 바뀌면 reviewData 갱신.
         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/review/all`
         ).then((res) => {
             if(res){
                 const tp = res.data.map((set) => {
-                    set.modify = 0;
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${set.review_id}/reviewValue`).then((res)=>{
+                        // console.log(res);
+                        if(res.data===null){ // null
+                            set.reviewValue=2;
+                        }else if(res.data===true){ // true & false
+                            set.reviewValue=res.data;
+                        }else if(res.data===false){ // false
+                            set.reviewValue=res.data;
+                        }
+                        set.modify = 0;
+                    })
+
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/review/${set.review_id}/reviewValueTrue`)
+                    .then((res)=>{
+                        set.like=res.data;
+                    })
+                
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/review/${set.review_id}/reviewValueFalse`)
+                    .then((res)=>{
+                        set.dislike=res.data;
+                    })
+ 
+
                     return set;
                 })
+                console.log(tp);
 
                 setReviewData(tp);
                 setReviewNum(res.data.length);
@@ -291,30 +291,10 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
             else{
                 alert("fail");
             }
-        }).then(() =>{
-            // console.log(reviewData);
-            let ary=[];
-            reviewData.forEach((set, index) => {
-                // console.log(set.review_id);
-                axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${set.review_id}/reviewValue`)
-                .then((res)=>{
-                    // console.log(res.data);
-                    if(res.data){ // true or false
-                        console.log(res.data);
-                    }else{ // null
-                        
-                    }
-                })
-            })
-            // setReviewValues(ary);
         })
-        console.log(reviewData);
 
+        console.log(reviewData)
     }, [popupGameData, reviewNum]) // modify가 바뀌면 바뀌게 못하나.
-
-    useEffect(()=>{ // 수정 버튼 누르면 리뷰데이터 갱신
-        setReviewData(reviewData);
-    },[modifyBtn]) 
 
 
     return (
@@ -325,18 +305,18 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
             <div className="Reviews">
                 <div className="Review__contents">
                     {reviewData.map((set, index) => {
+                        // {console.log(set.reviewValue)}
                         return (
                             <div className="Review" key={index}>
                                 <img src={User_Icon} className="Review__profile__image"></img>
                                 <div className="Reveiw__items">
                                     <span className="Name">{set.username}&nbsp;review_id:{set.review_id}</span><br/>
                                     
-                                    {((set.modify===1)&&(modifyBtn===true)) ? (  
+                                    {(set.modify===1) ? (  
                                         <>                                  
                                             <div className="Review__modify">
-                                                <div className="modify__Rating">
-                                                    별점 : &nbsp;
-                                                    <ReviewStarRating rating={modifyRating} setRating={setModifyRating}/>
+                                                <div className="modify__Rating">                                
+                                                    &nbsp;<ReviewStarRating rating={modifyRating} setRating={setModifyRating}/>
                                                 </div>
 
                                                 <div className="modify__Contents">
@@ -373,17 +353,20 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                                             </span><br/><br/>
                                             
                                             <div className="Review__likes">
-                                                {reviewValues[index]===true ? (
-                                                    <AiFillLike className="Review__like" id={set.review_id} onClick={UpLike} color="blue"/> 
-                                                ) : (
-                                                    <AiFillLike className="Review__like" id={set.review_id} onClick={UpLike}/>
-                                                )}&nbsp;&nbsp;{like} &nbsp;
+                                                <AiFillLike className="Review__like" id={set.review_id} onClick={UpLike}/>&nbsp;&nbsp;{set.like} &nbsp;
+                                                <AiFillDislike className="Review__like" id={set.review_id} onClick={UpDislike} />&nbsp;&nbsp;{set.dislike} &nbsp;
 
-                                                {reviewValues[index]===false ? (
+                                                {/* {set.reviewValue === true? 
+                                                    <AiFillLike className="Review__like" id={set.review_id} onClick={UpLike} color="blue"/> 
+                                                 : 
+                                                    <AiFillLike className="Review__like" id={set.review_id} onClick={UpLike}/>
+                                                }&nbsp;&nbsp;{set.like} &nbsp;
+
+                                                {set.reviewValue===false ? (
                                                     <AiFillDislike className="Review__like" id={set.review_id} onClick={UpDislike} color="blue"/> 
                                                 ) : (
                                                     <AiFillDislike className="Review__like" id={set.review_id} onClick={UpDislike} />
-                                                )}&nbsp;&nbsp;{dislike} &nbsp;
+                                                )}&nbsp;&nbsp;{set.dislike} &nbsp; */}
                                             </div>
                                             
                                             <span className="comment">{set.content}</span><br/>

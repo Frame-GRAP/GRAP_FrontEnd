@@ -23,7 +23,7 @@ import {useSelector} from "react-redux";
 
 function HomeScreen(){
     const [visible, setVisible] = useState(false);
-
+    const [loading, setLoading] = useState(true);
     const [gameData, setGameData] = useState([]);
     const [videoData, setVideoData] = useState([]);
 
@@ -48,6 +48,10 @@ function HomeScreen(){
         }
 
         fetchData();
+        setLoading(false);
+        return () => {
+            setLoading(true);
+        }
     }, []);
 
     // popupGameData Fetch (popupUrl이 바뀔때 마다)
@@ -61,7 +65,7 @@ function HomeScreen(){
         fetchData();
 
     }, [popupUrl])
-        
+
     // ESC 누르면 팝업창 사라짐
     const keyPress = useCallback(e=> {
         if(e.key === 'Escape'&& visible){
@@ -97,8 +101,8 @@ function HomeScreen(){
             }
         })
     }, [])
-    
 
+    if(loading) return (<div>Loading...</div>);
     return (
         <>
         <div id="homeScreen" className="homeScreen">
@@ -106,22 +110,22 @@ function HomeScreen(){
 
             <Banner />
 
-            <Row 
-                title="All Games" 
+            <Row
+                title="All Games"
                 gameData={gameData}
                 setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
                 posY={posY}
             />
-            <Row 
-                title="All Games" 
+            <Row
+                title="All Games"
                 gameData={gameData}
                 setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
                 posY={posY}
             />
-            <Row 
-                title="All Games" 
+            <Row
+                title="All Games"
                 gameData={gameData}
                 setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
@@ -132,37 +136,37 @@ function HomeScreen(){
         <div>
             <Modal
                 modalRef={modalRef}
-                visible={visible} 
+                visible={visible}
                 gameData={gameData}
                 posY={posY} >
-                {(visible && 
+                {(visible &&
                 <>
                     <img
                         className='modal__logo'
-                        src={grap_logo}    
-                        alt="" 
+                        src={grap_logo}
+                        alt=""
                     />
 
                     <div className="popUp">
                         <div className="video">
-                            <PopupMainVideo 
+                            <PopupMainVideo
                                 popupGameData={popupGameData}
                                 popupMainVideoIndex={popupMainVideoIndex}
-                                setDeclare_visible={setDeclare_visible} 
+                                setDeclare_visible={setDeclare_visible}
                                 setDeclare_part={setDeclare_part}
                             />
-                            <PopupGameDescription 
-                                popupGameData={popupGameData} 
+                            <PopupGameDescription
+                                popupGameData={popupGameData}
                             />
-                            <PopupReview 
-                                popupGameData={popupGameData}  
-                                setDeclare_visible={setDeclare_visible} 
-                                setDeclare_part={setDeclare_part}  
-                                setDeclare_reviewId={setDeclare_reviewId}           
+                            <PopupReview
+                                popupGameData={popupGameData}
+                                setDeclare_visible={setDeclare_visible}
+                                setDeclare_part={setDeclare_part}
+                                setDeclare_reviewId={setDeclare_reviewId}
                             />
                         </div>
                         <div className="video">
-                            <PopupRelatedVideo 
+                            <PopupRelatedVideo
                                 popupGameData={popupGameData}
                                 setPopupMainVideoIndex={setPopupMainVideoIndex}
                             />
@@ -171,20 +175,20 @@ function HomeScreen(){
                 </>
                 )}
             </Modal>
-            
-            <PopupDeclaration 
+
+            <PopupDeclaration
                 popupGameData={popupGameData}
                 popupMainVideoIndex={popupMainVideoIndex}
-                declare_visible={declare_visible} 
+                declare_visible={declare_visible}
                 setDeclare_visible={setDeclare_visible}
-                declare_part={declare_part} 
+                declare_part={declare_part}
                 declare_contents={declare_contents}
                 setDeclare_contents={setDeclare_contents}
                 declare_reviewId={declare_reviewId}
             />
         </div>
         </>
-       
+
     )
 }
 

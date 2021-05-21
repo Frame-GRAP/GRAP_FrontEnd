@@ -22,6 +22,7 @@ function BannerVideo({mainGameData}){
             return videoData;
         }
         fetchData();
+
         setLoading(false);
         return () => {
             setLoading(true);
@@ -52,6 +53,7 @@ function BannerVideo({mainGameData}){
     }else if(videoData.platform === "youtube"){
         player_Url = `https://www.youtube.com/embed/${videoData.urlKey}?autoplay=1&mute=0`
     }
+    
 
     if(loading) return (<div>Loading...</div>);
     return (

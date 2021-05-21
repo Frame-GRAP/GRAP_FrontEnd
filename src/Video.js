@@ -13,6 +13,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
     const [isAdded, setIsAdded] = useState(false);
     const user = useSelector(selectUser);
 
+    // console.log(OneOfGameData);
     useEffect(() => {
         async function fetchData() {
             const gameId = OneOfGameData.id;

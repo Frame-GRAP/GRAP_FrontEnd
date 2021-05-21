@@ -20,8 +20,10 @@
     overflow: hidden; */
 }
 
-
-.popUp {
+.popUp{
+    color: #fff;
+}
+.videos {
     display: flex;
 }
 
@@ -32,7 +34,7 @@
 }
 .video:nth-child(1) {
     flex: 7;
-    border-right: 3px solid rgba(10, 10, 20, 100);
+    /* border-right: 3px solid rgba(10, 10, 20, 100); */
 }
 .video:nth-child(2) {
     flex: 3;

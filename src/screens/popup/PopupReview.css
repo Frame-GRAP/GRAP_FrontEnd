@@ -54,6 +54,7 @@
     width: 95%;
     padding: 10px;
     margin: auto;
+    margin-bottom: 35px;
     font-family: 'Noto Sans', sans-serif;
     font-size: 12px;
 }
@@ -159,4 +160,68 @@
 }
 .modify__btn:nth-child(3){
     background-color:gray;
+}
+
+
+.abtn{
+    height:40px;
+    line-height:40px;  
+    border-radius:3px;
+    background-color: transparent;
+    font-size:13px;
+    color: #fff;
+}
+.abtn ul {
+    border:1px solid;  
+    border-color: rgba(249, 250, 252, 0.5);
+    border-top-left-radius: 3px;  
+    border-top-right-radius:3px;
+    border-bottom-left-radius: 3px; 
+    border-bottom-right-radius: 3px; 
+
+    padding-left:0px;
+    padding-bottom:5px;
+}
+  
+.abtn, 
+.abtn ul li {
+    width:50px;
+    padding-left:20px;
+    padding-right:16px;
+}
+
+  
+.abtn:focus {
+    border-top-left-radius: 0px;  
+    border-top-right-radius:0px;
+    border-top:0px;
+    margin-top:1px;
+    cursor:default;
+}
+.abtn ul li:hover{
+     background-color:rgba(249, 250, 252, 0.2);
+}
+
+.opt-sel {
+    position:relative;  
+    outline: none;
+    cursor:pointer;
+}
+.opt-sel ul{
+    position:absolute;
+    left:-1px; 
+    top: 10px;
+    list-style:none;
+    margin:0;
+}
+.modify__ul{
+    display: none;
+}
+
+.modify_ReviewBtn{
+    background-color:#111;
+    outline:none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
 }

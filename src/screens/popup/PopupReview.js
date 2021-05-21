@@ -22,12 +22,13 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     const [changeLike, setChangeLike] = useState([]); // like수를 갱신
     const [changedislike, setChangeDislike] = useState([]); // dislike수를 갱신
     const [changeLikeBtn, setChangeLikeBtn] = useState(false); // like, dislike 버튼을 누를시 갱신
+    const [changeReviewValue, setChangeReviewValue] = useState(false);
 
     const [modifyBtn, setModifyBtn] = useState(false); // 수정 탭을 누를 시 수정 html 코드 보여줌.
     const [modifyReviewComplete, setModifyReviewComplete] = useState(false); // 수정 완료시 갱신.
 
     // user, ref
-    const user = useSelector(selectUser);
+    const userId = useSelector(selectUser).user_id.id;
     const commentRef = useRef();
     const modifyRef = useRef();
     
@@ -35,7 +36,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     function RegistReview(){ // 리뷰 등록
         // 변수에 값 저장하여 백엔드로 axios.get or post
         // 보낼 값 : 평점(rating), 리뷰(comment), 유저Id, 댓글 단 날짜.
-        console.log(popupGameData.id, user.user_id, rating, commentRef.current.value);
+        console.log(popupGameData.id, userId, rating, commentRef.current.value);
 
         if(commentRef.current.value==="") {
             alert("리뷰란을 입력하시오.")
@@ -43,11 +44,13 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
             if(window.confirm("리뷰를 등록하시겠습니까?")===true){
                 axios({
                     method: 'post',
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/game/${popupGameData.id}/review`,
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/game/${popupGameData.id}/review`,
                     data: {
                         content: commentRef.current.value,
                         rating: rating
                     }
+                }).then((res)=>{
+                    console.log(res);
                 })
                 setReviewNum(prev=>prev+1); // 즉시 리뷰 갱신하기 위해서 쓰는거
             }
@@ -131,7 +134,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         let user_ReviewValue;
         axios({ // user_ReviewValue 저장
             method : 'get',
-            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`
+            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`
         }).then((res)=> {
             if(res){
                 user_ReviewValue = res.data;
@@ -145,7 +148,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 console.log("(Like)Delete~!")
                 axios({            
                     method : 'delete',
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue` 
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue` 
                 }).then((res)=> {
                     if(res){
                         console.log(res);
@@ -159,7 +162,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
 
                 axios({            
                     method : 'put',
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`,
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`,
                     data : {
                         value: 1 // dislike -> like
                     }
@@ -177,7 +180,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
 
                 axios({            
                     method : 'POST',
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`,
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`,
                     data : {
                         value: 'true'
                     }
@@ -202,7 +205,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         let user_ReviewValue;
         axios({ // user_ReviewValue 저장
             method : 'get',
-            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`
+            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`
         }).then((res)=> {
             if(res){
                 console.log(res.data);
@@ -216,7 +219,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 console.log("(Dislike)Delete~!")
                 axios({            
                     method : 'DELETE',
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`
                 }).then((res)=> {
                     if(res){
                         console.log(res);
@@ -229,7 +232,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 console.log("(Dislike)Put~!")
                 axios({            
                     method : 'PUT',
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`,
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`,
                     data : {
                         value: 0 // like -> dislike
                     }
@@ -246,7 +249,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 console.log("(Dislike)Post~!");
                 axios({            
                     method : 'POST',
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${reviewId}/reviewValue`,
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`,
                     data : {
                         value: 'false'
                     }
@@ -268,8 +271,9 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/review/all`
         ).then((res) => {
             if(res){
+                console.log(res.data);
                 const tp = res.data.map((set) => {
-                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/review/${set.review_id}/reviewValue`).then((res)=>{
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${set.review_id}/reviewValue`).then((res)=>{
                         // console.log(res);
                         if(res.data===null){ // null
                             set.reviewValue=2;
@@ -278,6 +282,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                         }else if(res.data===false){ // false
                             set.reviewValue=res.data;
                         }
+                        setChangeReviewValue(!changeReviewValue);
                         set.modify = 0;
                     })
 

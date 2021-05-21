@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Oswald&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo&display=swap');
+
+.userInfo{
+    color: #fff;
+    height: 1900px;
+}
+.userInfo_nav_logo{
+    padding-left: 5%;
+    padding-top: 15px;
+    cursor: pointer;
+    background-color:#111;
+    height: 70px;
+}
+.question_purpose{
+    margin-bottom: 50px;
+}
+
+
+.question_items{
+    border: 1px solid #fff;
+    background-color: rgba(128, 128, 128, 0.226);
+
+    width: 60%;
+    min-width: 800px;
+
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 50px;
+    padding: 30px;
+}
+.question{
+    margin-top: 10px;
+    margin-bottom: 50px;
+    margin-left: 30px;
+}
+.question_title{
+    font-size: 25px;
+    font-family: 'Heebo', sans-serif;
+}
+
+
+
+
+.question_answer_item{
+    margin: 20px;
+    flex: 1;
+}
+.question1_input{
+    height: 31px;
+    width: 300px;
+    outline: none;
+    font-size: 20px;
+    font-family: 'Noto Sans', sans-serif;
+    padding: 5px;
+}
+
+.isOverlap_btn{
+    height: 45px;
+    width: 100px;
+    background-color: #e6e6e656;
+    /* color: #e6e6e6e7; */
+
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+}
+.isOverlap_btn:hover{
+    background-color: #e6e6e613;
+    transition-timing-function: ease-in-out;
+    transition: all 0.5s;
+}
+
+.question_answer{
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+
+}
+.question2_selectBtn{
+    /* margin-left: 20px; */
+    height: 17px;
+    width: 17px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+.question2_gamename{
+    margin-left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    /* font-family: 'Noto Sans', sans-serif; */
+    font-family: 'Oswald', sans-serif;
+}
+.question2_gameImg{
+    height:150px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+
+.userInfo_submit{
+    text-align: center;
+    margin-top: 100px;
+}
+.userInfo_btn {
+    height: 50px;
+    width: 180px;
+    background-color: #e6e6e656;
+    color: #e6e6e6e7;
+
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+
+    margin-top: 10px;
+    margin-left: 50px;
+}
+.userInfo_btn:hover{
+    background-color: #e6e6e613;
+    transition-timing-function: ease-in-out;
+    transition: all 0.5s;
+}

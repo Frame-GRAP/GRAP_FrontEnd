@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import "./PopupMainVideo.css"
-import ReactPlayer from "react-player";
 
 function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible, setDeclare_part }) {    
     const [mainVideo, setMainVideo] = useState([]);
@@ -18,9 +17,9 @@ function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible,
 
     let player_Url;
     if(mainVideo.platform === "twitch"){
-        player_Url = `https://clips.twitch.tv/embed?clip=${mainVideo.urlKey}&parent=localhost`
+        player_Url = `https://clips.twitch.tv/embed?clip=${mainVideo.urlKey}?autoplay=true&mute=0&parent=localhost`
     }else if(mainVideo.platform === "youtube"){
-        player_Url = `https://www.youtube.com/watch?v=${mainVideo.urlKey}`
+        player_Url = `https://www.youtube.com/embed/${mainVideo.urlKey}`
     }  
 
     function OpenVideoDeclaration(){
@@ -32,24 +31,17 @@ function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible,
         <>
         <div className="popup__Main_video">
             <div className="Main__title title__font">Streamer Video</div><br/>
-            {(mainVideo.platform === "youtube") ? (
-                <ReactPlayer
-                    className="game__video" 
-                    url={player_Url}
-                    width='100%' height='600px'
-                    playing={false}
-                />) : (
-                <iframe
-                    className="game__video"
-                    src={player_Url}
-                    scrolling="no"
-                    height="600px"
-                    width="100%"
-                    frameborder="0"
-                />)
-            }
+            <iframe
+                className="game__video"
+                src={player_Url}
+                scrolling="no"
+                height="600px"
+                width="100%"
+                frameborder="0"
+                allowFullScreen
+            />
             <span className="Video__declaration2" onClick={OpenVideoDeclaration}>신고</span>
-        </div>        
+        </div>       
         </>
     )
 }

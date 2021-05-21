@@ -2,11 +2,12 @@ import React, {useEffect} from 'react';
 import './App.css';
 import HomeScreen from './screens/home/HomeScreen';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import SignupScreen from "./screens/SignupScreen";
 import LoginScreen from "./screens/LoginScreen";
 import {useDispatch, useSelector} from "react-redux";
 import {logout, selectUser} from "./features/userSlice";
 import MyListScreen from "./screens/MyListScreen";
+import Mypage from "./screens/mypage/Mypage";
+import UserInfo from './screens/mypage/UserInfo';
 
 function App() {
     const user = useSelector(selectUser);
@@ -32,6 +33,12 @@ function App() {
                         </Route>
                         <Route exact path="/myList">
                             <MyListScreen />
+                        </Route>
+                        <Route exact path="/mypage">
+                            <Mypage />
+                        </Route>
+                        <Route exact path="/userInfo">
+                            <UserInfo />
                         </Route>
                     </Switch>
                 )}

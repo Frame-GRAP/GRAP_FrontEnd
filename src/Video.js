@@ -1,6 +1,4 @@
 import React, {useState, useEffect} from "react";
-import {useHistory} from "react-router-dom";
-import ReactPlayer from "react-player";
 import $ from "jquery"
 import './Video.css';
 import axios from "axios";
@@ -56,6 +54,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
     }
 
     function OpenModal(e){
+        e.preventDefault();
         const popupId = Number(e.target.id);
         setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
 

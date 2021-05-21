@@ -29,14 +29,31 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
             <div className="related__Video">
                 {videoData.map((set, index) => {
                     return (
-                        <img 
-                            className="related_poster" 
-                            src={set.image} 
-                            id={index}
-                            alt="game"
-                            key={index}
-                            onClick={toggleMainVideo}
-                        />
+                        <>
+                            {/* <img 
+                                className="related_poster" 
+                                src={set.image} 
+                                id={index}
+                                alt="game"
+                                key={index}
+                                onClick={toggleMainVideo}
+                            /> */}
+                        <div className="related__contents">
+                            <img 
+                                className="related_poster" 
+                                src={set.image} 
+                                id={index}
+                                alt="game"
+                                key={index}
+                                onClick={toggleMainVideo}
+                            />
+                            <div className="related_desc">
+                                <div className="video_title">머니게임 8화 리뷰</div>
+                                <div className="video_uploader">논리왕 전기</div>
+                                <div className="video_visitednum">조회수 311만회 · 1일 전</div>
+                            </div>
+                        </div>
+                        </>
                     )
                 })}
             </div>

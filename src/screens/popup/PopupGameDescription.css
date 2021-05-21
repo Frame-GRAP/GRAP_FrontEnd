@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Oswald&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 .popup__Description {
     padding: 20px 20px;
-    margin: 5px 5px;
+    margin: 5px 5px 50px 5px;
     /* height: 300px; */
 }
 .title__font {
@@ -13,7 +14,7 @@
 .description__contents {
     font-size: 12px;
     margin-top: 20px;
-    font-family: 'Noto Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     display: flex;
 }
 
@@ -40,6 +41,8 @@
 }
 .detail__title{
     flex: 1;
+    color: rgba(128, 128, 128, 0.966);
+
 }
 .detail__desc{
     flex: 3;
@@ -62,7 +65,9 @@
     font-size: 15px;
     height: 200px;
 }
-.down_link {
-    color: white;
-    font-size: 17px;
+
+.detail__desc > a{
+    color: rgb(131, 70, 211);
 }
+
+

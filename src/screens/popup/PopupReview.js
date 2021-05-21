@@ -4,11 +4,14 @@ import axios from 'axios'
 import {selectUser} from './../../features/userSlice'
 import {useSelector} from "react-redux";
 import moment from 'moment'
+import $ from "jquery"
 
 import StarRating from './StarRating'
 import ReviewStarRating from './ReviewStarRating'
 import User_Icon from "../../img/user_icon.png"
 import {AiOutlineDislike, AiOutlineLike, AiFillLike, AiFillDislike} from 'react-icons/ai'
+
+import img from './../../img/white_icon.png'
 
 function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDeclare_reviewId}) {
     const [rating, setRating] = useState(0);
@@ -266,7 +269,6 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         })
     }
 
-
     useEffect(() => { // popupGameData 또는 review의 개수가 바뀌면 reviewData 갱신.
         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/review/all`
         ).then((res) => {
@@ -314,7 +316,25 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
 
     }, [popupGameData, reviewNum, changeLikeBtn, modifyReviewComplete]) // modify가 바뀌면 바뀌게 못하나.
 
+    function OpenModifyReview(e){
+        const index = e.target.getAttribute('index');
 
+        // ul tag display toggle
+        if($(".modify__ul")[index].style.display === "none"){
+            $(".modify__ul")[index].style.display = "block"
+
+        }else{
+            $(".modify__ul")[index].style.display = "none"
+        }
+
+        // 배경 눌러도 탭 꺼지게
+        $(".popUp").click(function(){
+            for(var i=0; i<reviewNum; i++){
+                $(".modify__ul")[i].style.display = "none"
+            }
+        })
+        
+    }
     return (
         <div className="popup__Review">
             <div className="title__font">Review</div>
@@ -391,9 +411,19 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
 
                                 </div>
                                 <div className="Review__btns">
-                                    <span className="Review__btn" name={set.review_id} onClick={OpenReviewDeclaration} >신고</span>
+                                    {/* <span className="Review__btn" name={set.review_id} onClick={OpenReviewDeclaration} >신고</span>
                                     <span className="Review__btn" name={set.review_id} onClick={ModifyReview} >수정</span>
-                                    <span className="Review__btn" name={set.review_id} onClick={DeleteReview} >삭제</span>
+                                    <span className="Review__btn" name={set.review_id} onClick={DeleteReview} >삭제</span> */}
+                                    <button className="modify_ReviewBtn" onClick={OpenModifyReview} index={index}>▼</button>
+                                    <div className="opt-sel abtn">
+                                        <div className="sel-icon"></div>
+                                        <ul className="modify__ul">
+                                            <li name={set.review_id} onClick={ModifyReview}>수정</li>
+                                            <li name={set.review_id} onClick={DeleteReview}>삭제</li>
+                                            <li name={set.review_id} onClick={OpenReviewDeclaration}>신고</li>
+                                        </ul>
+                                    </div>
+                                    
                                 </div>
                             </div>   
                         ) 

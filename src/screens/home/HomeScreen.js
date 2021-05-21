@@ -148,29 +148,32 @@ function HomeScreen(){
                     />
 
                     <div className="popUp">
-                        <div className="video">
-                            <PopupMainVideo
-                                popupGameData={popupGameData}
-                                popupMainVideoIndex={popupMainVideoIndex}
-                                setDeclare_visible={setDeclare_visible}
-                                setDeclare_part={setDeclare_part}
-                            />
-                            <PopupGameDescription
-                                popupGameData={popupGameData}
-                            />
-                            <PopupReview
-                                popupGameData={popupGameData}
-                                setDeclare_visible={setDeclare_visible}
-                                setDeclare_part={setDeclare_part}
-                                setDeclare_reviewId={setDeclare_reviewId}
-                            />
+                        <div className="videos">
+                            <div className="video">
+                                <PopupMainVideo
+                                    popupGameData={popupGameData}
+                                    popupMainVideoIndex={popupMainVideoIndex}
+                                    setDeclare_visible={setDeclare_visible}
+                                    setDeclare_part={setDeclare_part}
+                                />
+                                <PopupGameDescription
+                                    popupGameData={popupGameData}
+                                />
+                                <PopupReview
+                                    popupGameData={popupGameData}
+                                    setDeclare_visible={setDeclare_visible}
+                                    setDeclare_part={setDeclare_part}
+                                    setDeclare_reviewId={setDeclare_reviewId}
+                                />
+                            </div>
+                            <div className="video">
+                                <PopupRelatedVideo
+                                    popupGameData={popupGameData}
+                                    setPopupMainVideoIndex={setPopupMainVideoIndex}
+                                />
+                            </div>
                         </div>
-                        <div className="video">
-                            <PopupRelatedVideo
-                                popupGameData={popupGameData}
-                                setPopupMainVideoIndex={setPopupMainVideoIndex}
-                            />
-                        </div>
+
                     </div>
                 </>
                 )}

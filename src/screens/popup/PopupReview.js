@@ -68,7 +68,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         const reviewId = e.target.getAttribute('name');
         const idx = e.target.getAttribute('index');
 
-        $(".modify__ul")[idx].style.display = "none" // 신고 버튼 누르면 Tab Close
+        $(".review__modify__ul")[idx].style.display = "none" // 신고 버튼 누르면 Tab Close
 
         setDeclare_visible(true);
         setDeclare_part(false); // Part : 리뷰 신고
@@ -79,7 +79,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         const reviewId=e.target.getAttribute('name')
         const idx = e.target.getAttribute('index');
 
-        $(".modify__ul")[idx].style.display = "none" // 수정 버튼 누르면 Tab Close
+        $(".review__modify__ul")[idx].style.display = "none" // 수정 버튼 누르면 Tab Close
 
         reviewData.forEach((set) => {
             // console.log(set.review_id);
@@ -126,7 +126,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         const reviewId = e.target.getAttribute('name');
         const idx = e.target.getAttribute('index');
 
-        $(".modify__ul")[idx].style.display = "none" // 삭제 버튼 누르면 Tab Close
+        $(".review__modify__ul")[idx].style.display = "none" // 삭제 버튼 누르면 Tab Close
 
         if(window.confirm("정말 삭제하시겠습니까?")===true) {
             axios({
@@ -328,13 +328,14 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
 
     function OpenModifyReview(e){
         const index = e.target.getAttribute('index');
+        console.log($(".review__modify__ul")[index]);
 
         // ul tag display toggle
-        if($(".modify__ul")[index].style.display === "none"){
-            $(".modify__ul")[index].style.display = "block"
+        if($(".review__modify__ul")[index].style.display === "none"){
+            $(".review__modify__ul")[index].style.display = "block"
 
         }else{
-            $(".modify__ul")[index].style.display = "none"
+            $(".review__modify__ul")[index].style.display = "none"
         }        
     }
     return (
@@ -412,20 +413,15 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                                     }
 
                                 </div>
-                                <div className="Review__btns">
-                                    {/* <span className="Review__btn" name={set.review_id} onClick={OpenReviewDeclaration} >신고</span>
-                                    <span className="Review__btn" name={set.review_id} onClick={ModifyReview} >수정</span>
-                                    <span className="Review__btn" name={set.review_id} onClick={DeleteReview} >삭제</span> */}
+                                <div className="Review__modifyTab">
                                     <button className="modify_ReviewBtn" onClick={OpenModifyReview} index={index}>▼</button>
-                                    <div className="opt-sel abtn">
-                                        <div className="sel-icon"></div>
-                                        <ul className="modify__ul">
+                                    <div className="review_tab1 review_tab2">
+                                        <ul className="review__modify__ul">
                                             <li index={index}name={set.review_id} onClick={ModifyReview}>수정</li>
                                             <li index={index}name={set.review_id} onClick={DeleteReview}>삭제</li>
                                             <li index={index}name={set.review_id} onClick={OpenReviewDeclaration}>신고</li>
                                         </ul>
                                     </div>
-                                    
                                 </div>
                             </div>   
                         ) 

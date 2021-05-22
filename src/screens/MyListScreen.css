@@ -1,7 +1,7 @@
 .myListScreen {
     position: relative;
     background-color: #111111;
-    height: 150vh;
+    min-height: 100vh;
 }
 
 .myListScreen_body {
@@ -14,6 +14,7 @@
 .myListScreen_body > h2 {
     color: white;
     margin-bottom: 20px;
+    margin-left: 20px;
 }
 
 .myListScreen_result {

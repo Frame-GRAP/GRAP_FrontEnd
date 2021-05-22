@@ -20,6 +20,7 @@ import PopupDeclaration from '../popup/PopupDeclaration'
 
 import {selectUser} from './../../features/userSlice'
 import {useSelector} from "react-redux";
+import Footer from "../../Footer";
 
 function HomeScreen(){
     const [visible, setVisible] = useState(false);
@@ -190,8 +191,8 @@ function HomeScreen(){
                 declare_reviewId={declare_reviewId}
             />
         </div>
+            <Footer />
         </>
-
     )
 }
 

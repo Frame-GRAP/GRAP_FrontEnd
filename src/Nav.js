@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import './Nav.css';
-import grap_logo from './img/grap_logo2-2.png';
+import grap_logo from './img/grap_logo2-1.png';
 import search from './img/search.jpg';
 import profile from './img/profile_big.png';
 import membership from './img/membership.jpg';
@@ -8,8 +8,12 @@ import {useHistory} from "react-router-dom";
 import {CgSearch} from 'react-icons/cg'
 import {useDispatch, useSelector} from "react-redux";
 import {logout, selectUser} from "./features/userSlice";
-import axios from "axios";
-
+import {IconButton} from "@material-ui/core";
+import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
+import {grey} from "@material-ui/core/colors";
+import SearchIcon from '@material-ui/icons/Search';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 function Nav() {
     const history = useHistory();
@@ -51,21 +55,34 @@ function Nav() {
                 <div className="nav_secondary">
                     <div className="secondary_element">
                         <div className="search_element">
-                            {/* <img className="nav_search" src={search} alt="search" onClick={() => history.push("/")}/> */}
-                            <CgSearch
+                            <IconButton
+                                aria-label="delete"
                                 className="nav_search"
                                 onClick={() => history.push("/")}
-                            />
+                            >
+                                <SearchIcon style={{ fontSize: 40, color: grey[50]}}/>
+                            </IconButton>
                         </div>
                     </div>
                     <div className="secondary_element">
                         <div className="membership_element">
-                            <img className="nav_membership" src={membership} alt="membership" onClick={() => history.push("/")}/>
+                            <IconButton
+                                aria-label="delete"
+                                className="nav_membership"
+                                onClick={() => history.push("/")}
+                            >
+                                <VpnKeyIcon style={{ fontSize: 40, color: grey[50]}}/>
+                            </IconButton>
                         </div>
                     </div>
                     <div className="secondary_element">
                         <div className="dropdown_element">
-                            <img className="dropdown_user" src={profile} alt="profile"/>
+                            <IconButton
+                                aria-label="delete"
+                                className="dropdown_user"
+                            >
+                                <AccountBoxIcon style={{ fontSize: 40, color: grey[50]}}/>
+                            </IconButton>
                             <div className="dropdown_content">
                                 <ul className="drop_list">
                                     <li className="drop_item">

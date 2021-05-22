@@ -82,9 +82,10 @@
 .dropdown_content {
     display: none;
     position: absolute;
-    background-color: #f1f1f1;
+    background-color: #1d2327;
     min-width: 140px;
     z-index: 1;
+    border-radius: 5px;
 }
 
 .drop_list {
@@ -95,7 +96,7 @@
 }
 
 .drop_item {
-    color: black;
+    color: #ffffff;
     display: block;
     cursor: pointer;
     margin-top: 10px;
@@ -107,5 +108,5 @@
 }
 
 .drop_item:hover {
-    background-color: #ddd;
+    font-weight: 600;
 }

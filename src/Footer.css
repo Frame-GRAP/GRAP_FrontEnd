@@ -1,0 +1,17 @@
+footer{
+    padding: 20px 0 100px;
+    background: #111112;
+    color:#fff;
+    text-align: center;
+}
+
+.footer_icon {
+
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.footer_copyright {
+    font-size: 12px;
+    color: #717171;
+}

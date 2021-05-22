@@ -2,8 +2,6 @@
     height: 200px;
     padding: 5px;
     transition: all 400ms;
-    border: 2px solid white;
-    border-radius: 5px;
     text-align: center;
 }
 
@@ -18,35 +16,12 @@
 }
 
 .row_video {
-    border: 5px solid white;
     border-radius: 5px;
     margin-bottom: 7px;
 }
 
 .row_item{
+    margin-bottom: 7px;
     transition-delay: 0.3s;
     transition: all 0.3s ease;
-}
-
-.row_item:hover {
-    transition-delay: 0.3s;
-    background-color: black;
-}
-
-.game_info, .add_mylist {
-    cursor: pointer;
-    color: #fff;
-    outline: none;
-    font-weight: 700;
-    border-radius: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
-    background-color: rgba(51, 51, 51, 0.5);
-    padding: 3px 5px 3px 5px;
-}
-
-.game_info:hover, .add_mylist:hover {
-    color: #000;
-    background-color: #e6e6e6;
-    transition: all 0.2s;
 }

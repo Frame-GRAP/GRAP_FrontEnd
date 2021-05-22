@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {selectUser} from "../features/userSlice";
 import './MyListScreen.css';
 import Video from "../Video";
+import Footer from "../Footer";
 
 function MyListScreen() {
     const [myGameData, setMyGameData] = useState([]);
@@ -39,17 +40,21 @@ function MyListScreen() {
 
     if(loading) return (<div>Loading...</div>);
     return (
-        <div className="myListScreen">
-            <Nav />
-            <div className="myListScreen_body">
-                <h2>내가 찜한 목록</h2>
-                <div className="myListScreen_result">
-                    {myGameData.map((set,index) => (
-                        <Video OneOfGameData={set} myGame={myGame} />
-                    ))}
+        <>
+            <div className="myListScreen">
+                <Nav />
+                <div className="myListScreen_body">
+                    <h2>내가 찜한 목록</h2>
+                    <div className="myListScreen_result">
+                        {myGameData.map((set,index) => (
+                            <Video OneOfGameData={set} myGame={myGame} />
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+            <Footer />
+        </>
+
     )
 }
 

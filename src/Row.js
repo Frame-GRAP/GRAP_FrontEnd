@@ -64,8 +64,7 @@ function Row({ title, gameData, setPopupUrl, setVisible, posY }) {
                                 itemClass="list_item"
                                 sliderClass="row_posters"
                                 dotListClass="dot_list">
-                    {
-                        gameData.map((set, index) => (
+                    {gameData.map((set, index) => (
                             (set.videosId.length > 0) && (
                                 <Video
                                     key={index}

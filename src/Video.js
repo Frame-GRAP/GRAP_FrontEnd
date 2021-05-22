@@ -29,7 +29,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
     const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
-        async function fetchData() {
+        /*async function fetchData() {
             const gameId = OneOfGameData.id;
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
                 .then( (res) => {
@@ -38,7 +38,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
                     console.log(err);
                 });
             return videoData;
-        }
+        }*/
         async function check() {
             myGame.map((gameId) => {
                 if(gameId === OneOfGameData.id){
@@ -46,7 +46,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
                 }
             })
         }
-        fetchData();
+        //fetchData();
         check();
         setLoading(false);
         return () => {

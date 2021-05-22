@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./HomeScreen.css"
 import $ from "jquery"
 import styled from 'styled-components'
+import axios from 'axios'
 import grap_logo from '../../img/grap_logo2-1.png'
 
 
@@ -20,13 +21,12 @@ import PopupDeclaration from '../popup/PopupDeclaration'
 
 import {selectUser} from './../../features/userSlice'
 import {useSelector} from "react-redux";
-import Footer from "../../Footer";
 
 function HomeScreen(){
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(true);
     const [gameData, setGameData] = useState([]);
-    const [videoData, setVideoData] = useState([]);
+
 
     const [popupUrl, setPopupUrl] = useState("");
     const [popupGameData, setPopupGameData] = useState([]);
@@ -37,23 +37,20 @@ function HomeScreen(){
     const [declare_contents, setDeclare_contents] = useState("");
     const [declare_reviewId, setDeclare_reviewId] = useState(0);
 
-
-    // Data Fetch
-    const axios = require('axios');
+    const [category, setCategory] = useState(0);
     useEffect(()=> {
-        async function fetchData() {
-            const request = await axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/all");
+        axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/category/all")
+        .then((res)=>{
+            console.log(res.data);
+            setCategory(res.data[0]);
+        })
 
-            setGameData(request.data);
-            return request;
-        }
 
-        fetchData();
         setLoading(false);
         return () => {
             setLoading(true);
         }
-    }, []);
+    }, [])
 
     // popupGameData Fetch (popupUrl이 바뀔때 마다)
     useEffect(()=> {
@@ -104,6 +101,7 @@ function HomeScreen(){
     }, [])
 
     if(loading) return (<div>Loading...</div>);
+
     return (
         <>
         <div id="homeScreen" className="homeScreen">
@@ -112,22 +110,13 @@ function HomeScreen(){
             <Banner />
 
             <Row
-                title="All Games"
-                gameData={gameData}
+                category={category}
                 setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
                 posY={posY}
             />
             <Row
-                title="All Games"
-                gameData={gameData}
-                setPopupUrl={setPopupUrl}
-                setVisible={setVisible}
-                posY={posY}
-            />
-            <Row
-                title="All Games"
-                gameData={gameData}
+                category={category}
                 setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
                 posY={posY}
@@ -138,7 +127,6 @@ function HomeScreen(){
             <Modal
                 modalRef={modalRef}
                 visible={visible}
-                gameData={gameData}
                 posY={posY} >
                 {(visible &&
                 <>
@@ -191,8 +179,8 @@ function HomeScreen(){
                 declare_reviewId={declare_reviewId}
             />
         </div>
-            <Footer />
         </>
+
     )
 }
 

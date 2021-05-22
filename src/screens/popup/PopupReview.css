@@ -163,7 +163,7 @@
 }
 
 
-.abtn{
+.review_tab2{
     height:40px;
     line-height:40px;  
     border-radius:3px;
@@ -171,7 +171,7 @@
     font-size:13px;
     color: #fff;
 }
-.abtn ul {
+.review_tab2 ul {
     border:1px solid;  
     border-color: rgba(249, 250, 252, 0.5);
     border-top-left-radius: 3px;  
@@ -183,38 +183,38 @@
     padding-bottom:5px;
 }
   
-.abtn, 
-.abtn ul li {
+.review_tab2, 
+.review_tab2 ul li {
     width:50px;
     padding-left:20px;
     padding-right:16px;
 }
 
   
-.abtn:focus {
+.review_tab2:focus {
     border-top-left-radius: 0px;  
     border-top-right-radius:0px;
     border-top:0px;
     margin-top:1px;
     cursor:default;
 }
-.abtn ul li:hover{
+.review_tab2 ul li:hover{
      background-color:rgba(249, 250, 252, 0.2);
 }
 
-.opt-sel {
+.review_tab1 {
     position:relative;  
     outline: none;
     cursor:pointer;
 }
-.opt-sel ul{
+.review_tab1 ul{
     position:absolute;
     left:-1px; 
     top: 10px;
     list-style:none;
     margin:0;
 }
-.modify__ul{
+.review__modify__ul{
     display: none;
 }
 

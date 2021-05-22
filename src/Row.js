@@ -8,9 +8,12 @@ import {useSelector} from "react-redux";
 import {selectUser} from "./features/userSlice";
 
 
-function Row({ title, gameData, setPopupUrl, setVisible, posY }) {
+function Row({ category, setPopupUrl, setVisible, posY }) {
     const [loading, setLoading] = useState(true);
     const [myGame, setMyGame] = useState([]);
+
+    const [allGameData, setAllGameData] = useState([])
+    const [gameData, setGameData] = useState([]);
     const user = useSelector(selectUser);
 
     const responsive = {
@@ -31,11 +34,39 @@ function Row({ title, gameData, setPopupUrl, setVisible, posY }) {
         }
     };
 
+    function shuffleJson(data) {
+        for(var i=0; i<data.length; i++){
+            let j=Math.floor(Math.random() * (i+1));
+            [data[i], data[j]] = [data[j], data[i]];
+        }
+        // console.log(data);
+    }
+    // Data Fetch
+    useEffect(()=> {
+        // console.log(category.name);
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/categoryTab/category/${category.id}/game`)
+        .then((res) => {
+            shuffleJson(res.data);
+            setGameData(res.data);
+        })
+
+        /*axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/all")
+        .then((res)=>{
+            console.log(res.data);
+            setAllGameData(res.data);
+        })*/
+
+        setLoading(false);
+        return () => {
+            setLoading(true);
+        }
+    }, []);
+
     useEffect(() => {
         async function fetchFavorData() {
             const userId = user.user_id
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
-                .then( (res) => {
+                .then((res) => {
                     res.data.map((game) => {
                         const id = game.gameId;
                         setMyGame(myGame => [...myGame, id]);
@@ -50,10 +81,13 @@ function Row({ title, gameData, setPopupUrl, setVisible, posY }) {
         }
     }, [gameData]);
 
-    if(loading) return (<div>Loading...</div>);
+    
+
+    // if(loading) return (<div>Loading...</div>);
     return (
         <div className="row">
-            <h2>{title}</h2>
+            <h2>{category.name}</h2>
+            
             <div className="row_posters">
                 <Multi_Carousel className="row_carousel"
                                 swipeable={false}
@@ -64,8 +98,9 @@ function Row({ title, gameData, setPopupUrl, setVisible, posY }) {
                                 itemClass="list_item"
                                 sliderClass="row_posters"
                                 dotListClass="dot_list">
-                    {gameData.map((set, index) => (
-                            (set.videosId.length > 0) && (
+                    {
+                        (gameData.map((set, index) => (
+                            (index <= 20) && (
                                 <Video
                                     key={index}
                                     className="row_poster"
@@ -76,10 +111,10 @@ function Row({ title, gameData, setPopupUrl, setVisible, posY }) {
                                     myGame={myGame}
                                 />
                             )
-                        ))
+                        )))
                     }
                 </Multi_Carousel>
-            </div>
+            </div> 
         </div>
     )
 }

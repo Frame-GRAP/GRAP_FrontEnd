@@ -66,6 +66,10 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
 
     function OpenReviewDeclaration(e){ // 신고 창 여는 함수
         const reviewId = e.target.getAttribute('name');
+        const idx = e.target.getAttribute('index');
+
+        $(".review__modify__ul")[idx].style.display = "none" // 신고 버튼 누르면 Tab Close
+
         setDeclare_visible(true);
         setDeclare_part(false); // Part : 리뷰 신고
         setDeclare_reviewId(reviewId); // 신고할 Review Id
@@ -73,7 +77,9 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     
     function ModifyReview(e){ // 리뷰 수정
         const reviewId=e.target.getAttribute('name')
-        console.log(reviewId);
+        const idx = e.target.getAttribute('index');
+
+        $(".review__modify__ul")[idx].style.display = "none" // 수정 버튼 누르면 Tab Close
 
         reviewData.forEach((set) => {
             // console.log(set.review_id);
@@ -116,8 +122,11 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         setModifyBtn(false);
     }
 
-    function DeleteReview(e){ // 리뷰 삭제
+    function DeleteReview(e){ // 리뷰 삭제    
         const reviewId = e.target.getAttribute('name');
+        const idx = e.target.getAttribute('index');
+
+        $(".review__modify__ul")[idx].style.display = "none" // 삭제 버튼 누르면 Tab Close
 
         if(window.confirm("정말 삭제하시겠습니까?")===true) {
             axios({
@@ -125,6 +134,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/review/${reviewId}`
             })
             setReviewNum(prev=>prev-1)
+            
         }else{
             return;
         }
@@ -318,22 +328,15 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
 
     function OpenModifyReview(e){
         const index = e.target.getAttribute('index');
+        console.log($(".review__modify__ul")[index]);
 
         // ul tag display toggle
-        if($(".modify__ul")[index].style.display === "none"){
-            $(".modify__ul")[index].style.display = "block"
+        if($(".review__modify__ul")[index].style.display === "none"){
+            $(".review__modify__ul")[index].style.display = "block"
 
         }else{
-            $(".modify__ul")[index].style.display = "none"
-        }
-
-        // 배경 눌러도 탭 꺼지게
-        $(".popUp").click(function(){
-            for(var i=0; i<reviewNum; i++){
-                $(".modify__ul")[i].style.display = "none"
-            }
-        })
-        
+            $(".review__modify__ul")[index].style.display = "none"
+        }        
     }
     return (
         <div className="popup__Review">
@@ -410,20 +413,15 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                                     }
 
                                 </div>
-                                <div className="Review__btns">
-                                    {/* <span className="Review__btn" name={set.review_id} onClick={OpenReviewDeclaration} >신고</span>
-                                    <span className="Review__btn" name={set.review_id} onClick={ModifyReview} >수정</span>
-                                    <span className="Review__btn" name={set.review_id} onClick={DeleteReview} >삭제</span> */}
+                                <div className="Review__modifyTab">
                                     <button className="modify_ReviewBtn" onClick={OpenModifyReview} index={index}>▼</button>
-                                    <div className="opt-sel abtn">
-                                        <div className="sel-icon"></div>
-                                        <ul className="modify__ul">
-                                            <li name={set.review_id} onClick={ModifyReview}>수정</li>
-                                            <li name={set.review_id} onClick={DeleteReview}>삭제</li>
-                                            <li name={set.review_id} onClick={OpenReviewDeclaration}>신고</li>
+                                    <div className="review_tab1 review_tab2">
+                                        <ul className="review__modify__ul">
+                                            <li index={index}name={set.review_id} onClick={ModifyReview}>수정</li>
+                                            <li index={index}name={set.review_id} onClick={DeleteReview}>삭제</li>
+                                            <li index={index}name={set.review_id} onClick={OpenReviewDeclaration}>신고</li>
                                         </ul>
                                     </div>
-                                    
                                 </div>
                             </div>   
                         ) 

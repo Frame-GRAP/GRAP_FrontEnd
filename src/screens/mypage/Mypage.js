@@ -1,11 +1,13 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useHistory} from "react-router-dom";
 import './Mypage.css'
 
 import grap_logo from './../../img/grap_logo2-1.png';
+import axios from 'axios';
 
 function Mypage() {
     const history = useHistory();
+
 
     return (
         <div className="mypage">

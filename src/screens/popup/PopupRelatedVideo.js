@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import "./PopupRelatedVideo.css"
+import {AiOutlineDislike, AiOutlineLike, AiFillLike, AiFillDislike} from 'react-icons/ai'
 
 function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
     const [videoData, setVideoData] = useState([]);
@@ -15,6 +16,7 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
         }
         
         fetchData();
+        console.log(videoData);
     }, [popupGameData]);
 
     
@@ -48,9 +50,15 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
                                 onClick={toggleMainVideo}
                             />
                             <div className="related_desc">
-                                <div className="video_title">머니게임 8화 리뷰</div>
-                                <div className="video_uploader">논리왕 전기</div>
-                                <div className="video_visitednum">조회수 311만회 · 1일 전</div>
+                                <div 
+                                    className="video_title" 
+                                    id={index}
+                                    onClick={toggleMainVideo}
+                                >{set.title}</div>
+                                <div className="video_uploader">{set.uploader}</div>
+                                <div className="video_visitednum">
+                                    <AiFillLike size="17" className="likeBtns"/>&nbsp;{set.liked===0 ? 0 : set.like} · {set.length}
+                                </div>
                             </div>
                         </div>
                         </>

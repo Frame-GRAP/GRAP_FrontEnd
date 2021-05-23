@@ -11,6 +11,7 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
         async function fetchData() {
             const request = await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`);
 
+            console.log(request.data);
             setVideoData(request.data);
             return request;
         }
@@ -27,7 +28,7 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
 
     return (
         <div className="popup__Related_Video">
-            <div className="related__Title title__font">Related Video</div>
+            {/* <div className="related__Title title__font">Related Video</div> */}
             <div className="related__Video">
                 {videoData.map((set, index) => {
                     return (
@@ -56,8 +57,9 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
                                     onClick={toggleMainVideo}
                                 >{set.title}</div>
                                 <div className="video_uploader">{set.uploader}</div>
-                                <div className="video_visitednum">
-                                    <AiFillLike size="17" className="likeBtns"/>&nbsp;{set.liked===0 ? 0 : set.like} · {set.length}
+                                <div className="video_length">
+                                    {/* <AiFillLike size="17" className="likeBtns"/>&nbsp;{set.liked===0 ? 0 : set.like} · {set.length} */}
+                                    {set.length}
                                 </div>
                             </div>
                         </div>

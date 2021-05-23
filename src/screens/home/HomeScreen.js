@@ -27,7 +27,6 @@ function HomeScreen(){
     const [loading, setLoading] = useState(true);
     const [gameData, setGameData] = useState([]);
 
-
     const [popupUrl, setPopupUrl] = useState("");
     const [popupGameData, setPopupGameData] = useState([]);
     const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(0);
@@ -38,13 +37,28 @@ function HomeScreen(){
     const [declare_reviewId, setDeclare_reviewId] = useState(0);
 
     const [category, setCategory] = useState(0);
+
+    const [result, setResult] = useState([]);
+    let resultAry = []
     useEffect(()=> {
+        let ary = [ // 대신에 유저에서 받아온 category id json이 들어감.
+            {id: 7},
+            {id: 9},
+            {id: 10}
+        ];
+        
         axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/category/all")
         .then((res)=>{
             console.log(res.data);
+            ary.forEach((set) => {
+                resultAry.push(res.data.find(data => data.id === Number(set.id)));
+            })
+            // console.log(resultAry);
+            setResult(resultAry);
             setCategory(res.data[0]);
         })
-
+        // console.log(category);
+        // console.log(result);
 
         setLoading(false);
         return () => {
@@ -56,6 +70,7 @@ function HomeScreen(){
     useEffect(()=> {
         async function fetchData() {
             const request = await axios.get(popupUrl);
+            console.log(request.data)
 
             setPopupGameData(request.data);
             return request;
@@ -109,18 +124,20 @@ function HomeScreen(){
 
             <Banner />
 
-            <Row
-                category={category}
-                setPopupUrl={setPopupUrl}
-                setVisible={setVisible}
-                posY={posY}
-            />
-            <Row
-                category={category}
-                setPopupUrl={setPopupUrl}
-                setVisible={setVisible}
-                posY={posY}
-            />
+            {
+                result.map((set, index) => {
+                    return(
+                        <Row
+                            category={set}
+                            setPopupUrl={setPopupUrl}
+                            setVisible={setVisible}
+                            posY={posY}
+                        />
+                    )
+                })
+            }
+
+
 
         </div>
         <div>
@@ -131,7 +148,7 @@ function HomeScreen(){
                 {(visible &&
                 <>
                     <img
-                        className='modal__logo'
+                        className='popup__logo'
                         src={grap_logo}
                         alt=""
                     />

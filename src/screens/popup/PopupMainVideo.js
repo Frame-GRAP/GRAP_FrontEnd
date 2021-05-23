@@ -41,7 +41,7 @@ function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible,
     return (
         <>
         <div className="popup__Main_video">
-            <div className="Main__title title__font">Streamer Video</div><br/>
+            {/* <div className="Main__title title__font">Streamer Video</div><br/> */}
             <iframe
                 className="game__video"
                 src={player_Url}

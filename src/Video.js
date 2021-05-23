@@ -19,7 +19,7 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {grey} from "@material-ui/core/colors";
 
-function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
+function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame, isvideo}) {
     const [loading, setLoading] = useState(true);
     const [content, toggleContent] = useState(true);
     const [delayHandler, setDelayHandler] = useState(null);
@@ -29,16 +29,19 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
     const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
-        /*async function fetchData() {
+        async function fetchData() {
             const gameId = OneOfGameData.id;
-            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
-                .then( (res) => {
-                    setVideoData(res.data[0]);
-                }).catch((err)=> {
-                    console.log(err);
-                });
+
+            // await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`)
+            .then( (res) => {
+                setVideoData(res.data[0]);
+            }).catch((err)=> {
+                // console.log(err);
+            });
             return videoData;
-        }*/
+
+        }
         async function check() {
             myGame.map((gameId) => {
                 if(gameId === OneOfGameData.id){
@@ -46,7 +49,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
                 }
             })
         }
-        //fetchData();
+        fetchData();
         check();
         setLoading(false);
         return () => {
@@ -72,7 +75,9 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
         e.preventDefault();
         setAnchorEl(null);
         const popupId = Number(e.target.id);
-        setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
+        console.log(popupId)
+        setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1`);
+        // setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
 
         setVisible(true);
         posY = Math.round($(window).scrollTop());
@@ -111,12 +116,14 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
 
 
 
-    let player_Url;
+    let player_Url = "";
     if(videoData.platform === "twitch"){
         player_Url = `https://clips.twitch.tv/embed?clip=${videoData.urlKey}&parent=localhost&controls=0&autoplay=true&origin=http://localhost:3000`
     }else if(videoData.platform === "youtube"){
         player_Url = `https://www.youtube.com/embed/${videoData.urlKey}?autoplay=1&mute=0&controls=0`
     }
+    
+
 
     const handleOver = event => {
         setAnchorEl(event.currentTarget);
@@ -157,6 +164,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
                         vertical: "top",
                         horizontal: "center"
                     }}
+                    // container={}
                 >
                     <div className="row_item" onMouseLeave={handleOut}>
                         <iframe
@@ -200,36 +208,6 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame}) {
                     </div>
                 </Popover>
             </MuiThemeProvider>
-            {/*{ content ? (
-                    <div className="row_item">
-                        <img className="row_img" src={OneOfGameData.headerImg} alt="game"/>
-                    </div>
-                ) : (
-                    <div className="row_item">
-                        <iframe
-                            className="row_video"
-                            width="95%" height="95%"
-                            src={player_Url}
-                            scrolling="no"
-                            frameBorder="0"
-                            allow="autoplay"/>
-                        <button
-                            className="game_info"
-                            id={OneOfGameData.id}
-                            onClick={OpenModal}
-                        >상세정보</button>
-                        {!isAdded ? (
-                            <button
-                                className="add_mylist"
-                                onClick={(e) => addMyList(OneOfGameData.id, e)}
-                            >찜</button>
-                        ) : (
-                            <button
-                                className="add_mylist"
-                                onClick={(e) => deleteMyList(OneOfGameData.id, e)}
-                            >찜 취소</button>)}
-                    </div>
-                )}*/}
         </div>
     );
 }

@@ -11,8 +11,10 @@
     font-family: 'Oswald', sans-serif;
 }
 
-.comment{
-    font-size: 14px;
+.Review__comment{
+    font-size: 12px;
+    font-family: 'Noto Sans', sans-serif;
+
 }
 
 /* Reviews 데이터 받아온 것 CSS, Scroll 기능 등 */
@@ -65,7 +67,7 @@
     flex: 2.1;
     margin-top: 5px;
 }
-.Review__likes{display: flex; font-size: 15px; color: gray}
+.Review__likes{display: flex; font-size: 15px; color: gray; margin-bottom: 10px;}
 .like {margin-right: 10px; cursor: pointer;}
 .Name{
     font-size: 15px;

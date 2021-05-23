@@ -15,15 +15,20 @@ function UserInfo() {
         const answer1 = nickname.current.value;
 
         const question2 = document.getElementsByName("question2_selectBtn");
+        // console.log(question2);
         let answer2=[];
         question2.forEach((set) => {
+            console.log(set);
             if(set.checked===true){
                 console.log(set.value);
                 answer2.push(set.value);
             }
         })
 
-        console.log(answer1, answer2);
+        const temp = answer2.map((set, index) => {
+            return {'gameid' : set}
+        })
+        console.log(answer1, answer2, temp);
     }
 
     function IsOverlap(){

@@ -7,17 +7,19 @@
 .related__Title {
     padding-top: 20px;
     padding-left: 20px;
+    /* padding-bottom: 20px; */
     margin: 0px 5px;
 }
 
 .related__Video {
     height: 1500px;
-    padding: 20px 20px;
-    margin: 5px 5px;
+    padding: 0px 20px 20px 20px;
+    margin: 25px 5px 5px 5px;
     overflow-y: scroll;
 }
 .related__Video::-webkit-scrollbar {
-    width: 20px;
+    /* width: 20px; */
+    width: 0px;
 }
 .related__Video::-webkit-scrollbar-thumb {
     background-color: gray;
@@ -35,7 +37,7 @@
     margin-bottom: 10px;
 }
 .related_poster {
-    height: 70px;
+    height: 100px;
     flex: 1;
 
     width: 90%;
@@ -49,10 +51,10 @@
 } 
 .related_desc{
     flex: 6;
-    padding-left: 5px;
+    padding-left: 10px;
 }
 .video_title{
-    font-size: 17px;
+    font-size: 14px;
     margin-bottom: 5px;
     cursor: pointer;
 }
@@ -60,8 +62,8 @@
     font-size: 12px;
     color: gray;
 }
-.video_visitednum{
-    font-size: 12px;
+.video_length{
+    font-size: 13px;
     color: gray;
 }
 .likeBtns{

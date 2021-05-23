@@ -8,8 +8,10 @@ import $ from "jquery"
 
 import StarRating from './StarRating'
 import ReviewStarRating from './ReviewStarRating'
-import User_Icon from "../../img/user_icon.png"
+import User_Icon from "../../img/review_user.png"
 import {AiOutlineDislike, AiOutlineLike, AiFillLike, AiFillDislike} from 'react-icons/ai'
+
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 import img from './../../img/white_icon.png'
 
@@ -31,7 +33,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     const [modifyReviewComplete, setModifyReviewComplete] = useState(false); // 수정 완료시 갱신.
 
     // user, ref
-    const userId = useSelector(selectUser).user_id.id;
+    const userId = useSelector(selectUser).user_id;
     const commentRef = useRef();
     const modifyRef = useRef();
     
@@ -349,9 +351,11 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                         // {console.log(set.reviewValue)}
                         return (
                             <div className="Review" key={index}>
+                                {/* <AccountBoxIcon className="Review__profile__image" fontSize="large" /> */}
                                 <img src={User_Icon} className="Review__profile__image"></img>
+
                                 <div className="Reveiw__items">
-                                    <span className="Name">{set.username}&nbsp;review_id:{set.review_id}</span><br/>
+                                    <span className="Name">{set.username}&nbsp;</span><br/>
                                     
                                     {(set.modify===1) ? (  
                                         <>                                  
@@ -407,7 +411,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                                                 )}&nbsp;&nbsp;{set.dislike} &nbsp;
                                             </div>
                                             
-                                            <span className="comment">{set.content}</span><br/>
+                                            <span className="Review__comment">{set.content}</span><br/>
                                             </>
                                         )
                                     }

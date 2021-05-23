@@ -18,7 +18,7 @@ function StarRating({starRatingNum}) {
                         return (
                             <FaStar
                                 color={ratingValue <= (starRatingNum || hover) ? "#ffc107" : "#e4e5e9"}
-                                size={15} 
+                                size={18} 
                                 key={i}
                             />
                             

@@ -11,8 +11,6 @@ import {selectUser} from "./features/userSlice";
 function Row({ category, setPopupUrl, setVisible, posY }) {
     const [loading, setLoading] = useState(true);
     const [myGame, setMyGame] = useState([]);
-
-    const [allGameData, setAllGameData] = useState([])
     const [gameData, setGameData] = useState([]);
     const user = useSelector(selectUser);
 
@@ -35,26 +33,25 @@ function Row({ category, setPopupUrl, setVisible, posY }) {
     };
 
     function shuffleJson(data) {
-        for(var i=0; i<data.length; i++){
-            let j=Math.floor(Math.random() * (i+1));
-            [data[i], data[j]] = [data[j], data[i]];
-        }
-        // console.log(data);
+        data.sort(()=> Math.random() - 0.5);
+        return data;
     }
     // Data Fetch
+    const [lastGame, setLastGame] = useState([]);
     useEffect(()=> {
-        // console.log(category.name);
         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/categoryTab/category/${category.id}/game`)
         .then((res) => {
-            shuffleJson(res.data);
-            setGameData(res.data);
+            if(res){
+                setLastGame(res.data.pop());
+                shuffleJson(res.data);
+                setGameData(res.data);
+            }else{
+                console.log("err");
+            }
         })
 
-        /*axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/all")
-        .then((res)=>{
-            console.log(res.data);
-            setAllGameData(res.data);
-        })*/
+        // console.log(lastGame);
+        // console.log(gameData);
 
         setLoading(false);
         return () => {
@@ -83,7 +80,7 @@ function Row({ category, setPopupUrl, setVisible, posY }) {
 
     
 
-    // if(loading) return (<div>Loading...</div>);
+    if(loading) return (<div>Loading...</div>);
     return (
         <div className="row">
             <h2>{category.name}</h2>
@@ -99,8 +96,21 @@ function Row({ category, setPopupUrl, setVisible, posY }) {
                                 sliderClass="row_posters"
                                 dotListClass="dot_list">
                     {
+                        <Video
+                            key="59"
+                            className="row_poster"
+                            OneOfGameData={lastGame}
+                            setVisible={setVisible}
+                            setPopupUrl={setPopupUrl}
+                            posY={posY}
+                            myGame={myGame}
+                            isvideo="1"
+                        />
+                    }
+
+                    {
                         (gameData.map((set, index) => (
-                            (index <= 20) && (
+                            (index <= 10 && set.name!==`${lastGame}`) && (
                                 <Video
                                     key={index}
                                     className="row_poster"
@@ -109,6 +119,7 @@ function Row({ category, setPopupUrl, setVisible, posY }) {
                                     setPopupUrl={setPopupUrl}
                                     posY={posY}
                                     myGame={myGame}
+                                    isvideo="0"
                                 />
                             )
                         )))

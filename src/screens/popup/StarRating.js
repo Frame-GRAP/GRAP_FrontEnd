@@ -12,16 +12,16 @@ function StarRating({starRatingNum}) {
             {bool ? (
                 <div>
                     {[...Array(5)].map((star, i) => {
-                        const ratingValue = i + 1;    
+                        const ratingValue = i + 1;
 
 
                         return (
                             <FaStar
                                 color={ratingValue <= (starRatingNum || hover) ? "#ffc107" : "#e4e5e9"}
-                                size={15} 
+                                size={18}
                                 key={i}
                             />
-                            
+
                         );
                     })}
                 </div>
@@ -31,7 +31,7 @@ function StarRating({starRatingNum}) {
                         return (
                             <FaStar
                                 color="#ffc107"
-                                size={15} 
+                                size={18}
                                 key={i}
                             />
                         );

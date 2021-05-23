@@ -1,15 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
 import './Nav.css';
 import grap_logo from './img/grap_logo2-1.png';
-import search from './img/search.jpg';
-import profile from './img/profile_big.png';
-import membership from './img/membership.jpg';
 import {useHistory} from "react-router-dom";
-import {CgSearch} from 'react-icons/cg'
 import {useDispatch, useSelector} from "react-redux";
 import {logout, selectUser} from "./features/userSlice";
 import {IconButton} from "@material-ui/core";
-import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import {grey} from "@material-ui/core/colors";
 import SearchIcon from '@material-ui/icons/Search';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';

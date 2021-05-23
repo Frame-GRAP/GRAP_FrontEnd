@@ -21,12 +21,12 @@ import PopupDeclaration from '../popup/PopupDeclaration'
 
 import {selectUser} from './../../features/userSlice'
 import {useSelector} from "react-redux";
+import Footer from "../../Footer";
+import Delay from "react-delay/lib/Delay";
 
 function HomeScreen(){
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [gameData, setGameData] = useState([]);
-
 
     const [popupUrl, setPopupUrl] = useState("");
     const [popupGameData, setPopupGameData] = useState([]);
@@ -37,13 +37,21 @@ function HomeScreen(){
     const [declare_contents, setDeclare_contents] = useState("");
     const [declare_reviewId, setDeclare_reviewId] = useState(0);
 
-    const [category, setCategory] = useState(0);
+    const [categoryResult, setCategoryResult] = useState([]);
+
+    const [userOwnCategory, setUserOwnCategory] = useState([]);
+    const user = useSelector(selectUser);
+
     useEffect(()=> {
-        axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/category/all")
-        .then((res)=>{
-            console.log(res.data);
-            setCategory(res.data[0]);
-        })
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/userCategoryPreference/all`)
+            .then((res) => {
+                setUserOwnCategory(res.data[1]);
+                setCategoryResult(res.data);
+            })
+
+        ///인기급상승 api 추가
+
+
 
 
         setLoading(false);
@@ -93,92 +101,113 @@ function HomeScreen(){
 
         $(".modal_background").click(function(e) {
             if(modalRef.current === e.target){
-              setVisible(false);
-              $("#homeScreen").removeClass("not_scroll");
-              $("#homeScreen").scrollTop(posY);
+                setVisible(false);
+                $("#homeScreen").removeClass("not_scroll");
+                $("#homeScreen").scrollTop(posY);
             }
         })
     }, [])
 
     if(loading) return (<div>Loading...</div>);
-
     return (
         <>
-        <div id="homeScreen" className="homeScreen">
-            <Nav />
+            <div id="homeScreen" className="homeScreen">
+                <Nav />
 
-            <Banner />
 
-            <Row
-                category={category}
-                setPopupUrl={setPopupUrl}
-                setVisible={setVisible}
-                posY={posY}
-            />
-            <Row
-                category={category}
-                setPopupUrl={setPopupUrl}
-                setVisible={setVisible}
-                posY={posY}
-            />
+                <Banner />
 
-        </div>
-        <div>
-            <Modal
-                modalRef={modalRef}
-                visible={visible}
-                posY={posY} >
-                {(visible &&
-                <>
-                    <img
-                        className='modal__logo'
-                        src={grap_logo}
-                        alt=""
-                    />
+                <Row
+                    title={`${user.nickname}님을 위한 맞춤 콘텐츠`}
+                    category={userOwnCategory}
+                    setPopupUrl={setPopupUrl}
+                    setVisible={setVisible}
+                    posY={posY}
+                />
 
-                    <div className="popUp">
-                        <div className="videos">
-                            <div className="video">
-                                <PopupMainVideo
-                                    popupGameData={popupGameData}
-                                    popupMainVideoIndex={popupMainVideoIndex}
-                                    setDeclare_visible={setDeclare_visible}
-                                    setDeclare_part={setDeclare_part}
-                                />
-                                <PopupGameDescription
-                                    popupGameData={popupGameData}
-                                />
-                                <PopupReview
-                                    popupGameData={popupGameData}
-                                    setDeclare_visible={setDeclare_visible}
-                                    setDeclare_part={setDeclare_part}
-                                    setDeclare_reviewId={setDeclare_reviewId}
-                                />
+                <Row
+                    title={`실시간 인기 급상승`}
+                    category={userOwnCategory}
+                    setPopupUrl={setPopupUrl}
+                    setVisible={setVisible}
+                    posY={posY}
+                />
+
+                {
+                    categoryResult.map((set, index) => {
+                        return(
+                            <Row
+                                key={index}
+                                title={`${set.uiName} 게임`}
+                                category={set}
+                                setPopupUrl={setPopupUrl}
+                                setVisible={setVisible}
+                                posY={posY}
+                            />
+                        )
+                    })
+                }
+
+
+
+            </div>
+            <div>
+                <Modal
+                    modalRef={modalRef}
+                    visible={visible}
+                    posY={posY} >
+                    {(visible &&
+                        <>
+                            <img
+                                className='popup__logo'
+                                src={grap_logo}
+                                alt=""
+                            />
+
+                            <div className="popUp">
+                                <div className="videos">
+                                    <div className="video">
+                                        <PopupMainVideo
+                                            popupGameData={popupGameData}
+                                            popupMainVideoIndex={popupMainVideoIndex}
+                                            setDeclare_visible={setDeclare_visible}
+                                            setDeclare_part={setDeclare_part}
+                                        />
+                                        <PopupGameDescription
+                                            popupGameData={popupGameData}
+                                        />
+                                        <PopupReview
+                                            popupGameData={popupGameData}
+                                            setDeclare_visible={setDeclare_visible}
+                                            setDeclare_part={setDeclare_part}
+                                            setDeclare_reviewId={setDeclare_reviewId}
+                                        />
+                                    </div>
+                                    <div className="video">
+                                        <PopupRelatedVideo
+                                            popupGameData={popupGameData}
+                                            setPopupMainVideoIndex={setPopupMainVideoIndex}
+                                        />
+                                    </div>
+                                </div>
+
                             </div>
-                            <div className="video">
-                                <PopupRelatedVideo
-                                    popupGameData={popupGameData}
-                                    setPopupMainVideoIndex={setPopupMainVideoIndex}
-                                />
-                            </div>
-                        </div>
+                        </>
+                    )}
+                </Modal>
 
-                    </div>
-                </>
-                )}
-            </Modal>
-
-            <PopupDeclaration
-                popupGameData={popupGameData}
-                popupMainVideoIndex={popupMainVideoIndex}
-                declare_visible={declare_visible}
-                setDeclare_visible={setDeclare_visible}
-                declare_part={declare_part}
-                declare_contents={declare_contents}
-                setDeclare_contents={setDeclare_contents}
-                declare_reviewId={declare_reviewId}
-            />
-        </div>
+                <PopupDeclaration
+                    popupGameData={popupGameData}
+                    popupMainVideoIndex={popupMainVideoIndex}
+                    declare_visible={declare_visible}
+                    setDeclare_visible={setDeclare_visible}
+                    declare_part={declare_part}
+                    declare_contents={declare_contents}
+                    setDeclare_contents={setDeclare_contents}
+                    declare_reviewId={declare_reviewId}
+                />
+            </div>
+            <Footer />
         </>
 
     )

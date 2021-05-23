@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import "./PopupMainVideo.css"
-import $ from "jquery"
 
 function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible, setDeclare_part }) {    
     const [mainVideo, setMainVideo] = useState([]);
@@ -24,20 +23,10 @@ function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible,
     }  
 
     function OpenVideoDeclaration(){
-        $(".video__modify__ul").css("display","none")
         setDeclare_visible(true);
         setDeclare_part(true);
     }
 
-    function OpenVideoTab(e){
-        console.log($(".video__modify__ul")[0])
-        if($(".video__modify__ul")[0].style.display === "none"){
-            $(".video__modify__ul").css("display","block")
-        }else{
-            $(".video__modify__ul").css("display","none")
-        }
-    }
-    
     return (
         <>
         <div className="popup__Main_video">
@@ -51,15 +40,7 @@ function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible,
                 frameborder="0"
                 allowFullScreen
             />
-            {/* <span className="Video__declaration2" onClick={OpenVideoDeclaration}>신고</span> */}
-            <div className="Video__btns">
-                <button className="modify_VideoBtn" onClick={OpenVideoTab}>▼</button>
-                <div className="video_tab1 video_tab2">
-                    <ul className="video__modify__ul" >
-                        <li onClick={OpenVideoDeclaration}>신고</li>
-                    </ul>
-                </div>
-            </div>
+            <span className="Video__declaration2" onClick={OpenVideoDeclaration}>신고</span>
         </div>       
         </>
     )

@@ -28,10 +28,19 @@ function LoginScreen(){
             if(res){
                 dispatch(login({
                     user_id : res.data.id,
-                    name : user.name
+                    name : user.name,
+                    nickname: res.data.nickName
                 }))
-
-                history.push("/");
+                window.localStorage.setItem("user_id", JSON.stringify(res.data.id));
+                window.localStorage.setItem("name", JSON.stringify(user.name));
+                window.localStorage.setItem("nickname", JSON.stringify(res.data.nickName));
+                if(res.data.isRegistered == 1 && res.data.nickname !== null){
+                    //history.push("/userInfo");
+                    history.push("/");
+                }
+                else{
+                    history.push("/userInfo");
+                }
             }
             else
                 alert("fail");
@@ -39,6 +48,7 @@ function LoginScreen(){
     }
 
     const responseFail = (err) => {
+        console.log(err.error);
         alert(err);
     }
 
@@ -56,7 +66,7 @@ function LoginScreen(){
                 <div className="loginScreen_input">
                     <form>
                         <h1>로그인</h1>
-                        <h2>GRAP 게정으로 로그인</h2>
+                        <h2>GRAP 계정으로 로그인</h2>
                         <input ref={emailRef} placeholder="Email" type="email" />
                         <input ref={passwordRef} placeholder="Password" type="password" />
                         <button type="submit">로그인</button>
@@ -77,7 +87,9 @@ function LoginScreen(){
                     <GoogleLogin
                         className="sns_icon google"
                         clientId="803232667536-pn5n3kpul7vsq0uftg6np601iikka7e6.apps.googleusercontent.com"
-                        buttonText={GoogleLogin}
+                        render={renderProps => (
+                            <span onClick={renderProps.onClick} disabled={renderProps.disabled} className="sns_icon google"></span>
+                        )}
                         onSuccess={responseSuccess}
                         onFailure={responseFail}
                     />

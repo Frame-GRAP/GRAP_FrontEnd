@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./PopupGameDescription.css"
 import moment from 'moment'
 
 
 
 function PopupGameDescription({popupGameData}) {
+    const [loading, setLoading] = useState(false);
 
+    useEffect(()=>{
+        setLoading(false);
+        return () => {
+            setLoading(true);
+        }
+    }, [popupGameData])
+
+    if(loading) return (<div>Loading...</div>);
     return (
         <div className="popup__Description">
             {/* <div className="title__font">Game Description</div> */}
@@ -16,43 +25,46 @@ function PopupGameDescription({popupGameData}) {
                     <img src={popupGameData.headerImg} />
                 </div>
                 <div className="game__Description">
-                    <p className="detail__Description">
-                        <div className="detail__content"> 
-                            <div className="detail__title">Game Name</div>
-                            <div className="detail__desc">{popupGameData.name}</div>
+                    <div className="detail__Description">
+                        {popupGameData.description}
+                    </div>
+                    <div className="detail__content">
+                        <div className="detail__title">
+                            <div className="detail__name">Developer</div>
+                            <div className="detail__name">Publisher</div>
+                            <div className="detail__name">ReleaseDate</div>
                         </div>
-                        <div className="detail__content"> 
-                            <div className="detail__title">Description</div>
-                            <div className="detail__desc">{popupGameData.description}</div>
-                        </div>
-                        <div className="detail__content"> 
-                            <div className="detail__title">Developer</div>
-                            <div className="detail__desc">{popupGameData.developer}</div>
-                        </div>
-                        <div className="detail__content"> 
-                            <div className="detail__title">Publisher</div>
-                            <div className="detail__desc">{popupGameData.publisher}</div>
-                        </div>
-                        <div className="detail__content"> 
-                            <div className="detail__title">ReleaseDate</div>
-                            <div className="detail__desc">{popupGameData.releaseDate}</div>
-                        </div>
-                        <div className="detail__content"> 
-                            <div className="detail__title">Crawling Date</div>
-                            <div className="detail__desc">
-                                {moment(popupGameData.lastVideoCrawled).format('YYYY-MM-DD HH:mm:ss')}
+                        <div className="detail__desc">
+                            <div className="detail__detail">
+                                {
+                                    popupGameData.developer
+                                    // .replace("[","")
+                                    // .replace("]","")
+                                    // .replace("\"","" )
+                                    // .replace("\"","" )
+                                }
                             </div>
-                        </div><br/><br />
-                        <div className="detail__content"> 
-                            <div className="detail__title">Download</div>
-                            <div className="detail__desc">
-                                <a href={popupGameData.downloadUrl}>
-                                    {popupGameData.downloadUrl}
-                                </a>
+                            <div className="detail__detail">
+                                {
+                                    popupGameData.publisher
+                                    // .replace("[","")
+                                    // .replace("]","")
+                                    // .replace("\"","" )
+                                    // .replace("\"","" )
+                                }
                             </div>
+                            <div className="detail__detail">{popupGameData.releaseDate}</div>
                         </div>
-                    </p>
-                </div>      
+
+                    </div>
+                    <div className="detail_download">
+                        <a
+                            // href={popupGameData.downloadUrl}
+                        >
+                            <button className="download_btn">다운로드</button>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     )

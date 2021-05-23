@@ -35,6 +35,9 @@
     background-color: black;
 }*/
 
+.react-multi-carousel-item {
+    padding: 10px;
+}
 
 .react-multi-carousel-dot {
     margin-right: 5px;

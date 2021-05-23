@@ -11,13 +11,15 @@ import ReviewStarRating from './ReviewStarRating'
 import User_Icon from "../../img/user_icon.png"
 import {AiOutlineDislike, AiOutlineLike, AiFillLike, AiFillDislike} from 'react-icons/ai'
 
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+
 import img from './../../img/white_icon.png'
 
 function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDeclare_reviewId}) {
     const [rating, setRating] = useState(0);
     const [modifyRating, setModifyRating] = useState(0);
     const [reviewData, setReviewData] = useState([]);
-    
+
 
     // 갱신을 위한 값
     const [reviewNum, setReviewNum] = useState(0); // 리뷰 등록, 삭제시 갱신
@@ -31,11 +33,11 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     const [modifyReviewComplete, setModifyReviewComplete] = useState(false); // 수정 완료시 갱신.
 
     // user, ref
-    const userId = useSelector(selectUser).user_id.id;
+    const userId = useSelector(selectUser).user_id;
     const commentRef = useRef();
     const modifyRef = useRef();
-    
-    
+
+
     function RegistReview(){ // 리뷰 등록
         // 변수에 값 저장하여 백엔드로 axios.get or post
         // 보낼 값 : 평점(rating), 리뷰(comment), 유저Id, 댓글 단 날짜.
@@ -60,8 +62,8 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         }
         // Default 값으로 변경
         setRating(0);
-        commentRef.current.value = "";    
-          
+        commentRef.current.value = "";
+
     }
 
     function OpenReviewDeclaration(e){ // 신고 창 여는 함수
@@ -74,7 +76,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         setDeclare_part(false); // Part : 리뷰 신고
         setDeclare_reviewId(reviewId); // 신고할 Review Id
     }
-    
+
     function ModifyReview(e){ // 리뷰 수정
         const reviewId=e.target.getAttribute('name')
         const idx = e.target.getAttribute('index');
@@ -115,14 +117,14 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         setModifyRating(0);
         modifyRef.current.value = "";
         setModifyBtn(false);
-        
+
     }
     function CancleModify(e){ // 리뷰 수정 취소
         reviewData[e.target.getAttribute('index')].modify=0;
         setModifyBtn(false);
     }
 
-    function DeleteReview(e){ // 리뷰 삭제    
+    function DeleteReview(e){ // 리뷰 삭제
         const reviewId = e.target.getAttribute('name');
         const idx = e.target.getAttribute('index');
 
@@ -134,7 +136,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/review/${reviewId}`
             })
             setReviewNum(prev=>prev-1)
-            
+
         }else{
             return;
         }
@@ -159,9 +161,9 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
             if(user_ReviewValue===true){ // 기존에 있던 평가 : Like
                 // DELETE
                 console.log("(Like)Delete~!")
-                axios({            
+                axios({
                     method : 'delete',
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue` 
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`
                 }).then((res)=> {
                     if(res){
                         console.log(res);
@@ -173,7 +175,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 // PUT. Dislike -> Like
                 console.log("(Like)Put~!")
 
-                axios({            
+                axios({
                     method : 'put',
                     url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`,
                     data : {
@@ -191,7 +193,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 // POST
                 console.log("(Like)Post~!")
 
-                axios({            
+                axios({
                     method : 'POST',
                     url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`,
                     data : {
@@ -208,7 +210,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
             setChangeLikeBtn(!changeLikeBtn);
 
         })
-        
+
     }
 
     function UpDislike(e){
@@ -230,7 +232,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
             if(user_ReviewValue===false){ // 기존에 있던 평가 : Dislike
                 // DELETE
                 console.log("(Dislike)Delete~!")
-                axios({            
+                axios({
                     method : 'DELETE',
                     url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`
                 }).then((res)=> {
@@ -243,7 +245,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
             }else if(user_ReviewValue===true){ // 기존에 있던 평가 : Like
                 // PUT. Like -> Dislike
                 console.log("(Dislike)Put~!")
-                axios({            
+                axios({
                     method : 'PUT',
                     url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`,
                     data : {
@@ -256,11 +258,11 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                         console.log("error");
                     }
                 })
-                
+
             }else if(user_ReviewValue===null){ // 해당 리뷰에 대한 유저의 평가가 존재 안함
                 // POST
                 console.log("(Dislike)Post~!");
-                axios({            
+                axios({
                     method : 'POST',
                     url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${reviewId}/reviewValue`,
                     data : {
@@ -299,17 +301,17 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                     })
 
                     axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/review/${set.review_id}/reviewValueTrue`)
-                    .then((res)=>{
-                        set.like=res.data;
-                        setChangeLike(changeLike => [...changeLike, res.data]);
-                    })
-                
+                        .then((res)=>{
+                            set.like=res.data;
+                            setChangeLike(changeLike => [...changeLike, res.data]);
+                        })
+
                     axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/review/${set.review_id}/reviewValueFalse`)
-                    .then((res)=>{
-                        set.dislike=res.data;
-                        setChangeDislike(changedislike => [...changedislike, res.data]);
-                    })
- 
+                        .then((res)=>{
+                            set.dislike=res.data;
+                            setChangeDislike(changedislike => [...changedislike, res.data]);
+                        })
+
 
                     return set;
                 })
@@ -336,7 +338,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
 
         }else{
             $(".review__modify__ul")[index].style.display = "none"
-        }        
+        }
     }
     return (
         <div className="popup__Review">
@@ -349,33 +351,35 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                         // {console.log(set.reviewValue)}
                         return (
                             <div className="Review" key={index}>
+                                {/* <AccountBoxIcon className="Review__profile__image" fontSize="large" /> */}
                                 <img src={User_Icon} className="Review__profile__image"></img>
+
                                 <div className="Reveiw__items">
-                                    <span className="Name">{set.username}&nbsp;review_id:{set.review_id}</span><br/>
-                                    
-                                    {(set.modify===1) ? (  
-                                        <>                                  
+                                    <span className="Name">{set.username}&nbsp;</span><br/>
+
+                                    {(set.modify===1) ? (
+                                        <>
                                             <div className="Review__modify">
-                                                <div className="modify__Rating">                                
+                                                <div className="modify__Rating">
                                                     &nbsp;<ReviewStarRating rating={modifyRating} setRating={setModifyRating}/>
                                                 </div>
 
                                                 <div className="modify__Contents">
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         ref={modifyRef}
                                                         className="modify__content"
                                                         placeholder="  Modify Review"
                                                         required
                                                     />&nbsp;&nbsp;
-                                                    <button 
-                                                        index={index} 
+                                                    <button
+                                                        index={index}
                                                         onClick={CompleteModify}
                                                         name={set.review_id}
                                                         className="modify__btn"
                                                     >완료</button>
-                                                    <button 
-                                                        index={index} 
+                                                    <button
+                                                        index={index}
                                                         onClick={CancleModify}
                                                         className="modify__btn"
                                                     >취소</button>
@@ -383,8 +387,8 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
 
                                             </div>
                                         </>
-                                        ) : (
-                                            <>
+                                    ) : (
+                                        <>
                                             <span className="Rating">
                                                 <StarRating starRatingNum={set.rating} />
                                             </span>
@@ -392,24 +396,24 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                                             <span className="date">
                                                 {moment(set.modifiedDate).format('YYYY-MM-DD HH:mm:ss')}
                                             </span><br/><br/>
-                                            
+
                                             <div className="Review__likes">
-                                                {set.reviewValue === true? 
-                                                    <AiFillLike className="Review__like" id={set.review_id} onClick={UpLike} color="blue"/> 
-                                                 : 
+                                                {set.reviewValue === true?
+                                                    <AiFillLike className="Review__like" id={set.review_id} onClick={UpLike} color="blue"/>
+                                                    :
                                                     <AiFillLike className="Review__like" id={set.review_id} onClick={UpLike}/>
                                                 }&nbsp;&nbsp;{set.like} &nbsp;
 
                                                 {set.reviewValue===false ? (
-                                                    <AiFillDislike className="Review__like" id={set.review_id} onClick={UpDislike} color="blue"/> 
+                                                    <AiFillDislike className="Review__like" id={set.review_id} onClick={UpDislike} color="blue"/>
                                                 ) : (
                                                     <AiFillDislike className="Review__like" id={set.review_id} onClick={UpDislike} />
                                                 )}&nbsp;&nbsp;{set.dislike} &nbsp;
                                             </div>
-                                            
-                                            <span className="comment">{set.content}</span><br/>
-                                            </>
-                                        )
+
+                                            <span className="Review__comment">{set.content}</span><br/>
+                                        </>
+                                    )
                                     }
 
                                 </div>
@@ -423,9 +427,9 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                                         </ul>
                                     </div>
                                 </div>
-                            </div>   
-                        ) 
-                        
+                            </div>
+                        )
+
                     })}
                 </div>
             </div>
@@ -437,17 +441,17 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                 </div>
 
                 <div className="Input__tag">
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         ref={commentRef}
                         className="writing__part"
                         placeholder="  Review Addition"
                         required
                     />&nbsp;&nbsp;
-                    <input 
+                    <input
                         type="submit"
                         value="Register"
-                        className="submit__part" 
+                        className="submit__part"
                         onClick={RegistReview}
                     />
                 </div>

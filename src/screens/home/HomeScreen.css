@@ -4,7 +4,7 @@
     background-color: #111;
     overflow: hidden;
     position: fixed;
-    
+
     width: 100%;
     height: 100%;
 }
@@ -12,6 +12,15 @@
     background-color: #111;
     height: 100%;
     /* position: static; */
+}
+.popup__logo{
+    position: fixed;
+    top: 20px;
+    left: 10px;
+    width: 150px;
+    object-fit: contain;
+    padding-left: 20px;
+    cursor: pointer;
 }
 
 .not_scroll { /* 여기 지금 position값 변경될 때마다 reactPlayer부분 이상하게 변함. */
@@ -25,6 +34,7 @@
 }
 .videos {
     display: flex;
+    margin-top: 20px;
 }
 
 .video {
@@ -57,7 +67,7 @@
     height: 17px;
     width: 17px;
     background-color: #99a1a7;
-}   
+}
 
 .hr_tag {
     margin-top: 40px;
@@ -69,7 +79,7 @@
     bottom: 30px;
     right: 30px;
     margin: 20px;
-    
+
 }
 .declare_cancel, .declare_submit{
     height: 30px;
@@ -79,7 +89,7 @@
 
     color: #fff;
     background-color: gray
-    
+
 
     /* outline: 1px solid #fff; */
 

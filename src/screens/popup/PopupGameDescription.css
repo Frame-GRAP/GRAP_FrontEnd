@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Oswald&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 .popup__Description {
     padding: 20px 20px;
@@ -10,64 +11,63 @@
     font-size: 25px;
     font-family: 'Oswald', sans-serif;
 }
+.detail__gameName{
+    font-family: 'Roboto', sans-serif;
+
+}
 
 .description__contents {
-    font-size: 12px;
-    margin-top: 20px;
+    font-size: 15px;
     font-family: 'Roboto', sans-serif;
     display: flex;
 }
 
 .game__Poster {
-    /* flex: 3; */
+    flex: 1;
     margin-right: 10px;
     max-height: 230px;
 }
 .game__Description {
-    /* flex: 7; */
-}
-.detail__Description {
-    /* padding: 5px; */
+    flex: 1;
     margin-left: 5px;
     margin-right: 5px;
 }
 
-.detail__gameName{
-    margin-left: 5px;
+
+.game__Description > .detail__Description{
+    margin-bottom: 10px;
+    /* font-family: 'Heebo', sans-serif; */
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
 }
-.detail__content{
+.game__Description > .detail__content{
     display: flex;
     margin-bottom: 5px;
 }
-.detail__title{
-    flex: 1;
-    color: rgba(128, 128, 128, 0.966);
 
-}
-.detail__desc{
-    flex: 3;
-}
 
-/*.detail__Description::-webkit-scrollbar {
-    width: 20px;
-}
-.detail__Description::-webkit-scrollbar-thumb {
-    background-color: gray;
-    background-clip: padding-box;
-    border: 4px solid transparent;
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px; 
+.detail__content > .detail__title{flex: 4; color: rgba(128, 128, 128, 0.966);}
+.detail__content > .detail__title > .detail__name {margin-bottom: 5px;}
 
-    border-bottom-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-}*/
-.game__Description > p {
+.detail__content > .detail__desc{flex: 7; color: rgba(10, 90, 196, 0.966);}
+
+.detail__content > .detail__desc > .detail__detail {margin-bottom: 5px;}
+.detail__content>.detail__desc >.detail__detail:nth-child(3){color: rgba(255, 255, 255, 0.705);}
+/* .detail__content > .detail_download{flex: 3;} */
+
+.download_btn{
+    height: 50px;
+    width: 100%;
     font-size: 15px;
-    height: 200px;
+
+    border: none;
+    color: rgba(255, 255, 255, 0.685);
+    background-color: rgba(120, 127, 221, 0.4);
+
+    cursor: pointer;
 }
-
-.detail__desc > a{
-    color: rgb(131, 70, 211);
+.download_btn:hover{
+    background-color: rgba(120, 127, 221, 1);
+    transition-timing-function: ease-in-out;
+    transition: all 0.2s;
 }
-
-

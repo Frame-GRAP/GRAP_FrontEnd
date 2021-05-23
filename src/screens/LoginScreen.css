@@ -1,14 +1,23 @@
 .loginScreen {
     position: relative;
     height: 100%;
-    background: url('../img/login_background.jpg') center;
+    background: url('../img/game6.jpg') center;
     background-size: cover;
+}
+
+.loginScreen_logo {
+    position: absolute;
+    top: 20%;
+    left: 7%;
+    margin: auto;
+    max-width: 600px;
+    object-fit: contain;
 }
 
 .loginScreen_gradient {
     width: 100%;
     z-index: 1;
-    height: 150vh;
+    height: 120vh;
     background: rgba(0, 0, 0, 0.4) linear-gradient(
             to top,
             rgba(0, 0, 0, 0.8) 0,
@@ -17,23 +26,13 @@
     );
 }
 
-.loginScreen_logo {
-    position: fixed;
-    left: 0;
-    width: 150px;
-    object-fit: contain;
-
-    left: 0;
-    padding-left: 5%;
-    padding-top: 10px;
-}
 
 .loginScreen_body {
     position: absolute;
     max-width: 500px;
-    top: 20%;
+    top: 5%;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: 70px;
     z-index: 1;
     color: #fff;
     left: 0;
@@ -41,11 +40,12 @@
     padding: 50px;
     border-radius: 20px;
     text-align: center;
-    background: rgba(0, 0, 0, 0.85);
+    background: #252525;
 }
 
 .loginScreen_input {
     margin-bottom: 40px;
+    opacity: 0.7;
 }
 
 .loginScreen_input > form {
@@ -65,20 +65,23 @@
 }
 
 .loginScreen_input > form > input {
+    font-size: 17px;
+    color: white;
     outline-width: 0;
-    height: 40px;
+    height: 50px;
     margin: 0px 30px 20px 30px;
     border-radius: 5px;
     border: none;
-    padding: 5px 15px;
+    padding: 5px 20px;
+    background: #2F2F2F;
 }
 
 .loginScreen_input > form > button {
     padding: 16px 20px;
     font-size: 1rem;
     color: #fff;
-    border-radius: 5px;
-    background-color: #e50914;
+    border-radius: 30px;
+    background-color: #1351F9;
     font-weight: 600;
     border: none;
     cursor: pointer;
@@ -103,11 +106,11 @@
 }
 
 .sns_icon {
-    border-radius: 15px;
+    border-radius: 25px;
     display: inline-block;
     vertical-align: middle;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     margin-left: 20px;
     margin-right: 20px;
 }

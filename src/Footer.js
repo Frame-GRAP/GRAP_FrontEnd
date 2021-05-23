@@ -1,6 +1,5 @@
 import React from "react";
 import "./Footer.css";
-import grap_logo from './img/grap_logo2-1.png';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import FacebookIcon from '@material-ui/icons/Facebook';

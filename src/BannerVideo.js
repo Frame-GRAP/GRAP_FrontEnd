@@ -2,17 +2,17 @@ import React, {useEffect, useState} from "react";
 import ReactPlayer from "react-player";
 import axios from "axios";
 
-function BannerVideo({mainGameData}){
+function BannerVideo({mainGameData = []}){
     const [content, toggleContent] = useState(true);
     const [delayHandler, setDelayHandler] = useState(null);
     const [videoData, setVideoData] = useState("");
     const [loading, setLoading] = useState(true);
 
-
     useEffect(() => {
         window.addEventListener("scroll", playAuto);
         return () => window.removeEventListener("scroll", playAuto);
     }, [loading]);
+
 
     useEffect(() => {
         async function fetchData(gameId) {
@@ -24,9 +24,11 @@ function BannerVideo({mainGameData}){
                 });
             return videoData;
         }
-        fetchData(mainGameData.id).then(r => {
-            setLoading(false);
-        })
+        if(mainGameData !== undefined){
+            fetchData(mainGameData.id).then(r => {
+                setLoading(false);
+            })
+        }
         return () => {
             setLoading(true);
         }

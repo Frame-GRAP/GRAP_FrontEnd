@@ -7,12 +7,12 @@ import axios from "axios";
 import {useSelector} from "react-redux";
 import {selectUser} from "./features/userSlice";
 
-function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
+function TempRow({ title, setPopupUrl, setVisible, posY }) {
     const [loading, setLoading] = useState(true);
     const [myGame, setMyGame] = useState([]);
     const [gameData, setGameData] = useState([]);
-    const [temp, setTemp] = useState([]);
     const user = useSelector(selectUser);
+    const [temp, setTemp] = useState([]);
 
     const responsive = {
         desktop: {
@@ -39,30 +39,26 @@ function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
     // Data Fetch
     const [lastGame, setLastGame] = useState([]);
     useEffect(()=> {
-        const {categoryId} = category;
-        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/categoryTab/category/${categoryId}/game`)
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/all`)
             .then((res) => {
                 if(res){
-                    setLastGame(res.data.pop());
-                    shuffleJson(res.data);
-                    setGameData(res.data);
+                    const len = res.data.length;
+                    for(let i = 0; i < 10; i++){
+                        setTemp(temp => [...temp, res.data[len - i]]);
+                    }
                 }else{
                     console.log("err");
                 }
-            })
-
-        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/2`)
-            .then((res) => {
-                setTemp(res.data);
+                return temp;
             })
 
         setLoading(false);
-
-
+        console.log(temp);
         return () => {
             setLoading(true);
         }
-    }, [category]);
+    }, []);
+
 
     useEffect(() => {
         async function fetchFavorData() {
@@ -98,11 +94,20 @@ function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
                                 itemClass="list_item"
                                 sliderClass="row_posters"
                                 dotListClass="dot_list">
-
+                    {
+                        <Video
+                            key="59"
+                            className="row_poster"
+                            OneOfGameData={lastGame}
+                            setVisible={setVisible}
+                            setPopupUrl={setPopupUrl}
+                            posY={posY}
+                            myGame={myGame}
+                        />
+                    }
 
                     {
-                        (gameData.map((set, index) => (
-                            (index <= 10 && set.name!==`${lastGame}`) && (
+                        (temp.map((set, index) => (
                                 <Video
                                     key={index}
                                     className="row_poster"
@@ -112,7 +117,6 @@ function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
                                     posY={posY}
                                     myGame={myGame}
                                 />
-                            )
                         )))
                     }
                 </Multi_Carousel>
@@ -121,4 +125,4 @@ function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
     )
 }
 
-export default Row;
+export default TempRow;

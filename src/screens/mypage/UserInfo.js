@@ -27,13 +27,7 @@ function UserInfo() {
             }
         })
 
-        if(validateNickname === false){
-            alert("중복 체크를 해주세요");
-        }
-        else if(userFavor.length < 2){
-            alert("게임을 2개 이상 선택 해주세요");
-        }
-        else{
+
             const gameData = new Object();
             const gameArray = new Array();
 
@@ -78,16 +72,19 @@ function UserInfo() {
             }).catch((err) => {
                 alert(err);
             })
-        }
+
     }
 
     function IsOverlap(){
         const check = preNickname.current.value;
-        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/{userId}/nickname/${check}`)
+        console.log(check);
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/nickname/${check}`)
             .then((res) =>{
                 console.log(res.data);
                 if(res.data.isDup == true){ //중복이니까 다시 입력받아야 함
-                    alert("닉네임이 중복 되었습니다. 다른 닉네임을 입력해주세요.");
+                    //alert("닉네임이 중복 되었습니다. 다른 닉네임을 입력해주세요.");
+                    alert("사용가능한 닉네임입니다.");
+                    setValidateNickname(true);
                 }
                 else{ // 가능
                     alert("사용가능한 닉네임입니다.");

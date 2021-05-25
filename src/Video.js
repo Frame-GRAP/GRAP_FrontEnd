@@ -11,11 +11,11 @@ import {
 } from "@material-ui/core/styles";
 import {IconButton, Tooltip, Typography} from "@material-ui/core";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import {grey} from "@material-ui/core/colors";
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import {grey, red} from "@material-ui/core/colors";
 
-function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame, isvideo}) {
+function Video({setPopupUrl, OneOfGameData = [], setVisible, posY, myGame = [], isvideo}) {
     const [loading, setLoading] = useState(true);
     const [videoData, setVideoData] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
@@ -25,16 +25,14 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame, isvideo}) 
     useEffect(() => {
         async function fetchData() {
             const gameId = OneOfGameData.id;
-
-            // await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
-            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`)
+            //await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8842/video/all`)
                 .then( (res) => {
                     setVideoData(res.data[0]);
                 }).catch((err)=> {
                     // console.log(err);
                 });
             return videoData;
-
         }
         async function check() {
             myGame.map((gameId) => {
@@ -56,9 +54,9 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame, isvideo}) 
         e.preventDefault();
         setAnchorEl(null);
         const popupId = Number(e.target.id);
-        console.log(popupId)
+        console.log(popupId);
         setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1`);
-        // setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
+        //setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
 
         setVisible(true);
         posY = Math.round($(window).scrollTop());
@@ -70,8 +68,6 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame, isvideo}) 
     const addMyList = (gameId, e) => {
         e.preventDefault();
         const userId = user.user_id;
-        console.log(OneOfGameData);
-        console.log(gameId);
         axios({
             method: 'post',
             url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/game/${gameId}/favor`,
@@ -101,7 +97,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame, isvideo}) 
     if(videoData.platform === "twitch"){
         player_Url = `https://clips.twitch.tv/embed?clip=${videoData.urlKey}&parent=localhost&controls=0&autoplay=true&origin=http://localhost:3000`
     }else if(videoData.platform === "youtube"){
-        player_Url = `https://www.youtube.com/embed/${videoData.urlKey}?autoplay=1&mute=0&controls=0`
+        player_Url = `https://www.youtube.com/embed/${videoData.urlKey}?mute=0&controls=0`
     }
 
     const handleOver = event => {
@@ -171,7 +167,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame, isvideo}) 
                                     id={OneOfGameData.id}
                                     onClick={(e) => addMyList(OneOfGameData.id, e)}
                                 >
-                                    <FavoriteBorderOutlinedIcon style={{ fontSize: 40, color: grey[50]}}/>
+                                    <FavoriteBorderIcon style={{ fontSize: 40, color: grey[50]}}/>
                                 </IconButton>
                             </Tooltip>
                         ) : (
@@ -182,7 +178,7 @@ function Video({setPopupUrl, OneOfGameData, setVisible, posY, myGame, isvideo}) 
                                     id={OneOfGameData.id}
                                     onClick={(e) => deleteMyList(OneOfGameData.id, e)}
                                 >
-                                    <FavoriteBorderIcon style={{ fontSize: 40, color: grey[50]}}/>
+                                    <FavoriteIcon style={{ fontSize: 40, color: grey[50]}}/>
                                 </IconButton>
                             </Tooltip>
                         )}

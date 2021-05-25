@@ -22,7 +22,8 @@ import PopupDeclaration from '../popup/PopupDeclaration'
 import {selectUser} from './../../features/userSlice'
 import {useSelector} from "react-redux";
 import Footer from "../../Footer";
-import Delay from "react-delay/lib/Delay";
+import RowCustom from "../../RowCustom";
+import TempRow from "../../TempRow";
 
 function HomeScreen(){
     const [visible, setVisible] = useState(false);
@@ -40,20 +41,56 @@ function HomeScreen(){
     const [categoryResult, setCategoryResult] = useState([]);
 
     const [userOwnCategory, setUserOwnCategory] = useState([]);
+    const [popGame, setPopGame] = useState([]);
+    const [mainGameName, setMainGameName] = useState("");
+    const [relatedGame, setRelatedGame] = useState([]);
     const user = useSelector(selectUser);
 
     useEffect(()=> {
-        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/userCategoryPreference/all`)
-            .then((res) => {
-                setUserOwnCategory(res.data[1]);
-                setCategoryResult(res.data);
-            })
+        async function fetchUserData() {
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/userCategoryPreference/all`)
+                .then((res) => {
+                    setUserOwnCategory(res.data[1]);
+                    setCategoryResult(res.data);
+                })
+            return categoryResult;
+        }
 
         ///인기급상승 api 추가
+        async function fetchCustomData() {
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/gameAndCustomTab/all`)
+                .then((res) => {
+                    setPopGame(res.data);
+                })
+            return popGame;
+        }
 
+        //관련잇는게임
+        async function fetchRelatedData() {
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/userGamePreference`)
+                .then((res) => {
+                    const main_id = res.data.gameId;
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${main_id}/relatedGame`)
+                        .then((res) => {
+                            const gameIds = res.data.relatedGameId.split(" ");
+                            const gameName = res.data.gameName;
+                            const arr = new Array();
+                            gameIds.map((gameId, index) => {
+                                const temp = new Object();
+                                temp.gameId = gameId;
+                                arr.push(temp);
+                            })
+                            setRelatedGame(arr);
+                            setMainGameName(gameName);
+                        })
+                })
+        }
 
+        fetchUserData();
+        fetchCustomData();
+        fetchRelatedData();
 
-
+        console.log(relatedGame);
         setLoading(false);
         return () => {
             setLoading(true);
@@ -69,7 +106,6 @@ function HomeScreen(){
             return request;
         }
         fetchData();
-
     }, [popupUrl])
 
     // ESC 누르면 팝업창 사라짐
@@ -85,8 +121,6 @@ function HomeScreen(){
         document.addEventListener('keydown', keyPress);
         return () => document.removeEventListener('keydown', keyPress);
     }, [keyPress])
-
-
 
     // 배경 누르면 팝업창 닫기 위한 변수
     const modalRef = useRef();
@@ -108,12 +142,12 @@ function HomeScreen(){
         })
     }, [])
 
+
     if(loading) return (<div>Loading...</div>);
     return (
         <>
             <div id="homeScreen" className="homeScreen">
                 <Nav />
-
 
                 <Banner />
 
@@ -124,10 +158,23 @@ function HomeScreen(){
                     setVisible={setVisible}
                     posY={posY}
                 />
+                <TempRow
+                    title="신규 게임"
+                    setPopupUrl={setPopupUrl}
+                    setVisible={setVisible}
+                    posY={posY}
+                />
+                <RowCustom
+                    title="실시간 인기 급상승"
+                    gameArr={popGame}
+                    setPopupUrl={setPopupUrl}
+                    setVisible={setVisible}
+                    posY={posY}
+                />
 
-                <Row
-                    title={`실시간 인기 급상승`}
-                    category={userOwnCategory}
+                <RowCustom
+                    title={`${mainGameName}과 관련된 컨텐츠`}
+                    gameArr={relatedGame}
                     setPopupUrl={setPopupUrl}
                     setVisible={setVisible}
                     posY={posY}
@@ -147,8 +194,6 @@ function HomeScreen(){
                         )
                     })
                 }
-
-
 
             </div>
             <div>

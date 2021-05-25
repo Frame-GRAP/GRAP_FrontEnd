@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import './Row.css';
 import Video from "./Video";
 import Multi_Carousel from 'react-multi-carousel';
@@ -7,11 +7,10 @@ import axios from "axios";
 import {useSelector} from "react-redux";
 import {selectUser} from "./features/userSlice";
 
-function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
+function RowCustom({ title, gameArr=[], setPopupUrl, setVisible, posY }) {
     const [loading, setLoading] = useState(true);
     const [myGame, setMyGame] = useState([]);
     const [gameData, setGameData] = useState([]);
-    const [temp, setTemp] = useState([]);
     const user = useSelector(selectUser);
 
     const responsive = {
@@ -32,39 +31,22 @@ function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
         }
     };
 
-    function shuffleJson(data) {
-        data.sort(()=> Math.random() - 0.5);
-        return data;
-    }
-    // Data Fetch
     const [lastGame, setLastGame] = useState([]);
     useEffect(()=> {
-        const {categoryId} = category;
-        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/categoryTab/category/${categoryId}/game`)
-            .then((res) => {
-                if(res){
-                    setLastGame(res.data.pop());
-                    shuffleJson(res.data);
-                    setGameData(res.data);
-                }else{
-                    console.log("err");
-                }
+        async function fetchData() {
+            await gameArr.map((gameId, index) => {
+                const id = gameId.gameId;
+                console.log(id);
+                axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${id}`)
+                    .then((res) => {
+                        setGameData(gameData => [...gameData, res.data]);
+                    });
             })
-
-        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/2`)
-            .then((res) => {
-                setTemp(res.data);
-            })
-
-        setLoading(false);
-
-
-        return () => {
-            setLoading(true);
+            const len = gameData.length;
+            setLastGame(gameData[len - 1]);
+            return gameData;
         }
-    }, [category]);
 
-    useEffect(() => {
         async function fetchFavorData() {
             const userId = user.user_id
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
@@ -76,13 +58,15 @@ function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
                 })
             return myGame;
         }
-        fetchFavorData().then(r => {
-            setLoading(false);
-        });
+
+        fetchData();
+        fetchFavorData();
+        setLoading(false);
         return () => {
             setLoading(true);
         }
-    }, [gameData]);
+    }, [gameArr]);
+
 
     if(loading) return (<div>Loading...</div>);
     return (
@@ -98,27 +82,35 @@ function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
                                 itemClass="list_item"
                                 sliderClass="row_posters"
                                 dotListClass="dot_list">
-
-
                     {
-                        (gameData.map((set, index) => (
-                            (index <= 10 && set.name!==`${lastGame}`) && (
-                                <Video
-                                    key={index}
-                                    className="row_poster"
-                                    OneOfGameData={set}
-                                    setVisible={setVisible}
-                                    setPopupUrl={setPopupUrl}
-                                    posY={posY}
-                                    myGame={myGame}
-                                />
-                            )
-                        )))
+                        <Video
+                            key="59"
+                            className="row_poster"
+                            OneOfGameData={lastGame}
+                            setVisible={setVisible}
+                            setPopupUrl={setPopupUrl}
+                            posY={posY}
+                            myGame={myGame}
+                        />
                     }
+
+                    {gameData.map((set,index) => (
+                        (index <= 10 && set.name!==`${lastGame}`) && (
+                            <Video
+                                key={index}
+                                className="row_poster"
+                                OneOfGameData={set}
+                                setVisible={setVisible}
+                                setPopupUrl={setPopupUrl}
+                                posY={posY}
+                                myGame={myGame}
+                            />
+                        ))
+                    )}
                 </Multi_Carousel>
             </div>
         </div>
     )
 }
 
-export default Row;
+export default RowCustom;

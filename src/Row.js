@@ -69,10 +69,12 @@ function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
             const userId = user.user_id
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
                 .then((res) => {
+                    const tempMyGame = new Array()
                     res.data.map((game) => {
                         const id = game.gameId;
-                        setMyGame(myGame => [...myGame, id]);
+                        tempMyGame.push(id);
                     })
+                    setMyGame(tempMyGame);
                 })
             return myGame;
         }

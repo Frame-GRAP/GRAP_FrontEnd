@@ -55,11 +55,7 @@ function Banner() {
                     onChange={onChange}>
                     <div className="banner_container">
                         <div className="banner_item">
-                            <Delay
-                                wait={500}
-                            >
-                                <BannerVideo check={curVideo(0)} mainGameData={mainGame} />
-                            </Delay>
+                            <BannerVideo check={curVideo(0)} mainGameData={mainGame} />
                         </div>
                         <div className="banner_info">
                             <h1 className="banner_title">{mainGame.name}</h1>

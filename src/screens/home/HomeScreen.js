@@ -90,7 +90,6 @@ function HomeScreen(){
         fetchCustomData();
         fetchRelatedData();
 
-        console.log(relatedGame);
         setLoading(false);
         return () => {
             setLoading(true);
@@ -151,6 +150,7 @@ function HomeScreen(){
 
                 <Banner />
 
+
                 <Row
                     title={`${user.nickname}님을 위한 맞춤 콘텐츠`}
                     category={userOwnCategory}
@@ -158,12 +158,8 @@ function HomeScreen(){
                     setVisible={setVisible}
                     posY={posY}
                 />
-                <TempRow
-                    title="신규 게임"
-                    setPopupUrl={setPopupUrl}
-                    setVisible={setVisible}
-                    posY={posY}
-                />
+
+
                 <RowCustom
                     title="실시간 인기 급상승"
                     gameArr={popGame}
@@ -180,20 +176,25 @@ function HomeScreen(){
                     posY={posY}
                 />
 
-                {
-                    categoryResult.map((set, index) => {
-                        return(
-                            <Row
-                                key={index}
-                                title={`${set.uiName} 게임`}
-                                category={set}
-                                setPopupUrl={setPopupUrl}
-                                setVisible={setVisible}
-                                posY={posY}
-                            />
-                        )
-                    })
-                }
+                {/*<TempRow
+                title="신규 게임"
+                setPopupUrl={setPopupUrl}
+                setVisible={setVisible}
+                posY={posY}
+            />*/}
+               {categoryResult.map((set, index) => {
+                    return(
+                        <Row
+                            key={index}
+                            title={`${set.uiName} 게임`}
+                            category={set}
+                            setPopupUrl={setPopupUrl}
+                            setVisible={setVisible}
+                            posY={posY}
+                        />
+                    )
+                })}
+
 
             </div>
             <div>

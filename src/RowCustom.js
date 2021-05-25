@@ -7,6 +7,8 @@ import axios from "axios";
 import {useSelector} from "react-redux";
 import {selectUser} from "./features/userSlice";
 
+
+
 function RowCustom({ title, gameArr=[], setPopupUrl, setVisible, posY }) {
     const [loading, setLoading] = useState(true);
     const [myGame, setMyGame] = useState([]);
@@ -34,38 +36,51 @@ function RowCustom({ title, gameArr=[], setPopupUrl, setVisible, posY }) {
     const [lastGame, setLastGame] = useState([]);
     useEffect(()=> {
         async function fetchData() {
+            const tempArr = new Array();
             await gameArr.map((gameId, index) => {
-                const id = gameId.gameId;
-                console.log(id);
+                const id = gameId.gameId
                 axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${id}`)
                     .then((res) => {
-                        setGameData(gameData => [...gameData, res.data]);
+                        const game = new Object();
+                        game.id = res.data.id;
+                        game.name = res.data.name;
+                        game.headerImg = res.data.headerImg;
+                        tempArr.push(game);
                     });
             })
-            const len = gameData.length;
-            setLastGame(gameData[len - 1]);
+            setGameData(tempArr);
+            ///const len = gameData.length;
+            ///setLastGame(gameData[len - 1]);
             return gameData;
         }
+        fetchData().then((r) =>{
+            setLoading(false);
+        })
 
+    }, [gameArr]);
+
+    useEffect(() => {
         async function fetchFavorData() {
             const userId = user.user_id
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
                 .then((res) => {
+                    const temp = new Array()
                     res.data.map((game) => {
                         const id = game.gameId;
-                        setMyGame(myGame => [...myGame, id]);
+                        temp.push(id);
+
                     })
+                    setMyGame(temp);
                 })
             return myGame;
         }
-
-        fetchData();
-        fetchFavorData();
-        setLoading(false);
+        fetchFavorData().then((r) =>{
+            setLoading(false);
+        })
         return () => {
             setLoading(true);
         }
-    }, [gameArr]);
+    }, []);
 
 
     if(loading) return (<div>Loading...</div>);
@@ -82,19 +97,16 @@ function RowCustom({ title, gameArr=[], setPopupUrl, setVisible, posY }) {
                                 itemClass="list_item"
                                 sliderClass="row_posters"
                                 dotListClass="dot_list">
-                    {
-                        <Video
-                            key="59"
-                            className="row_poster"
-                            OneOfGameData={lastGame}
-                            setVisible={setVisible}
-                            setPopupUrl={setPopupUrl}
-                            posY={posY}
-                            myGame={myGame}
-                        />
-                    }
+                    <Video
+                        className="row_poster"
+                        OneOfGameData={gameData}
+                        setVisible={setVisible}
+                        setPopupUrl={setPopupUrl}
+                        posY={posY}
+                        myGame={myGame}
+                    />
 
-                    {gameData.map((set,index) => (
+                    {/*{gameData.map((set,index) => (
                         (index <= 10 && set.name!==`${lastGame}`) && (
                             <Video
                                 key={index}
@@ -106,7 +118,8 @@ function RowCustom({ title, gameArr=[], setPopupUrl, setVisible, posY }) {
                                 myGame={myGame}
                             />
                         ))
-                    )}
+                    )}*/}
+
                 </Multi_Carousel>
             </div>
         </div>

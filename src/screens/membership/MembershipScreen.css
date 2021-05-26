@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Oswald&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo&display=swap');
+
+.membershipScreen {
+    position: relative;
+    background-color: #111111;
+    min-height: 100vh;
+}
+
+.membershipScreen_body {
+    position: relative;
+    top: 100px;
+    width: 100%;
+}
+
+.membershipScreen_body > h2 {
+    color: white;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.membershipScreen_result {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.membership_group {
+    list-style:none;
+    height: 400px;
+}
+
+.membership_list {
+    color: white;
+    margin: 20px;
+    border : 0;
+    float: left;
+    cursor: pointer;
+}
+
+.membership_item {
+    text-align: center;
+    border-radius: 6px;
+    background: #2F2F2F;
+    padding: 20px;
+    border: 2px solid #1351F9;
+    border-radius: 5px;
+    font-family: 'Heebo', sans-serif;
+}
+
+.membership_name {
+    font-size: 30px;
+    font-weight: 500;
+    padding: 20px 0;
+}
+
+.membership_description {
+    font-size: 20px;
+    font-weight: 200;
+    color: #a5a5a5
+}
+
+.membership_price {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 20px 10px;
+}
+
+
+.membership_check {
+    width:20px;
+    height: 20px
+}
+
+
+.membership_submit{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.membership_btn {
+    padding: 16px 20px;
+    width: 200px;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 30px;
+    background-color: #1351F9;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin: 0px 30px 0px 30px;
+    top: 50%;
+    left: 50%;
+}
+.membership_btn:hover{
+    background-color: #e6e6e613;
+    transition: all 0.5s;
+}

@@ -7,6 +7,7 @@ import './SearchScreen.css';
 import Video from "../Video";
 
 function SearchScreen({searchWord}) {
+    const [myGameData, setMyGameData] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
     const [myGame, setMyGame] = useState([]);
     const [visible, setVisible] = useState(false);
@@ -15,14 +16,30 @@ function SearchScreen({searchWord}) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function getSearchResult() {
+        async function fetchMyData() {
+            const userId = user.user_id;
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
+                .then((res) => {
+                    res.data.map((game, index) => {
+                        const id = game.gameId;
+                        setMyGame(myGame => [...myGame, id]);
+                        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${id}`)
+                            .then((res) => {
+                                setMyGameData(myGameData => [...myGameData, res.data]);
+                            })
+                    })
+                });
+            return myGameData;
+        }
+
+        /*async function getSearchResult() {
             await axios.get(``)
                 .then((res) => {
 
                 })
             return searchResult;
-        }
-
+        }*/
+        fetchMyData();
         setLoading(false);
         return () => {
             setLoading(true);
@@ -37,9 +54,12 @@ function SearchScreen({searchWord}) {
             <div className="searchScreen_body">
                 <h2>검색결과</h2>
                 <div className="searchScreen_result">
-                    {searchResult.map((set,index) => (
+                    {myGameData.map((set,index) => (
                         <Video OneOfGameData={set} myGame={myGame} />
                     ))}
+                    {/*{searchResult.map((set,index) => (
+                        <Video OneOfGameData={set} myGame={myGame} />
+                    ))}*/}
                 </div>
             </div>
         </div>

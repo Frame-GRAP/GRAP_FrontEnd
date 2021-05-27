@@ -6,6 +6,7 @@ import {selectUser} from "../features/userSlice";
 import './MyListScreen.css';
 import Video from "../Video";
 import Footer from "../Footer";
+import SearchScreen from "./SearchScreen";
 
 function MyListScreen() {
     const [myGameData, setMyGameData] = useState([]);
@@ -14,6 +15,9 @@ function MyListScreen() {
     const [posY, setPosY] = useState(false);
     const user = useSelector(selectUser);
     const [loading, setLoading] = useState(true);
+
+    const [searching, setSearching] = useState(false);
+    const [searchWord, setSearchWord] = useState("");
 
     useEffect(() => {
         async function fetchMyData() {
@@ -42,15 +46,19 @@ function MyListScreen() {
     return (
         <>
             <div className="myListScreen">
-                <Nav />
-                <div className="myListScreen_body">
-                    <h2>내가 찜한 목록</h2>
-                    <div className="myListScreen_result">
-                        {myGameData.map((set,index) => (
-                            <Video OneOfGameData={set} myGame={myGame} />
-                        ))}
+                <Nav setSearchWord={setSearchWord} setSearching={setSearching} />
+                { searching ? (
+                    <SearchScreen searchWord={searchWord} />
+                ) : (
+                    <div className="myListScreen_body">
+                        <h2>내가 찜한 목록</h2>
+                        <div className="myListScreen_result">
+                            {myGameData.map((set,index) => (
+                                <Video OneOfGameData={set} myGame={myGame} />
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
             <Footer />
         </>

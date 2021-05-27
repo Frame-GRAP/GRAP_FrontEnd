@@ -9,6 +9,7 @@ import {useHistory} from "react-router-dom";
 import bronze from '../../img/bronze-medal.png';
 import silver from '../../img/silver-medal.png';
 import gold from '../../img/gold-medal.png';
+import SearchScreen from "../SearchScreen";
 
 const tiers = [
     {
@@ -39,6 +40,9 @@ function MembershipScreen() {
     const user = useSelector(selectUser);
     const [loading, setLoading] = useState(true);
     const history = useHistory();
+
+    const [searching, setSearching] = useState(false);
+    const [searchWord, setSearchWord] = useState("");
 
     const { IMP } = window;
     IMP.init('imp40158151');
@@ -79,11 +83,12 @@ function MembershipScreen() {
     };
 
     useEffect(() => {
+        console.log(searching);
         setLoading(false);
         return () => {
             setLoading(true);
         }
-    }, []);
+    }, [searching]);
 
     const getTierImg = (index) => {
         if(index == 0)
@@ -103,50 +108,52 @@ function MembershipScreen() {
                 price = set.value;
             }
         })
-
         return price;
     }
-
 
     if(loading) return (<div>Loading...</div>);
     return (
         <>
             <div className="membershipScreen">
-                <Nav />
-                <div className="membershipScreen_body">
-                    <h2>멤버쉽</h2>
-                    <h3>지금 바로 가입해서 당신이 원하는 게임을 마음껏 플레이 하세요!</h3>
-                    <div className="membershipScreen_result">
-                        <div className="membership_container">
-                            {tiers.map((tier, index) => (
-                                <label className="membership_item" htmlFor={tier.title}>
-                                    <input
-                                        key={index}
-                                        type="radio"
-                                        className="membership_check"
-                                        name="membership_selectBtn"
-                                        id={tier.title}
-                                        value={tier.price}
-                                        defaultChecked={index == 0}
-                                    />
-                                    <div className="item_inner">
-                                        <div className="membership_img">
-                                            {getTierImg(index)}
-                                        </div>
-                                        <h3 className="membership_name">{tier.title}<br/></h3>
-                                        <h4 className="membership_description">{tier.description}<br/></h4>
-                                        <h6 className="membership_price">월 {tier.price}원</h6>
-
-                                    </div>
-                                </label>
-                            ))}
+                <Nav setSearchWord={setSearchWord} setSearching={setSearching} />
+                { searching ? (
+                    <SearchScreen searchWord={searchWord} />
+                ) : (
+                    <>
+                        <div className="membershipScreen_body">
+                            <h2>멤버쉽</h2>
+                            <h3>지금 바로 가입해서 당신이 원하는 게임을 마음껏 플레이 하세요!</h3>
+                            <div className="membershipScreen_result">
+                                <div className="membership_container">
+                                    {tiers.map((tier, index) => (
+                                        <label className="membership_item" htmlFor={tier.title}>
+                                            <input
+                                                key={index}
+                                                type="radio"
+                                                className="membership_check"
+                                                name="membership_selectBtn"
+                                                id={tier.title}
+                                                value={tier.price}
+                                                defaultChecked={index == 0}
+                                            />
+                                            <div className="item_inner">
+                                                <div className="membership_img">
+                                                    {getTierImg(index)}
+                                                </div>
+                                                <h3 className="membership_name">{tier.title}<br/></h3>
+                                                <h4 className="membership_description">{tier.description}<br/></h4>
+                                                <h6 className="membership_price">월 {tier.price}원</h6>
+                                            </div>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="membership_submit">
+                                <button className="membership_btn" onClick={payment}>가입하기</button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="membership_submit">
-                        <button className="membership_btn" onClick={payment}>가입하기</button>
-                    </div>
-                </div>
-
+                    </>
+                )}
             </div>
             <Footer />
         </>

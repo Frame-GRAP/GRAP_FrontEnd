@@ -70,9 +70,16 @@
     width: 45px;
     height: 45px;
 }
-.nav_search{
-    color: #fff;
+
+.nav_element {
+    position: relative;
+    display: inline-block;
+    margin: 4px 2px;
+    height: 50px;
+    width: 50px;
+    vertical-align: bottom;
 }
+
 
 .dropdown_element {
     position: relative;

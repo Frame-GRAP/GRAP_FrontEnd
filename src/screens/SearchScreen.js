@@ -3,21 +3,17 @@ import Nav from "../Nav";
 import axios from "axios";
 import {useSelector} from "react-redux";
 import {selectUser} from "../features/userSlice";
-import './MyListScreen.css';
+import './SearchScreen.css';
 import Video from "../Video";
-import Footer from "../Footer";
-import SearchScreen from "./SearchScreen";
 
-function MyListScreen() {
+function SearchScreen({searchWord}) {
     const [myGameData, setMyGameData] = useState([]);
+    const [searchResult, setSearchResult] = useState([]);
     const [myGame, setMyGame] = useState([]);
     const [visible, setVisible] = useState(false);
     const [posY, setPosY] = useState(false);
     const user = useSelector(selectUser);
     const [loading, setLoading] = useState(true);
-
-    const [searching, setSearching] = useState(false);
-    const [searchWord, setSearchWord] = useState("");
 
     useEffect(() => {
         async function fetchMyData() {
@@ -35,35 +31,39 @@ function MyListScreen() {
                 });
             return myGameData;
         }
+
+        /*async function getSearchResult() {
+            await axios.get(``)
+                .then((res) => {
+
+                })
+            return searchResult;
+        }*/
         fetchMyData();
         setLoading(false);
         return () => {
             setLoading(true);
         }
-    }, []);
+    }, [searchWord]);
+
+    console.log(searchWord);
 
     if(loading) return (<div>Loading...</div>);
     return (
-        <>
-            <div className="myListScreen">
-                <Nav setSearchWord={setSearchWord} setSearching={setSearching} />
-                { searching ? (
-                    <SearchScreen searchWord={searchWord} />
-                ) : (
-                    <div className="myListScreen_body">
-                        <h2>내가 찜한 목록</h2>
-                        <div className="myListScreen_result">
-                            {myGameData.map((set,index) => (
-                                <Video OneOfGameData={set} myGame={myGame} />
-                            ))}
-                        </div>
-                    </div>
-                )}
+        <div className="searchScreen">
+            <div className="searchScreen_body">
+                <h2>검색결과</h2>
+                <div className="searchScreen_result">
+                    {myGameData.map((set,index) => (
+                        <Video OneOfGameData={set} myGame={myGame} />
+                    ))}
+                    {/*{searchResult.map((set,index) => (
+                        <Video OneOfGameData={set} myGame={myGame} />
+                    ))}*/}
+                </div>
             </div>
-            <Footer />
-        </>
-
+        </div>
     )
 }
 
-export default MyListScreen;
+export default SearchScreen;

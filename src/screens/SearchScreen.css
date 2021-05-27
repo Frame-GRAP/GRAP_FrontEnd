@@ -1,0 +1,26 @@
+.searchScreen {
+    position: relative;
+    background-color: #111111;
+    min-height: 100vh;
+}
+
+.searchScreen_body {
+    position: relative;
+    top: 100px;
+    width: 100%;
+    background-color: #111111;
+}
+
+.searchScreen_body > h2 {
+    color: white;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.searchScreen_result {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20%, auto));
+    gap: 40px 10px;
+    place-items: center;
+    padding: 20px;
+}

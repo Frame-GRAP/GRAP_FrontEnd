@@ -24,6 +24,7 @@ import {useSelector} from "react-redux";
 import Footer from "../../Footer";
 import RowCustom from "../../RowCustom";
 import TempRow from "../../TempRow";
+import SearchScreen from "../SearchScreen";
 
 function HomeScreen(){
     const [visible, setVisible] = useState(false);
@@ -45,6 +46,10 @@ function HomeScreen(){
     const [mainGameName, setMainGameName] = useState("");
     const [relatedGame, setRelatedGame] = useState([]);
     const user = useSelector(selectUser);
+
+
+    const [searching, setSearching] = useState(false);
+    const [searchWord, setSearchWord] = useState("");
 
     useEffect(()=> {
         async function fetchUserData() {
@@ -141,61 +146,61 @@ function HomeScreen(){
         })
     }, [])
 
-
     if(loading) return (<div>Loading...</div>);
     return (
         <>
             <div id="homeScreen" className="homeScreen">
-                <Nav />
+                <Nav setSearchWord={setSearchWord} setSearching={setSearching}/>
+                { searching ? (
+                        <SearchScreen searchWord={searchWord} />
+                ) : (
+                    <>
+                        <Banner />
 
-                <Banner />
+                        <Row
+                            title={`${user.nickname}님을 위한 맞춤 콘텐츠`}
+                            category={userOwnCategory}
+                            setPopupUrl={setPopupUrl}
+                            setVisible={setVisible}
+                            posY={posY}
+                        />
 
+                        <RowCustom
+                            title="실시간 인기 급상승"
+                            gameArr={popGame}
+                            setPopupUrl={setPopupUrl}
+                            setVisible={setVisible}
+                            posY={posY}
+                        />
 
-                <Row
-                    title={`${user.nickname}님을 위한 맞춤 콘텐츠`}
-                    category={userOwnCategory}
-                    setPopupUrl={setPopupUrl}
-                    setVisible={setVisible}
-                    posY={posY}
-                />
+                        <RowCustom
+                            title={`${mainGameName}과 관련된 컨텐츠`}
+                            gameArr={relatedGame}
+                            setPopupUrl={setPopupUrl}
+                            setVisible={setVisible}
+                            posY={posY}
+                        />
 
-
-                <RowCustom
-                    title="실시간 인기 급상승"
-                    gameArr={popGame}
-                    setPopupUrl={setPopupUrl}
-                    setVisible={setVisible}
-                    posY={posY}
-                />
-
-                <RowCustom
-                    title={`${mainGameName}과 관련된 컨텐츠`}
-                    gameArr={relatedGame}
-                    setPopupUrl={setPopupUrl}
-                    setVisible={setVisible}
-                    posY={posY}
-                />
-
-                {/*<TempRow
+                        {/*<TempRow
                 title="신규 게임"
                 setPopupUrl={setPopupUrl}
                 setVisible={setVisible}
                 posY={posY}
             />*/}
-               {categoryResult.map((set, index) => {
-                    return(
-                        <Row
-                            key={index}
-                            title={`${set.uiName} 게임`}
-                            category={set}
-                            setPopupUrl={setPopupUrl}
-                            setVisible={setVisible}
-                            posY={posY}
-                        />
-                    )
-                })}
-
-
+                        {categoryResult.map((set, index) => {
+                            return(
+                                <Row
+                                    key={index}
+                                    title={`${set.uiName} 게임`}
+                                    category={set}
+                                    setPopupUrl={setPopupUrl}
+                                    setVisible={setVisible}
+                                    posY={posY}
+                                />
+                            )
+                        })}
+                    </>
+                )}
             </div>
             <div>
                 <Modal

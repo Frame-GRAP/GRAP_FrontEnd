@@ -100,8 +100,6 @@ function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
                                 itemClass="list_item"
                                 sliderClass="row_posters"
                                 dotListClass="dot_list">
-
-
                     {
                         (gameData.map((set, index) => (
                             (index <= 10 && set.name!==`${lastGame}`) && (

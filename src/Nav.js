@@ -9,8 +9,9 @@ import {grey} from "@material-ui/core/colors";
 import SearchIcon from '@material-ui/icons/Search';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import axios from "axios";
 
-function Nav() {
+function Nav({setSearchWord, setSearching}) {
     const history = useHistory();
     const [show, handleShow] = useState(false);
     const user = useSelector(selectUser);
@@ -31,8 +32,23 @@ function Nav() {
 
     const SignOut = async event => {
         dispatch(logout())
-        console.log(user);
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('name');
+        localStorage.removeItem('nickname');
         history.push("/");
+    }
+
+    const handleChange = (e) => {
+        const temp = e.target.value;
+        console.log(temp);
+        if(temp !== ""){
+            setSearching(true);
+        }
+        else{
+            setSearching(false);
+        }
+
+        console.log(temp);
     }
 
     return (
@@ -50,13 +66,17 @@ function Nav() {
                 <div className="nav_secondary">
                     <div className="secondary_element">
                         <div className="search_element">
-                            <IconButton
-                                aria-label="delete"
-                                className="nav_search"
-                                onClick={() => history.push("/")}
-                            >
-                                <SearchIcon style={{ fontSize: 40, color: grey[50]}}/>
-                            </IconButton>
+                            <input className="search expandright" id="searchright"
+                                   type="search" name="q" placeholder="Search" onChange={handleChange}/>
+                            <label className="button searchbutton" htmlFor="searchright">
+                                <IconButton
+                                    aria-label="delete"
+                                    className="nav_search"
+                                    /*onClick={() => history.push("/")}*/
+                                >
+                                    <SearchIcon style={{ fontSize: 40, color: grey[50]}}/>
+                                </IconButton>
+                            </label>
                         </div>
                     </div>
                     <div className="secondary_element">

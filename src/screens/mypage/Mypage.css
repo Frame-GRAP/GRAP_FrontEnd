@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Oswald&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&family=Noto+Sans+KR&display=swap');
 
 .mypage {
     height: 100vh;
-    color: #fff;
 }
 
+/* Grap logo */
 .mypage_nav{
     padding: 10px;
     width: 100%;
@@ -21,50 +21,65 @@
     cursor: pointer;
 }
 
-.mypage_contents {
-    width: 600px;
-    min-width: 60%;
+
+.mypage_container {
+    width: 800px;
+    min-width: 50%;
+    font-size: 20px;
     
     margin: auto;  
     padding: 20px;
 }
-.mypage_contents > h1 {
-    /* font-family: 'Malgun Gothic;'; */
-    font-family: 'Noto Sans', sans-serif;
-}
-.mypage_contents > hr {
-    background-color: #fff;
-    height: 1px;
-    border: 0;
-}
 
 
-.account_header{ /* My Info */
+.mypage_header{ /* My Info */
     margin-bottom: 5px;
+    color: #fff;
+}
+.account_header{
+    font-family: 'Nanum Gothic Coding', monospace;
 }
 
+.account_sections {
+    font-size: 20px;
+    color: #e6e6e6e7;
+}
 .account_section {
+    /* font-family: 'Nanum Gothic Coding', monospace; */
+    font-family: 'Noto Sans', sans-serif;
+
+
     display: flex;
     justify-content: space-between;
-    padding-top: 10px;
-    padding-bottom: 100px;
-    border-top: 1px solid #fff;
+    padding-top: 20px;
+    border-top: 1px solid rgba(16, 149, 201, 0.63);
+}
+.account_section:nth-child(1){
+    /* border-top: 5px solid #66b5ae; */
+    border-top: 5px solid rgba(16, 149, 201, 0.63);
+    margin-bottom: 30px;
 }
 .account_section:nth-child(2){
-    border-top: 5px solid rgb(172, 179, 134);
+    margin-bottom: 50px;
 }
-
 .account_section_header .account_section_info .account_section_modify{
     padding: 5px;
 }
-.account_section_header{
-    flex: 2;
-    font-size: 20px;
+
+.account_section_header{ flex: 2; font-size: 20px; }
+.account_section_header> .header_title{
+    margin-left: 10px;
 }
-.account_section_info{
-    flex: 2;
-    font-size: 17px;
-}
+
+
+.account_section_info {flex: 2;}
+.account_section_info > .email{}
+.account_section_info > .password {font-size: 19px; color: gray;}
+.account_section_info > .card_info {}
+.account_section_info > .card_modify_date {font-size: 14px; color: gray}
+.account_section_info > .membership_info{font-size: 30px;}
+
+
 .account_section_modify{
     flex: 1;
     font-size: 17px;
@@ -72,25 +87,24 @@
     margin-right: 10px;
     margin-top: 3px;
 }
-.modify{
-    /* position: absolute;
-    right: 0; */
-}
 
-.user_escape, .membership_escape{
+.membership_escape{
     height: 50px;
-    width: 180px;
-    background-color: #e6e6e656;
+    width: 170px;
+
     color: #e6e6e6e7;
+    border: 1px solid rgba(16, 149, 201, 0.349);
+    background-color: rgba(16, 149, 201, 0.63);
 
     font-family: 'Noto Sans', sans-serif;
     font-size: 20px;
     cursor: pointer;
 
     margin-top: 10px;
+    margin-left: 10px;
 }
 .user_escape:hover, .membership_escape:hover{
-    background-color: #e6e6e613;
+    background-color: rgb(16, 149, 201);
     transition-timing-function: ease-in-out;
     transition: all 0.5s;
 }

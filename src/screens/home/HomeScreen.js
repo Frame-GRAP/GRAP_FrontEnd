@@ -44,6 +44,10 @@ function HomeScreen(){
     const [popGame, setPopGame] = useState([]);
     const [mainGameName, setMainGameName] = useState("");
     const [relatedGame, setRelatedGame] = useState([]);
+
+    const [searchWord, setSearchWord] = useState("");
+    const [searching, setSearching] = useState(false);
+
     const user = useSelector(selectUser);
 
     useEffect(()=> {
@@ -98,13 +102,11 @@ function HomeScreen(){
 
     // popupGameData Fetch (popupUrl이 바뀔때 마다)
     useEffect(()=> {
-        async function fetchData() {
-            const request = await axios.get(popupUrl);
+        axios.get(popupUrl)
+            .then((res)=>{
+                setPopupGameData(res.data);
+            })
 
-            setPopupGameData(request.data);
-            return request;
-        }
-        fetchData();
     }, [popupUrl])
 
     // ESC 누르면 팝업창 사라짐
@@ -150,7 +152,6 @@ function HomeScreen(){
 
                 <Banner />
 
-
                 <Row
                     title={`${user.nickname}님을 위한 맞춤 콘텐츠`}
                     category={userOwnCategory}
@@ -160,7 +161,7 @@ function HomeScreen(){
                 />
 
 
-                <RowCustom
+                {/* <RowCustom
                     title="실시간 인기 급상승"
                     gameArr={popGame}
                     setPopupUrl={setPopupUrl}
@@ -174,7 +175,7 @@ function HomeScreen(){
                     setPopupUrl={setPopupUrl}
                     setVisible={setVisible}
                     posY={posY}
-                />
+                /> */}
 
                 {/*<TempRow
                 title="신규 게임"

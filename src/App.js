@@ -7,8 +7,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {login, logout, selectUser} from "./features/userSlice";
 import MyListScreen from "./screens/MyListScreen";
 import Mypage from "./screens/mypage/Mypage";
-import UserInfo from './screens/mypage/UserInfo';
+import UserInfo from './screens/userInfo/UserInfo';
 import MembershipScreen from "./screens/membership/MembershipScreen";
+import CouponList from './screens/coupon/CouponList';
 
 function App() {
     const user = useSelector(selectUser);
@@ -54,6 +55,9 @@ function App() {
                         </Route>
                         <Route exact path="/membership">
                             <MembershipScreen />
+                        </Route>
+                        <Route exact path="/coupon">
+                            <CouponList />
                         </Route>
                     </Switch>
                 )}

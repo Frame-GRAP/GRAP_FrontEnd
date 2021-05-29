@@ -24,11 +24,11 @@
     margin-bottom: 30px;
 }
 
-.membership_group {
+ .membership_group {
     list-style:none;
     height: 400px;
     text-align: center;
-}
+} 
 
 .membership_list {
     display: inline-block;

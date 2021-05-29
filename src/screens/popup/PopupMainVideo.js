@@ -17,9 +17,9 @@ function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible,
 
     let player_Url;
     if(mainVideo.platform === "twitch"){
-        player_Url = `https://clips.twitch.tv/embed?clip=${mainVideo.urlKey}&parent=localhost&controls=0&autoplay=true&origin=http://localhost:3000`
+        player_Url = `https://clips.twitch.tv/embed?clip=${mainVideo.urlKey}&parent=localhost&controls=0&origin=http://localhost:3000`
     }else if(mainVideo.platform === "youtube"){
-        player_Url = `https://www.youtube.com/embed/${mainVideo.urlKey}?autoplay=1&mute=0&controls=0`
+        player_Url = `https://www.youtube.com/embed/${mainVideo.urlKey}?mute=0&controls=0`
     }
 
     function OpenVideoDeclaration(){

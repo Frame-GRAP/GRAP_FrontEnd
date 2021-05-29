@@ -38,11 +38,13 @@ function PopupGameDescription({popupGameData}) {
                             <div className="detail__detail">
                                 {
                                     popupGameData.developer
+                                    // .replaceAll("\"", "").replace("[","").replace("]","")
                                 }
                             </div>
                             <div className="detail__detail">
                                 {
                                     popupGameData.publisher
+                                    // .replaceAll("\"", "").replace("[","").replace("]","")
                                 }
                             </div>
                             <div className="detail__detail">{popupGameData.releaseDate}</div>

@@ -1,0 +1,209 @@
+.couponList{
+    background-color: rgba(0, 0 , 0, 100);
+    position: relative;
+    min-height: 100vh;
+    height: 100%
+    /* height: 100vh; */
+}
+.coupon_nav{
+    padding: 10px;
+    width: 100%;
+    height: 60px;
+    z-index: 1;
+
+    /* Animations */
+    transition-timing-function: ease-in;
+    transition: all 0.5s;
+}
+.coupon_nav_logo{
+    padding-left: 5%;
+    padding-top: 5px;
+    cursor: pointer;
+}
+
+
+.couponList_container{
+    width: 100%;
+    max-width: 1000px;
+    min-height: 100vh;
+
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+
+    color: #fff;
+    padding: 70px;
+    border-radius: 20px;
+    background: #252525;
+}
+
+.coupon_title{
+    text-align: center;
+    color: #fff;
+
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.coupon_title > h1 {font-size: 40px;}
+.coupon_available{
+    font-size: 17px;
+    font-family: 'Heebo', sans-serif;
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+.coupon_available > h1 {margin-bottom: 10px;}
+
+.coupon_available > button {
+    font-size: 21px;
+    font-weight: 600;
+    color: #fff;
+
+    height: 60px;
+    width: 380px;
+    padding: 5px 20px;
+
+    border-radius: 20px;
+    background-color: #1351F9;
+    border: none;
+    cursor: pointer; 
+}
+.coupon_available > button:hover{
+    background-color: #1350f971;
+    /* background-color: #e6e6e613; */
+    transition-timing-function: ease-in-out;
+    transition: all 0.5s;
+}
+.coupon_available > .issuance {
+    width: 150px;
+    margin-right: 10px;
+}
+.coupon_available > .issuance:hover{
+    background-color: #132b97dc;
+    transition-timing-function: ease-in-out;
+    transition: all 0.5s;
+}
+.coupon_available > .cancle {
+    width: 150px;
+    background: #e6e6e613;
+}
+.coupon_available > .cancle:hover{
+    background: #e6e6e613;
+}
+
+.coupon_items {
+    margin: 50px;
+}
+.coupon_items_title{
+    font-size: 20px;
+    font-family: 'Heebo', sans-serif;
+
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+
+.coupon_item{
+    display: flex;
+    margin-bottom: 20px;
+}
+.coupon_item_img{
+    flex: 1;
+    text-align: center;
+    height: 200px;
+}
+.coupon_item_description{
+    flex: 1;
+    margin-left: 30px;
+    text-align: center;
+}
+.coupon_item_description > .coupon_item_gameName {
+    font-size: 20px;
+    font-family: 'Heebo', sans-serif;
+    margin-top: 5px;
+    height: 80px;
+    /* margin-bottom: 10px; */
+
+}
+
+.couponCode_codeNum{
+    font-size:30px;
+    font-family: 'Heebo', sans-serif;
+    color: #e6e6e62f;
+    /* color: #e6e6e656; */
+    height: 40px;
+
+}
+.couponCode_codeNum > .coupon_number{
+    display: none;
+    position: relative;
+    bottom: 0;
+}
+
+
+.couponCode_btn{
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+
+    height: 65px;
+    width: 140px;
+    padding: 5px 20px;
+
+    border: none;
+    border-radius: 60px;
+    background-color: #4E8DF5;
+    /* background-color: #e6e6e656; */
+    cursor: pointer;
+}
+.couponCode_btn:hover{
+    background-color: #4e8ef583;
+
+    /* background-color: #e6e6e613; */
+    transition-timing-function: ease-in-out;
+    transition: all 0.5s;
+}
+
+
+.coupon_issue{
+    margin-bottom: 50px;
+}
+.coupon_issue > .coupon_gameSelect{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30%, auto));
+    gap: 20px 20px;
+    place-items: center;
+    margin-top: 50px;
+}
+.coupon_item{
+    padding: 10px;
+
+}
+
+.coupon_gameSelect_Btn{
+    display: none;
+    cursor: pointer;
+}
+.coupon_gameSelect_Btn + label {
+    display: inline-block;
+    filter: grayscale(0);
+    cursor: pointer;
+    line-height: 22px;
+}
+.coupon_gameSelect_Btn:hover + label {
+    transform: scale(1.1);
+}
+.coupon_gameSelect_Btn:checked + label {
+    filter: grayscale(30);
+}
+.coupon_gameSelect_Btn:checked + label {
+    transform: scale(1.1);
+    filter: grayscale(20);
+}
+.coupon_gameImg{
+    width: 100%;
+    cursor: pointer;
+    transition-timing-function: ease-in-out;
+    transition: all 0.5s;
+}

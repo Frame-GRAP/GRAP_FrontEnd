@@ -343,7 +343,6 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     return (
         <div className="popup__Review">
             <div className="title__font">Review</div>
-            <br/>
 
             <div className="Reviews">
                 <div className="Review__contents">

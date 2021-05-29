@@ -29,8 +29,13 @@ function Nav() {
         return () => window.removeEventListener("scroll", transitionNavBar);
     }, []);
 
+
     const SignOut = async event => {
         dispatch(logout())
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('name');
+        localStorage.removeItem('nickname');
+
         console.log(user);
         history.push("/");
     }
@@ -64,7 +69,7 @@ function Nav() {
                             <IconButton
                                 aria-label="delete"
                                 className="nav_membership"
-                                onClick={() => history.push("/")}
+                                onClick={() => history.push("/membership")}
                             >
                                 <VpnKeyIcon style={{ fontSize: 40, color: grey[50]}}/>
                             </IconButton>

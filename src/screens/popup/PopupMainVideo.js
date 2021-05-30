@@ -7,12 +7,23 @@ function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible,
     // Data Fetch
     const axios = require('axios');
     useEffect(()=> {
-        async function fetchData() {
-            const request = await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`);
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`)
+            .then((res)=>{
+                console.log(res.data);
 
-            setMainVideo(request.data[popupMainVideoIndex]);
-        }
-        fetchData();
+                // -> 이 아래 코드 처음 실행할 때 오류가 뜨네
+                let temp;
+                res.data.map((set) => {
+                    if(set.id === popupMainVideoIndex) {
+                        temp = set;
+                    }
+                })
+                console.log(temp);
+                setMainVideo(temp);
+
+                // setMainVideo(res.data[popupMainVideoIndex]);
+            })
+            
     }, [popupGameData, popupMainVideoIndex]);
 
     let player_Url;

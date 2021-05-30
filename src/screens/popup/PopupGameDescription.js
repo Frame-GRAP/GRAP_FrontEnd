@@ -36,16 +36,18 @@ function PopupGameDescription({popupGameData}) {
                         </div>
                         <div className="detail__desc">
                             <div className="detail__detail">
-                                {
+                                {popupGameData.developer ? (
+                                    popupGameData.developer.replaceAll("\"", "").replace("[","").replace("]","")
+                                    ) : (
                                     popupGameData.developer
-                                    // .replaceAll("\"", "").replace("[","").replace("]","")
-                                }
+                                )}
                             </div>
                             <div className="detail__detail">
-                                {
+                                {popupGameData.publisher ? (
+                                    popupGameData.publisher.replaceAll("\"", "").replace("[","").replace("]","")
+                                    ) : (
                                     popupGameData.publisher
-                                    // .replaceAll("\"", "").replace("[","").replace("]","")
-                                }
+                                )}
                             </div>
                             <div className="detail__detail">{popupGameData.releaseDate}</div>
                         </div>
@@ -53,7 +55,7 @@ function PopupGameDescription({popupGameData}) {
                     </div>
                     <div className="detail_download">
                         <a
-                            // href={popupGameData.downloadUrl}
+                            href={popupGameData.downloadUrl}
                         >
                             <button className="download_btn">다운로드</button>
                         </a>

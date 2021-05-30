@@ -66,13 +66,18 @@ function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible
     }
 
     useEffect(() => { // popupGameData 또는 popupMainVideoIndex가 바뀌면 그에 따른 '메인 비디오에 들어갈 Id(=videoId)'를 갱신한다.
-      async function fetchData() {
-        const request = await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`);
-
-        setVideoId(request.data[popupMainVideoIndex].id);
-      }
-    
-      fetchData();
+      axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`)
+      .then((res)=>{
+          let temp;
+          res.data.map((set) => {
+              if(set.id === popupMainVideoIndex) {
+                  temp = set;
+              }
+          })
+          console.log(temp);
+          setVideoId(temp.id);
+          // setVideoId(res.data[popupMainVideoIndex].id);
+      })
     }, [popupGameData, popupMainVideoIndex]);
 
     return (

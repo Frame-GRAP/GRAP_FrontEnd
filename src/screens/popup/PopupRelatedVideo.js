@@ -8,21 +8,27 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
     // Video Data Fetch
     const axios = require('axios');
     useEffect(()=> {
-        async function fetchData() {
-            const request = await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`);
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`)
+            .then((res)=>{
+                // 나중에 liked가 높은 순으로 정렬.
+                // 이거 적용하려면 일단 관련 비디오의 index 따오는 코드를 id 따오는 코드로 변환해야 함.
 
-            console.log(request.data);
-            setVideoData(request.data);
-            return request;
-        }
+                const sortedArrayByLength = [...res.data].sort(function(a, b){ 
+                    return parseFloat(b.length) - parseFloat(a.length);
+                })
+                console.log(sortedArrayByLength);
 
-        fetchData();
-        console.log(videoData);
+                setVideoData(sortedArrayByLength);
+                // setVideoData(res.data);
+
+                // console.log(videoData);
+            })
     }, [popupGameData]);
 
 
     function toggleMainVideo(e){
         const relatedVideoIndex = Number(e.target.id);
+        // console.log(e.target);
         setPopupMainVideoIndex(relatedVideoIndex);
     }
 
@@ -31,7 +37,8 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
             {/* <div className="related__Title title__font">Related Video</div> */}
             <div className="related__Video">
                 {videoData.map((set, index) => {
-                    return (
+                    if(set.id == setPopupMainVideoIndex) return;
+                    else return (
                         <>
                             {/* <img
                                 className="related_poster"
@@ -41,13 +48,13 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
                                 key={index}
                                 onClick={toggleMainVideo}
                             /> */}
-                            <div className="related__contents">
+                            {<div className="related__contents">
                                 <img
                                     className="related_poster"
                                     src={set.image}
-                                    id={index}
+                                    id={set.id}
                                     alt="game"
-                                    key={index}
+                                    key={index} // index -> id로 바꿔야 함.
                                     onClick={toggleMainVideo}
                                 />
                                 <div className="related_desc">
@@ -62,7 +69,7 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
                                         {set.length}
                                     </div>
                                 </div>
-                            </div>
+                            </div>}
                         </>
                     )
                 })}

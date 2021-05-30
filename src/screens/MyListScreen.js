@@ -7,6 +7,7 @@ import './MyListScreen.css';
 import Video from "../Video";
 import Footer from "../Footer";
 import SearchScreen from "./SearchScreen";
+import VideoModal from "../VideoModal";
 
 function MyListScreen() {
     const [myGameData, setMyGameData] = useState([]);
@@ -18,6 +19,11 @@ function MyListScreen() {
 
     const [searching, setSearching] = useState(false);
     const [searchWord, setSearchWord] = useState("");
+
+    const [videoShow, setVideoShow] = useState(false);
+    const [X, setX] = useState(0);
+    const [Y, setY] = useState(0);
+    const [curGame, setCurGame] = useState([]);
 
     useEffect(() => {
         async function fetchMyData() {
@@ -54,15 +60,24 @@ function MyListScreen() {
                         <h2>내가 찜한 목록</h2>
                         <div className="myListScreen_result">
                             {myGameData.map((set,index) => (
-                                <Video OneOfGameData={set} myGame={myGame} />
+                                <Video
+                                    setVideoShow={setVideoShow}
+                                   setX={setX}
+                                   setY={setY}
+                                   OneOfGameData={set}
+                                   myGame={myGame}
+                                   setCurGame={setCurGame}
+                                />
                             ))}
                         </div>
                     </div>
                 )}
             </div>
+            <div className="video_modal">
+                {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y}OneOfGameData={curGame}/>}
+            </div>
             <Footer />
         </>
-
     )
 }
 

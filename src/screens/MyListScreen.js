@@ -62,11 +62,11 @@ function MyListScreen() {
                             {myGameData.map((set,index) => (
                                 <Video
                                     setVideoShow={setVideoShow}
-                                   setX={setX}
-                                   setY={setY}
-                                   OneOfGameData={set}
-                                   myGame={myGame}
-                                   setCurGame={setCurGame}
+                                    setX={setX}
+                                    setY={setY}
+                                    OneOfGameData={set}
+                                    myGame={myGame}
+                                    setCurGame={setCurGame}
                                 />
                             ))}
                         </div>

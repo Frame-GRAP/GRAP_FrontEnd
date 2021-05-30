@@ -19,8 +19,8 @@
 
 .searchScreen_result {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20%, auto));
-    gap: 40px 10px;
+    grid-template-columns: repeat(auto-fill, minmax(17%, auto));
+    gap: 40px 40px;
     place-items: center;
-    padding: 20px;
+    margin: 40px;
 }

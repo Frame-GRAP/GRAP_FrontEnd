@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import $ from "jquery"
-import './Video.css';
 import axios from "axios";
 import {useSelector} from "react-redux";
 import {selectUser} from "./features/userSlice";
@@ -14,15 +13,17 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {grey, red} from "@material-ui/core/colors";
-import VideoModal from "./VideoModal";
+import "./VideoModal.css";
 
-function Video({videoShow, setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVisible, posY, myGame = [], setCurGame}) {
+
+function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVisible, posY, myGame = []}) {
     const [loading, setLoading] = useState(true);
     const [videoData, setVideoData] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
     const user = useSelector(selectUser);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [delayHandler, setDelayHandler] = useState(null);
+    const [curY, setCurY] = useState(0);
+    const [curX, setCurX] = useState(0);
 
     useEffect(() => {
         async function fetchData() {
@@ -43,14 +44,23 @@ function Video({videoShow, setVideoShow, setX, setY, setPopupUrl, OneOfGameData 
                 }
             })
         }
+
+        if(Y < 0){
+            setCurY(0);
+        }
+        else{
+            setCurY(Y - 30);
+        }
+
+        setCurX(X + window.scrollY - 50);
+
         fetchData();
         check();
-        setCurGame(OneOfGameData);
         setLoading(false);
         return () => {
             setLoading(true);
         }
-    }, [OneOfGameData]);
+    }, []);
 
 
     function OpenModal(e){
@@ -104,91 +114,72 @@ function Video({videoShow, setVideoShow, setX, setY, setPopupUrl, OneOfGameData 
     }
 
     const handleOver = event => {
-        console.log(event.target.getBoundingClientRect().top);
-        setX(event.target.getBoundingClientRect().top);
-        console.log(event.target.getBoundingClientRect().left);
-        setY(event.target.getBoundingClientRect().left);
-        setDelayHandler(setTimeout(() => {
-            setVideoShow(true);
-        }, 500))
-        clearTimeout(delayHandler);
-        console.log("in");
-        ///setAnchorEl(event.currentTarget);
+        setAnchorEl(event.currentTarget);
     };
 
     const handleOut = () => {
-        console.log("close modal");
+        setAnchorEl(null);
+        console.log("out")
         setVideoShow(false);
-        ///setAnchorEl(null);
     };
 
-    const theme2 = createMuiTheme({
-        overrides: {
-            MuiPopover: {
-                root: {},
-                paper: {
-                    width: 400,
-                    height: 450,
-                    background: '#1d2327',
-                }
-            }
-        }
-    });
+
 
     if(loading) return (<div>Loading...</div>);
-    return (
-        <div className="row_container">
-            <div className="row_item" onMouseEnter={handleOver}>
-                <img className="row_img" src={OneOfGameData.headerImg} alt="game"/>
-            </div>
 
-            {/*{show & (
-                <div className="row_item" onMouseLeave={handleOut}>
-                    <iframe
-                        className="row_video"
-                        width="100%" height="270px"
-                        src={player_Url}
-                        scrolling="no"
-                        frameBorder="0"
-                        allow="autoplay"/>
-                    <Tooltip title="상세정보" placement="bottom">
+    return (
+        <div
+            className="row_modal"
+            onMouseLeave={handleOut}
+            style={{
+                top: curX,
+                left: curY,
+            }}
+        >
+            <div className="modal_item">
+                <iframe
+                    className="modal_video"
+                    width="100%" height="270px"
+                    src={player_Url}
+                    scrolling="no"
+                    frameBorder="0"
+                    allow="autoplay"/>
+                <Tooltip title="상세정보" placement="bottom">
+                    <IconButton
+                        aria-label="delete"
+                        className="game_info"
+                        id={OneOfGameData.id}
+                        onClick={OpenModal}
+                    >
+                        <AddCircleIcon style={{ fontSize: 40, color: grey[50]}} />
+                    </IconButton>
+                </Tooltip>
+                {!isAdded ? (
+                    <Tooltip title="찜한목록에 추가" placement="bottom">
                         <IconButton
                             aria-label="delete"
-                            className="game_info"
+                            className="add_mylist"
                             id={OneOfGameData.id}
-                            onClick={OpenModal}
+                            onClick={(e) => addMyList(OneOfGameData.id, e)}
                         >
-                            <AddCircleIcon style={{ fontSize: 40, color: grey[50]}} />
+                            <FavoriteBorderIcon style={{ fontSize: 40, color: grey[50]}}/>
                         </IconButton>
                     </Tooltip>
-                    {!isAdded ? (
-                        <Tooltip title="찜한목록에 추가" placement="bottom">
-                            <IconButton
-                                aria-label="delete"
-                                className="add_mylist"
-                                id={OneOfGameData.id}
-                                onClick={(e) => addMyList(OneOfGameData.id, e)}
-                            >
-                                <FavoriteBorderIcon style={{ fontSize: 40, color: grey[50]}}/>
-                            </IconButton>
-                        </Tooltip>
-                    ) : (
-                        <Tooltip title="찜한목록에서 삭제" placement="bottom">
-                            <IconButton
-                                aria-label="delete"
-                                className="add_mylist"
-                                id={OneOfGameData.id}
-                                onClick={(e) => deleteMyList(OneOfGameData.id, e)}
-                            >
-                                <FavoriteIcon style={{ fontSize: 40, color: grey[50]}}/>
-                            </IconButton>
-                        </Tooltip>
-                    )}
-                </div>
-            )}*/}
-
+                ) : (
+                    <Tooltip title="찜한목록에서 삭제" placement="bottom">
+                        <IconButton
+                            aria-label="delete"
+                            className="add_mylist"
+                            id={OneOfGameData.id}
+                            onClick={(e) => deleteMyList(OneOfGameData.id, e)}
+                        >
+                            <FavoriteIcon style={{ fontSize: 40, color: grey[50]}}/>
+                        </IconButton>
+                    </Tooltip>
+                )}
+            </div>
         </div>
     );
 }
 
-export default Video;
+export default VideoModal;

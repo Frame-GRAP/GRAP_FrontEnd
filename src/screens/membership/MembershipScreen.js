@@ -49,13 +49,13 @@ function MembershipScreen() {
 
     const payment = () => {
         const price = RegisterMembership();
+        console.log(user.user_id);
 
-        /*IMP.request_pay({
-            pay_method : 'card', // 결제창 호출단계에서의 pay_method 는 아무런 역할을 하지 못하며, 구매자가 카카오페이 앱 내에서 신용카드 vs 카카오머니 중 실제 선택한 값으로 추후 정정됩니다.
+        IMP.request_pay({
             merchant_uid : 'merchant_' + new Date().getTime(),
             name : '최초인증결제',
-            amount : 1004, // 빌링키 발급과 동시에 1,004원 결제승인을 시도합니다.
-            customer_uid : 'your-customer-unique-id', //customer_uid 파라메터가 있어야 빌링키 발급이 정상적으로 이뤄집니다.
+            amount : `${price}`, // 빌링키 발급만 진행하며 결제승인을 하지 않습니다.
+            customerUid : `${user.user_id}`, //customer_uid 파라메터가 있어야 빌링키 발급이 정상적으로 이뤄집니다.
             buyer_email : 'iamport@siot.do',
             buyer_name : '아임포트',
             buyer_tel : '02-1234-1234'
@@ -63,12 +63,13 @@ function MembershipScreen() {
             if (rsp.success) {
                 // 빌링키 발급 성공
                 // axios로 HTTP 요청
+                console.log(rsp.imp_uid);
                 axios({
-                    url: "https://www.myservice.com/billings/", // 서비스 웹서버
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/checkPayment/${user.user_id}`, // 서비스 웹서버
                     method: "post",
                     headers: { "Content-Type": "application/json" },
                     data: {
-                        customer_uid: "gildong_0001_1234" // 카드(빌링키)와 1:1로 대응하는 값
+                        customerUid: `${user.user_id}` // 카드(빌링키)와 1:1로 대응하는 값
                     }
                 }).then((r) => {
                     console.log(r.data);
@@ -79,7 +80,7 @@ function MembershipScreen() {
                 // 빌링키 발급 실패
                 alert("결제에 실패하였습니다.");
             }
-        });*/
+        });
     };
 
     useEffect(() => {

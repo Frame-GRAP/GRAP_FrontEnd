@@ -1,0 +1,32 @@
+.row_modal {
+    display: flex;
+    justifyContent: center;
+    alignItems: center;
+    position: absolute;
+    width: 24%;
+    height: 40%;
+    cursor: pointer;
+    animation: createBox .5s;
+}
+
+.modal_item {
+    width: 100%;
+    textAlign: center;
+    borderRadius: 30;
+    background: grey;
+    fontSize: 20;
+    color: white;
+    height: 100%;
+    border-radius: 5px;
+}
+
+
+@keyframes createBox {
+    from {
+        transform: scale(0.9);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+

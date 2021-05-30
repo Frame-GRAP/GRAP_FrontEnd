@@ -7,7 +7,7 @@ import axios from "axios";
 import {useSelector} from "react-redux";
 import {selectUser} from "./features/userSlice";
 
-function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
+function Row({setVideoShow, setX, setY, title, category = [], setPopupUrl, setVisible, posY, setCurGame}) {
     const [loading, setLoading] = useState(true);
     const [myGame, setMyGame] = useState([]);
     const [gameData, setGameData] = useState([]);
@@ -106,11 +106,15 @@ function Row({ title, category = [], setPopupUrl, setVisible, posY }) {
                                 <Video
                                     key={index}
                                     className="row_poster"
+                                    setVideoShow={setVideoShow}
+                                    setX={setX}
+                                    setY={setY}
                                     OneOfGameData={set}
                                     setVisible={setVisible}
                                     setPopupUrl={setPopupUrl}
                                     posY={posY}
                                     myGame={myGame}
+                                    setCurGame={setCurGame}
                                 />
                             )
                         )))

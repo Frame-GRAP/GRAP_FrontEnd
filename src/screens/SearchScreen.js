@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {selectUser} from "../features/userSlice";
 import './SearchScreen.css';
 import Video from "../Video";
+import VideoModal from "../VideoModal";
 
 function SearchScreen({searchWord}) {
     const [myGameData, setMyGameData] = useState([]);
@@ -14,6 +15,11 @@ function SearchScreen({searchWord}) {
     const [posY, setPosY] = useState(false);
     const user = useSelector(selectUser);
     const [loading, setLoading] = useState(true);
+
+    const [videoShow, setVideoShow] = useState(false);
+    const [X, setX] = useState(0);
+    const [Y, setY] = useState(0);
+    const [curGame, setCurGame] = useState([]);
 
     useEffect(() => {
         async function fetchMyData() {
@@ -55,12 +61,22 @@ function SearchScreen({searchWord}) {
                 <h2>검색결과</h2>
                 <div className="searchScreen_result">
                     {myGameData.map((set,index) => (
-                        <Video OneOfGameData={set} myGame={myGame} />
+                        <Video
+                            setVideoShow={setVideoShow}
+                            setX={setX}
+                            setY={setY}
+                            OneOfGameData={set}
+                            myGame={myGame}
+                            setCurGame={setCurGame}
+                        />
                     ))}
                     {/*{searchResult.map((set,index) => (
                         <Video OneOfGameData={set} myGame={myGame} />
                     ))}*/}
                 </div>
+            </div>
+            <div className="video_modal">
+                {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y-25}OneOfGameData={curGame}/>}
             </div>
         </div>
     )

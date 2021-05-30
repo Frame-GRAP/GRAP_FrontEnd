@@ -203,25 +203,23 @@ function HomeScreen(){
                             posY={posY}
                             setCurGame={setCurGame}
                         />
-
-                        {/*<TempRow
-                title="신규 게임"
-                setPopupUrl={setPopupUrl}
-                setVisible={setVisible}
-                posY={posY}
-            />*/}
-                        {/*{categoryResult.map((set, index) => {
+                        {categoryResult.map((set, index) => {
                             return(
                                 <Row
                                     key={index}
+                                    videoShow={videoShow}
+                                    setVideoShow={setVideoShow}
+                                    setX={setX}
+                                    setY={setY}
                                     title={`${set.uiName} 게임`}
                                     category={set}
                                     setPopupUrl={setPopupUrl}
                                     setVisible={setVisible}
                                     posY={posY}
+                                    setCurGame={setCurGame}
                                 />
                             )
-                        })}*/}
+                        })}
                     </>
                 )}
             </div>
@@ -287,8 +285,7 @@ function HomeScreen(){
             </div>
             <Footer />
         </>
-
-    )
+    );
 }
 
 export default HomeScreen;

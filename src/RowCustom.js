@@ -9,7 +9,7 @@ import {selectUser} from "./features/userSlice";
 
 
 
-function RowCustom({ title, gameArr=[], setPopupUrl, setVisible, posY }) {
+function RowCustom({setVideoShow, setX, setY, title, gameArr=[], setPopupUrl, setVisible, posY, setCurGame}) {
     const [loading, setLoading] = useState(true);
     const [myGame, setMyGame] = useState([]);
     const [gameData, setGameData] = useState([]);
@@ -49,8 +49,7 @@ function RowCustom({ title, gameArr=[], setPopupUrl, setVisible, posY }) {
                     });
             })
             setGameData(tempArr);
-            ///const len = gameData.length;
-            ///setLastGame(gameData[len - 1]);
+            console.log(gameData);
             return gameData;
         }
         fetchData().then((r) =>{
@@ -97,28 +96,24 @@ function RowCustom({ title, gameArr=[], setPopupUrl, setVisible, posY }) {
                                 itemClass="list_item"
                                 sliderClass="row_posters"
                                 dotListClass="dot_list">
-                    <Video
-                        className="row_poster"
-                        OneOfGameData={gameData}
-                        setVisible={setVisible}
-                        setPopupUrl={setPopupUrl}
-                        posY={posY}
-                        myGame={myGame}
-                    />
 
-                    {/*{gameData.map((set,index) => (
-                        (index <= 10 && set.name!==`${lastGame}`) && (
+
+                    {gameData.map((set,index) => (
+                        (index <= 10) && (
                             <Video
-                                key={index}
                                 className="row_poster"
+                                setVideoShow={setVideoShow}
+                                setX={setX}
+                                setY={setY}
                                 OneOfGameData={set}
                                 setVisible={setVisible}
                                 setPopupUrl={setPopupUrl}
                                 posY={posY}
                                 myGame={myGame}
+                                setCurGame={setCurGame}
                             />
                         ))
-                    )}*/}
+                    )}
 
                 </Multi_Carousel>
             </div>

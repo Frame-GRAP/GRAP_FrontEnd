@@ -178,21 +178,31 @@ function HomeScreen(){
                             setCurGame={setCurGame}
                         />
 
-                        {/*<RowCustom
+                        <RowCustom
+                            videoShow={videoShow}
+                            setVideoShow={setVideoShow}
+                            setX={setX}
+                            setY={setY}
                             title="실시간 인기 급상승"
                             gameArr={popGame}
                             setPopupUrl={setPopupUrl}
                             setVisible={setVisible}
                             posY={posY}
+                            setCurGame={setCurGame}
                         />
 
                         <RowCustom
+                            videoShow={videoShow}
+                            setVideoShow={setVideoShow}
+                            setX={setX}
+                            setY={setY}
                             title={`${mainGameName}과 관련된 컨텐츠`}
                             gameArr={relatedGame}
                             setPopupUrl={setPopupUrl}
                             setVisible={setVisible}
                             posY={posY}
-                        />*/}
+                            setCurGame={setCurGame}
+                        />
 
                         {/*<TempRow
                 title="신규 게임"

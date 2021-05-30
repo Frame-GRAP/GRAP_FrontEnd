@@ -26,17 +26,17 @@ function LoginScreen(){
             }
         }).then((res) => {
             if(res){
+                console.log(res.data)
                 dispatch(login({
                     user_id : res.data.id,
                     name : user.name,
-                    nickname: res.data.nickName
+                    nickname: res.data.nickname
                 }))
                 window.localStorage.setItem("user_id", JSON.stringify(res.data.id));
                 window.localStorage.setItem("name", JSON.stringify(user.name));
-                window.localStorage.setItem("nickname", JSON.stringify(res.data.nickName));
+                window.localStorage.setItem("nickname", JSON.stringify(res.data.nickname));
                 if(res.data.isRegistered == 1 && res.data.nickname !== null){
-                    history.push("/userInfo");
-                    //history.push("/");
+                    history.push("/");
                 }
                 else{
                     history.push("/userInfo");

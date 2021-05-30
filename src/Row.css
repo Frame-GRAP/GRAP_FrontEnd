@@ -1,11 +1,15 @@
 .row {
     color: white;
+    height: 250px;
+    margin-bottom: 20px;
+}
+
+.row_posters {
+    height: 80%;
 }
 
 .row_carousel {
-    padding: 20px;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
+    height: 100%;
 }
 
 .row > h2 {
@@ -13,32 +17,33 @@
     margin-left: 30px;
 }
 
-/*.row_posters:hover .list_item {
-    transition-delay: 0.3s;
-    transform: translateX(-10%);
+.row_poster {
+    height: 100%;
 }
 
-.list_item:hover ~ .list_item {
-    transition-delay: 0.3s;
-    transform: translateX(10%);
+.react-multi-carousel-track {
+    margin-bottom: 30px;
 }
-
-.list_item{
-    transition: all 0.3s ease;
-    margin-right: 10px;
-    margin-bottom: 20px;
-}
-
-.list_item:hover {
-    transition-delay: 0.3s;
-    transform: scale(1.2) !important;
-    background-color: black;
-}*/
 
 .react-multi-carousel-item {
-    padding: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 .react-multi-carousel-dot {
     margin-right: 5px;
+}
+
+.react-multiple-carousel__arrow {
+    background: rgba(0, 0, 0, 0.9);
+    min-width: 70px;
+    height: 80%;
+}
+
+.react-multiple-carousel__arrow--left {
+    left: 0;
+}
+
+.react-multiple-carousel__arrow--right {
+    right: 0;
 }

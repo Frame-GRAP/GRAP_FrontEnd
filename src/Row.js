@@ -98,8 +98,8 @@ function Row({setVideoShow, setX, setY, title, category = [], setPopupUrl, setVi
                                 infinite={true}
                                 responsive={responsive}
                                 itemClass="list_item"
-                                sliderClass="row_posters"
-                                dotListClass="dot_list">
+                                dotListClass="dot_list"
+                >
                     {
                         (gameData.map((set, index) => (
                             (index <= 10 && set.name!==`${lastGame}`) && (

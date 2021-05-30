@@ -25,6 +25,7 @@ import Footer from "../../Footer";
 import RowCustom from "../../RowCustom";
 import TempRow from "../../TempRow";
 import SearchScreen from "../SearchScreen";
+import VideoModal from "../../VideoModal";
 
 function HomeScreen(){
     const [visible, setVisible] = useState(false);
@@ -50,6 +51,11 @@ function HomeScreen(){
 
     const [searching, setSearching] = useState(false);
     const [searchWord, setSearchWord] = useState("");
+
+    const [videoShow, setVideoShow] = useState(false);
+    const [X, setX] = useState(0);
+    const [Y, setY] = useState(0);
+    const [curGame, setCurGame] = useState([]);
 
     useEffect(()=> {
         async function fetchUserData() {
@@ -146,6 +152,8 @@ function HomeScreen(){
         })
     }, [])
 
+    console.log(videoShow)
+
     if(loading) return (<div>Loading...</div>);
     return (
         <>
@@ -158,14 +166,19 @@ function HomeScreen(){
                         <Banner />
 
                         <Row
+                            videoShow={videoShow}
+                            setVideoShow={setVideoShow}
+                            setX={setX}
+                            setY={setY}
                             title={`${user.nickname}님을 위한 맞춤 콘텐츠`}
                             category={userOwnCategory}
                             setPopupUrl={setPopupUrl}
                             setVisible={setVisible}
                             posY={posY}
+                            setCurGame={setCurGame}
                         />
 
-                        <RowCustom
+                        {/*<RowCustom
                             title="실시간 인기 급상승"
                             gameArr={popGame}
                             setPopupUrl={setPopupUrl}
@@ -179,7 +192,7 @@ function HomeScreen(){
                             setPopupUrl={setPopupUrl}
                             setVisible={setVisible}
                             posY={posY}
-                        />
+                        />*/}
 
                         {/*<TempRow
                 title="신규 게임"
@@ -187,7 +200,7 @@ function HomeScreen(){
                 setVisible={setVisible}
                 posY={posY}
             />*/}
-                        {categoryResult.map((set, index) => {
+                        {/*{categoryResult.map((set, index) => {
                             return(
                                 <Row
                                     key={index}
@@ -198,11 +211,15 @@ function HomeScreen(){
                                     posY={posY}
                                 />
                             )
-                        })}
+                        })}*/}
                     </>
                 )}
             </div>
             <div>
+                <div className="video_modal">
+                    {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y} setPopupUrl={setPopupUrl} OneOfGameData={curGame} setVisible={setVisible} posY={posY}/>}
+                </div>
+
                 <Modal
                     modalRef={modalRef}
                     visible={visible}

@@ -141,52 +141,6 @@ function Video({videoShow, setVideoShow, setX, setY, setPopupUrl, OneOfGameData 
             <div className="row_item" onMouseEnter={handleOver}>
                 <img className="row_img" src={OneOfGameData.headerImg} alt="game"/>
             </div>
-
-            {/*{show & (
-                <div className="row_item" onMouseLeave={handleOut}>
-                    <iframe
-                        className="row_video"
-                        width="100%" height="270px"
-                        src={player_Url}
-                        scrolling="no"
-                        frameBorder="0"
-                        allow="autoplay"/>
-                    <Tooltip title="상세정보" placement="bottom">
-                        <IconButton
-                            aria-label="delete"
-                            className="game_info"
-                            id={OneOfGameData.id}
-                            onClick={OpenModal}
-                        >
-                            <AddCircleIcon style={{ fontSize: 40, color: grey[50]}} />
-                        </IconButton>
-                    </Tooltip>
-                    {!isAdded ? (
-                        <Tooltip title="찜한목록에 추가" placement="bottom">
-                            <IconButton
-                                aria-label="delete"
-                                className="add_mylist"
-                                id={OneOfGameData.id}
-                                onClick={(e) => addMyList(OneOfGameData.id, e)}
-                            >
-                                <FavoriteBorderIcon style={{ fontSize: 40, color: grey[50]}}/>
-                            </IconButton>
-                        </Tooltip>
-                    ) : (
-                        <Tooltip title="찜한목록에서 삭제" placement="bottom">
-                            <IconButton
-                                aria-label="delete"
-                                className="add_mylist"
-                                id={OneOfGameData.id}
-                                onClick={(e) => deleteMyList(OneOfGameData.id, e)}
-                            >
-                                <FavoriteIcon style={{ fontSize: 40, color: grey[50]}}/>
-                            </IconButton>
-                        </Tooltip>
-                    )}
-                </div>
-            )}*/}
-
         </div>
     );
 }

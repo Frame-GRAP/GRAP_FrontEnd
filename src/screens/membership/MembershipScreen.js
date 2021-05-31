@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {selectUser} from "../../features/userSlice";
 import Footer from "../../Footer";
 import Nav from "../../Nav";
-import './Membership2.css';
+import './MembershipScreen.css';
 import {useHistory} from "react-router-dom";
 import bronze from '../../img/bronze-medal.png';
 import silver from '../../img/silver-medal.png';
@@ -13,21 +13,14 @@ import SearchScreen from "../SearchScreen";
 
 const tiers = [
     {
-        title: 'Bronze',
+        title: 'Basic',
         price: '4500',
         description: ['게임 할인 쿠폰 3장 제공',],
         buttonText: 'Sign up for free',
         buttonVariant: 'outlined',
     },
     {
-        title: 'Silver',
-        price: '6500',
-        description: ['게임 할인 쿠폰 3장 제공',],
-        buttonText: 'Get started',
-        buttonVariant: 'contained',
-    },
-    {
-        title: 'Gold',
+        title: 'Premium',
         price: '9900',
         description: ['게임 할인 쿠폰 3장 제공',],
         buttonText: 'Contact us',
@@ -35,27 +28,27 @@ const tiers = [
     },
 ];
 
-
 function MembershipScreen() {
     const user = useSelector(selectUser);
     const [loading, setLoading] = useState(true);
     const history = useHistory();
-
     const [searching, setSearching] = useState(false);
     const [searchWord, setSearchWord] = useState("");
+    const [membershipData, setMembershipData] = useState([]);
+
 
     const { IMP } = window;
     IMP.init('imp40158151');
 
     const payment = () => {
         const price = RegisterMembership();
-        console.log(user.user_id);
+        const customerUid = user.name + '_' + user.user_id;
 
         IMP.request_pay({
             merchant_uid : 'merchant_' + new Date().getTime(),
             name : '최초인증결제',
-            amount : `${price}`, // 빌링키 발급만 진행하며 결제승인을 하지 않습니다.
-            customerUid : `${user.user_id}`, //customer_uid 파라메터가 있어야 빌링키 발급이 정상적으로 이뤄집니다.
+            amount : "100000", // 빌링키 발급만 진행하며 결제승인을 하지 않습니다.
+            customer_uid : `${customerUid}`, //customer_uid 파라메터가 있어야 빌링키 발급이 정상적으로 이뤄집니다.
             buyer_email : 'iamport@siot.do',
             buyer_name : '아임포트',
             buyer_tel : '02-1234-1234'
@@ -63,19 +56,20 @@ function MembershipScreen() {
             if (rsp.success) {
                 // 빌링키 발급 성공
                 // axios로 HTTP 요청
+                console.log(rsp);
                 axios({
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/checkPayment/${user.user_id}`, // 서비스 웹서버
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/checkPayment/${rsp.imp_uid}`, // 서비스 웹서버
                     method: "post",
                     headers: { "Content-Type": "application/json" },
                     data: {
-                        customerUid: `${user.user_id}`, // 카드(빌링키)와 1:1로 대응하는 값
+                        customerUid: `${rsp.customer_uid}`, // 카드(빌링키)와 1:1로 대응하는 값
                         merchantUid: `${rsp.merchant_uid}`,
                         paid_amount: `${rsp.paid_amount}`
                     }
                 }).then((r) => {
                     console.log(r.data);
                     alert("결제에 성공하였습니다.");
-                    history.push("/")
+                    history.push("/");
                 })
             } else {
                 // 빌링키 발급 실패
@@ -85,7 +79,9 @@ function MembershipScreen() {
     };
 
     useEffect(() => {
-        console.log(searching);
+        setMembershipData(tiers);
+
+
         setLoading(false);
         return () => {
             setLoading(true);
@@ -96,9 +92,7 @@ function MembershipScreen() {
         if(index == 0)
             return (<img src={bronze} alt="bronze"/>)
         if(index == 1)
-            return (<img src={silver} alt="bronze"/>)
-        if(index == 2)
-            return (<img src={gold} alt="bronze"/>)
+            return (<img src={gold} alt="gold"/>)
     }
 
     function RegisterMembership() {
@@ -127,7 +121,7 @@ function MembershipScreen() {
                             <h3>지금 바로 가입해서 당신이 원하는 게임을 마음껏 플레이 하세요!</h3>
                             <div className="membershipScreen_result">
                                 <div className="membership_container">
-                                    {tiers.map((tier, index) => (
+                                    {membershipData.map((tier, index) => (
                                         <label className="membership_item" htmlFor={tier.title}>
                                             <input
                                                 key={index}

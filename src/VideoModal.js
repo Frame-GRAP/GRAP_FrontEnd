@@ -14,6 +14,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {grey, red} from "@material-ui/core/colors";
 import "./VideoModal.css";
+import Row from "./Row";
 
 
 function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVisible, posY, myGame = []}) {
@@ -113,20 +114,11 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
         player_Url = `https://www.youtube.com/embed/${videoData.urlKey}?mute=0&controls=0`
     }
 
-    const handleOver = event => {
-        setAnchorEl(event.currentTarget);
-    };
-
     const handleOut = () => {
-        setAnchorEl(null);
-        console.log("out")
         setVideoShow(false);
     };
 
-
-
     if(loading) return (<div>Loading...</div>);
-
     return (
         <div
             className="row_modal"

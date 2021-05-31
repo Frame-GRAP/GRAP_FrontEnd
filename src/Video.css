@@ -1,15 +1,17 @@
 .row_container {
-    position: relative;
-    height: 200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
     width: 100%;
     transition: all 400ms;
     text-align: center;
 }
 
 .row_item {
-    position: absolute;
-    top: 0;
-    left: 0;
+    width: 100%;
+    height: 100%;
+
     overflow: hidden;
     cursor: pointer;
 }
@@ -17,7 +19,7 @@
 .row_img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .row_video {

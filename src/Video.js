@@ -15,8 +15,9 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {grey, red} from "@material-ui/core/colors";
 import VideoModal from "./VideoModal";
+import HoverIntent from "react-hoverintent/src/components";
 
-function Video({videoShow, setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVisible, posY, myGame = [], setCurGame}) {
+function Video({setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVisible, posY, myGame = [], setCurGame}) {
     const [loading, setLoading] = useState(true);
     const [videoData, setVideoData] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
@@ -104,43 +105,30 @@ function Video({videoShow, setVideoShow, setX, setY, setPopupUrl, OneOfGameData 
     }
 
     const handleOver = event => {
-        console.log(event.target.getBoundingClientRect().top);
-        setX(event.target.getBoundingClientRect().top);
-        console.log(event.target.getBoundingClientRect().left);
-        setY(event.target.getBoundingClientRect().left);
-        setDelayHandler(setTimeout(() => {
-            setVideoShow(true);
-        }, 500))
-        clearTimeout(delayHandler);
-        console.log("in");
+        setX(event.getBoundingClientRect().top);
+        setY(event.getBoundingClientRect().left);
+        setVideoShow(true);
         ///setAnchorEl(event.currentTarget);
     };
 
-    const handleOut = () => {
-        console.log("close modal");
-        setVideoShow(false);
-        ///setAnchorEl(null);
-    };
+    const handleOut = event => {
 
-    const theme2 = createMuiTheme({
-        overrides: {
-            MuiPopover: {
-                root: {},
-                paper: {
-                    width: 400,
-                    height: 450,
-                    background: '#1d2327',
-                }
-            }
-        }
-    });
+    }
 
     if(loading) return (<div>Loading...</div>);
     return (
         <div className="row_container">
-            <div className="row_item" onMouseEnter={handleOver}>
-                <img className="row_img" src={OneOfGameData.headerImg} alt="game"/>
-            </div>
+            <HoverIntent
+                onMouseOver={handleOver}
+                onMouseOut={handleOut}
+                sensitivity={10}
+                interval={200}
+                timeout={0}
+            >
+                <div className="row_item">
+                    <img className="row_img" src={OneOfGameData.headerImg} alt="game"/>
+                </div>
+            </HoverIntent>
         </div>
     );
 }

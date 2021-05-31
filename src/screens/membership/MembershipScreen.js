@@ -63,13 +63,14 @@ function MembershipScreen() {
             if (rsp.success) {
                 // 빌링키 발급 성공
                 // axios로 HTTP 요청
-                console.log(rsp.imp_uid);
                 axios({
                     url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/checkPayment/${user.user_id}`, // 서비스 웹서버
                     method: "post",
                     headers: { "Content-Type": "application/json" },
                     data: {
-                        customerUid: `${user.user_id}` // 카드(빌링키)와 1:1로 대응하는 값
+                        customerUid: `${user.user_id}`, // 카드(빌링키)와 1:1로 대응하는 값
+                        merchantUid: `${rsp.merchant_uid}`,
+                        paid_amount: `${rsp.paid_amount}`
                     }
                 }).then((r) => {
                     console.log(r.data);

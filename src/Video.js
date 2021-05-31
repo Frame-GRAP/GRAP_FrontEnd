@@ -108,17 +108,22 @@ function Video({setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVi
         setX(event.getBoundingClientRect().top);
         setY(event.getBoundingClientRect().left);
         setVideoShow(true);
-        console.log("in");
         ///setAnchorEl(event.currentTarget);
     };
+
+    const handleOut = event => {
+
+    }
 
     if(loading) return (<div>Loading...</div>);
     return (
         <div className="row_container">
             <HoverIntent
                 onMouseOver={handleOver}
+                onMouseOut={handleOut}
                 sensitivity={10}
                 interval={200}
+                timeout={0}
             >
                 <div className="row_item">
                     <img className="row_img" src={OneOfGameData.headerImg} alt="game"/>

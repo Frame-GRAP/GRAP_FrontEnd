@@ -11,7 +11,6 @@ function Row({setVideoShow, setX, setY, title, category = [], setPopupUrl, setVi
     const [loading, setLoading] = useState(true);
     const [myGame, setMyGame] = useState([]);
     const [gameData, setGameData] = useState([]);
-    const [temp, setTemp] = useState([]);
     const user = useSelector(selectUser);
 
     const responsive = {
@@ -51,13 +50,7 @@ function Row({setVideoShow, setX, setY, title, category = [], setPopupUrl, setVi
                 }
             })
 
-        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/2`)
-            .then((res) => {
-                setTemp(res.data);
-            })
-
         setLoading(false);
-
 
         return () => {
             setLoading(true);
@@ -98,8 +91,8 @@ function Row({setVideoShow, setX, setY, title, category = [], setPopupUrl, setVi
                                 infinite={true}
                                 responsive={responsive}
                                 itemClass="list_item"
-                                dotListClass="dot_list"
-                >
+                                sliderClass="row_posters"
+                                dotListClass="dot_list">
                     {
                         (gameData.map((set, index) => (
                             (index <= 10 && set.name!==`${lastGame}`) && (

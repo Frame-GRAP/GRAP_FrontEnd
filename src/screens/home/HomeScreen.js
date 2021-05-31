@@ -152,8 +152,6 @@ function HomeScreen(){
         })
     }, [])
 
-    console.log(videoShow)
-
     if(loading) return (<div>Loading...</div>);
     return (
         <>

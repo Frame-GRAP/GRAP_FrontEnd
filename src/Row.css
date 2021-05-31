@@ -35,15 +35,23 @@
 }
 
 .react-multiple-carousel__arrow {
-    background: rgba(0, 0, 0, 0.9);
-    min-width: 70px;
+    font-size: 30px !important;
+    background: rgba(0, 0, 0, 0.9)!important;
+    border-radius: 2px !important;
+    min-width: 70px !important;
     height: 80%;
 }
 
+.react-multiple-carousel__arrow::before {
+    font-size: 40px !important;
+    font-weight: 1000 !important;
+
+}
+
 .react-multiple-carousel__arrow--left {
-    left: 0;
+    left: 0 !important;
 }
 
 .react-multiple-carousel__arrow--right {
-    right: 0;
+    right: 0 !important;
 }

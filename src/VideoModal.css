@@ -13,11 +13,11 @@
     width: 100%;
     textAlign: center;
     borderRadius: 30;
-    background: grey;
     fontSize: 20;
     color: white;
     height: 100%;
     border-radius: 5px;
+    background: #1d2327;
 }
 
 

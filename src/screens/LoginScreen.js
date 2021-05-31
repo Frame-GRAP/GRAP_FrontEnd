@@ -33,7 +33,7 @@ function LoginScreen(){
                     nickname: res.data.nickname
                 }))
                 window.localStorage.setItem("user_id", JSON.stringify(res.data.id));
-                window.localStorage.setItem("name", JSON.stringify(user.name));
+                window.localStorage.setItem("name", user.name);
                 window.localStorage.setItem("nickname", JSON.stringify(res.data.nickname));
                 if(res.data.isRegistered == 1 && res.data.nickname !== null){
                     history.push("/");

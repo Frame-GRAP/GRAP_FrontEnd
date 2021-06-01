@@ -9,6 +9,7 @@ import MyListScreen from "./screens/MyListScreen";
 import Mypage from "./screens/mypage/Mypage";
 import UserInfo from './screens/mypage/UserInfo';
 import MembershipScreen from "./screens/membership/MembershipScreen";
+import CategoryScreen from "./screens/category/CategoryScreen";
 
 function App() {
     const user = useSelector(selectUser);
@@ -54,6 +55,9 @@ function App() {
                         </Route>
                         <Route exact path="/membership">
                             <MembershipScreen />
+                        </Route>
+                        <Route exact path="/category">
+                            <CategoryScreen />
                         </Route>
                     </Switch>
                 )}

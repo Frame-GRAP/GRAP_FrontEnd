@@ -49,6 +49,9 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
         if(Y < 0){
             setCurY(0);
         }
+        else if(Y > 1200){
+            setCurY(Y - 80);
+        }
         else{
             setCurY(Y - 30);
         }

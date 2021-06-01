@@ -1,0 +1,62 @@
+.categoryScreen {
+    position: relative;
+    background-color: #111111;
+    min-height: 100vh;
+}
+
+.categoryScreen_body {
+    position: relative;
+    top: 100px;
+    background-color: #111111;
+}
+
+.categoryScreen_header {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.categoryScreen_header > h2 {
+    color: white;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 50px;
+}
+
+.categoryScreen_list {
+    height: 100%;
+    width: 20%;
+}
+
+.categoryScreen_select {
+    color: white;
+}
+
+.react-dropdown-select {
+    background: #111111 !important;
+    color: white !important;
+}
+
+.react-dropdown-select-input {
+    color: white !important;
+    width: 70% !important;
+    font-size: large !important;
+    font-weight: 600;
+}
+
+.react-dropdown-select-input::placeholder {
+    color: white !important;
+}
+
+.react-dropdown-select-dropdown {
+    font-weight: 600;
+    background: #111111 !important;
+
+}
+
+.categoryScreen_result {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17%, auto));
+    gap: 40px 40px;
+    place-items: center;
+    margin: 40px;
+}

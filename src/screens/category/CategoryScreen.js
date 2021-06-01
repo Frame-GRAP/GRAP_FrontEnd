@@ -35,6 +35,8 @@ function CategoryScreen() {
     const [myGameData, setMyGameData] = useState([]);
     const [myGame, setMyGame] = useState([]);
 
+
+
     useEffect(() => {
         setCategoryList(tempCategory);
         setLoading(false);
@@ -43,28 +45,23 @@ function CategoryScreen() {
         }
     }, []);
 
-    useEffect(() => {
-        async function fetchMyData() {
-            const userId = user.user_id;
-            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
-                .then((res) => {
-                    res.data.map((game, index) => {
-                        const id = game.gameId;
-                        setMyGame(myGame => [...myGame, id]);
-                        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${id}`)
-                            .then((res) => {
-                                setMyGameData(myGameData => [...myGameData, res.data]);
-                            })
-                    })
-                });
-            return myGameData;
-        }
-        fetchMyData();
-        setLoading(false);
-        return () => {
-            setLoading(true);
-        }
-    }, [category]);
+    const getCategoryResult = (category) => {
+        console.log(category);
+        setMyGameData([]);
+        setMyGame([]);
+        const userId = user.user_id;
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
+            .then((res) => {
+                res.data.map((game, index) => {
+                    const id = game.gameId;
+                    setMyGame(myGame => [...myGame, id]);
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${id}`)
+                        .then((res) => {
+                            setMyGameData(myGameData => [...myGameData, res.data]);
+                        })
+                })
+            });
+    }
 
     if(loading) return (<div>Loading...</div>);
     return (
@@ -81,7 +78,7 @@ function CategoryScreen() {
                                 <Select
                                     options={ categoryList }
                                     placeholder={"카테고리"}
-                                    onChange={(value) => setCategory(value[0].label)}
+                                    onChange={(value) => getCategoryResult(value[0].label)}
                                 />
                             </div>
                         </div>

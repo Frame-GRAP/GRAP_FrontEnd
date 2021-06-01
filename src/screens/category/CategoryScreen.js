@@ -10,10 +10,6 @@ import SearchScreen from "../SearchScreen";
 import VideoModal from "../../VideoModal";
 import Select from 'react-dropdown-select';
 
-const tempCategory = [
-    {label: "액션", value: "액션"},
-    {label: "코믹", value: "코믹"}
-];
 
 function CategoryScreen() {
     const [visible, setVisible] = useState(false);
@@ -21,7 +17,8 @@ function CategoryScreen() {
     const user = useSelector(selectUser);
     const [loading, setLoading] = useState(true);
     const [categoryList, setCategoryList] = useState([]);
-    const [category, setCategory] = useState("");
+    const [categoryId, setCategoryId] = useState("");
+    const [categoryName, setCategoryName] = useState("");
     const [gameData, setGameData] = useState([]);
 
     const [searching, setSearching] = useState(false);
@@ -35,20 +32,26 @@ function CategoryScreen() {
     const [myGameData, setMyGameData] = useState([]);
     const [myGame, setMyGame] = useState([]);
 
-
-
     useEffect(() => {
-        setCategoryList(tempCategory);
+        async function fetchCategoryData() {
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/category/all`)
+                .then((res) => {
+                    setCategoryList(res.data);
+                });
+            return myGameData;
+        }
+
+        fetchCategoryData();
         setLoading(false);
         return () => {
             setLoading(true);
         }
     }, []);
 
-    const getCategoryResult = (category) => {
-        console.log(category);
+    useEffect(() => {
         setMyGameData([]);
         setMyGame([]);
+        setGameData([]);
         const userId = user.user_id;
         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
             .then((res) => {
@@ -61,6 +64,17 @@ function CategoryScreen() {
                         })
                 })
             });
+        if(categoryId !== ""){
+            axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/category/${categoryId}/game`)
+                .then((res) => {
+                    setGameData(res.data);
+                })
+        }
+    }, [categoryId])
+
+    const getCategoryResult = (getCategory) => {
+        setCategoryId(getCategory.id);
+        setCategoryName(getCategory.ui_name);
     }
 
     if(loading) return (<div>Loading...</div>);
@@ -76,23 +90,31 @@ function CategoryScreen() {
                             <h2>카테고리</h2>
                             <div className="categoryScreen_list">
                                 <Select
-                                    options={ categoryList }
+                                    options={categoryList}
+                                    labelField={"ui_name"}
                                     placeholder={"카테고리"}
-                                    onChange={(value) => getCategoryResult(value[0].label)}
+                                    searchable={false}
+                                    onChange={(value) => getCategoryResult(value[0])}
                                 />
                             </div>
                         </div>
 
+                        <div className="categoryScreen_title">
+                            <h2>{categoryName}</h2>
+                        </div>
                         <div className="categoryScreen_result">
-                            {myGameData.map((set,index) => (
-                                <Video
-                                    setVideoShow={setVideoShow}
-                                    setX={setX}
-                                    setY={setY}
-                                    OneOfGameData={set}
-                                    myGame={myGame}
-                                    setCurGame={setCurGame}
-                                />
+                            {gameData.map((set,index) => (
+                                (index <= 10) && (
+                                    <Video
+                                        key={index}
+                                        setVideoShow={setVideoShow}
+                                        setX={setX}
+                                        setY={setY}
+                                        OneOfGameData={set}
+                                        myGame={myGame}
+                                        setCurGame={setCurGame}
+                                    />
+                                )
                             ))}
                         </div>
                     </div>

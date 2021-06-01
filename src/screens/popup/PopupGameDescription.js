@@ -18,7 +18,7 @@ function PopupGameDescription({popupGameData}) {
     return (
         <div className="popup__Description">
             {/* <div className="title__font">Game Description</div> */}
-            <h1 className="detail__gameName"> {popupGameData.name}</h1><br/>
+            <h2 className="detail__gameName"> {popupGameData.name}</h2><br/>
 
             <div className="description__contents">
                 <div className="game__Poster">

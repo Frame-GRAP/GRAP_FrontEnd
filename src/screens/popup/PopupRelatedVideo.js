@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import "./PopupRelatedVideo.css"
 import {AiOutlineDislike, AiOutlineLike, AiFillLike, AiFillDislike} from 'react-icons/ai'
 
-function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
+function PopupRelatedVideo({popupGameData, popupMainVideoIndex, setPopupMainVideoIndex}) {
     const [videoData, setVideoData] = useState([]);
 
     // Video Data Fetch
@@ -28,7 +28,6 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
 
     function toggleMainVideo(e){
         const relatedVideoIndex = Number(e.target.id);
-        // console.log(e.target);
         setPopupMainVideoIndex(relatedVideoIndex);
     }
 
@@ -37,7 +36,9 @@ function PopupRelatedVideo({popupGameData, setPopupMainVideoIndex}) {
             {/* <div className="related__Title title__font">Related Video</div> */}
             <div className="related__Video">
                 {videoData.map((set, index) => {
-                    if(set.id == setPopupMainVideoIndex) return;
+                    if(set.id == popupMainVideoIndex) {
+                        return;
+                    }
                     else return (
                         <>
                             {/* <img

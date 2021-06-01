@@ -1,64 +1,222 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useStyles, useRef} from 'react'
 import {useHistory} from "react-router-dom";
-import styled from 'styled-components'
-import $ from "jquery"
-
-
 import './CouponList.css'
+import $ from "jquery"
 import axios from 'axios'
 import Footer from "../../Footer";
+import {selectUser} from './../../features/userSlice'
+import {useSelector} from "react-redux";
+
+import { makeStyles } from '@material-ui/core/styles'
+import Modal from '@material-ui/core/Modal'
+import Typography from "@material-ui/core/Typography";
+import {FaSearch} from 'react-icons/fa'
 
 import grap_logo from './../../img/grap_logo2-1.png';
-import gameImg1 from './../../img/game1.jpg'
-import gameImg2 from './../../img/game2.jpg'
+import grap_logo2 from './../../img/grap_logo2-2.png';
 
 
 function CouponList() {
-    const [gameData, setGameData] = useState([]);
-    const [openGameMenu, setOpenGameMenu] = useState(false);
-    const [openCode, setOpenCode] = useState([0, 0]);
+    const [gameData, setGameData] = useState([]);   
+    const [couponData, setCouponData] = useState([]);
+    const [searchData, setSearchData] = useState([]);
 
+    const [searching, setSearching] = useState(false);
+    const [isIssueCoupon, setIsIssueCoupon] = useState(false);
+    const [isDeleteCoupon, setIsDeleteCoupon] = useState(false);
+
+    const [modalStyle] = React.useState(getModalStyle);
+    const [open, setOpen] = React.useState(false);
+    
     const history = useHistory();
+    const searchRef = useRef();
+    const userId = useSelector(selectUser).user_id;
 
-    function openCouponCode(e){
-        const index = e.target.getAttribute('id')
+    
+    function getModalStyle() {
+        const top = 50;
+        const left = 50;
+        
+        return {
+            top: `${top}%`,
+            left: `${left}%`,
+            transform: `translate(-${top}%, -${left}%)`,
+        };
+    }
+    const useStyles = makeStyles((theme) => ({
+        paper: {
+            position: 'absolute',
+            backgroundColor: theme.palette.background.paper,
 
-        if($(".coupon_number")[index].style.display === "none")
-            $(".coupon_number")[index].style.display = "block";
-        else
-            $(".coupon_number")[index].style.display = "none";
+            width: 1000,
+            height: 600,
+
+            outline: 0,
+            border: '2px solid #000',
+            borderRadius: 20,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            borderBottomLeftRadius: 20,
+            borderBottomRightRadius: 20,
+
+            boxShadow: theme.shadows[5],
+            padding: theme.spacing(2, 4, 3),
+        },
+    }));
+    const classes = useStyles();
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    function GameSearching(e) {
+        const searchText = searchRef.current.value;
+        console.log(searchText);
+
+        // 검색하면 해당 게임 나오게.
+        axios({
+            method : 'get',
+            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game?name=${searchText}`
+        }).then((res)=> {
+            if(res){
+                axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${res.data[0].id}/coupon/all`)
+                .then((res)=>{
+                    setSearchData(res.data[0]);
+                })
+            }
+        })
     }
 
-    useEffect(()=> {
-        axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/starter/all")
-        .then((res)=>{
-            setGameData(res.data);
-        })
-        // console.log(gameData);
-    }, []);
-
-    function CouponIssue(){
-        // console.log(e.target);
-        const checked = document.getElementsByName("coupon_gameSelect_Btn");
-        let couponGameId;
-        checked.forEach((set) => {
-            if(set.checked===true){
-                couponGameId = set.value;
-            }
-        })
-
-        if(couponGameId){
-            if(window.confirm(`${gameData[couponGameId].gameName}의 쿠폰을 발급 받으시겠습니까?`)===true){
-                console.log("쿠폰 발급 완료!!")   
-                setOpenGameMenu(false);
-            }
-        }else{
-            alert("쿠폰을 발급 받으실 게임을 선택해 주세요.")
+    function IssueCoupon(e) {
+        const couponId = e.target.getAttribute('id')
+        
+        if(window.confirm("해당 쿠폰을 발급 하시겠습니까?")===true) {
+            axios({
+                method : 'post',
+                url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/coupon/${couponId}/userAndCoupon`
+            }).then((res)=> {
+                console.log(res.data);
+                setIsIssueCoupon(!isIssueCoupon);
+            })
+            alert("발급되었습니다.")
+            setOpen(false);
         }
     }
 
+    function DeleteCoupon(e){
+        const userAndCouponId = e.target.getAttribute('id');
+        console.log(userAndCouponId);
+
+        if(window.confirm("삭제하시겠습니까?")===true){
+            axios({
+                method : 'delete',
+                url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/UserAndCoupon/${userAndCouponId}`
+            }).then((res)=> {
+                console.log(res.data);
+                setIsDeleteCoupon(!isDeleteCoupon);
+            })
+        }
+    }
+
+    // Blood of the Werewolf
+    const body = (
+        <div style={modalStyle} className={classes.paper}>
+            <div className="gameSelect_container">
+                <h1>G R A P</h1>
+                <div className="gameSelect_contents">
+                    <input type="text" ref={searchRef} className="game_Searching" />
+                    <button className="submit" onClick={GameSearching}><i class="fa fa-search"></i></button>
+                </div>
+
+                <div className="searching_data_tab">
+                    <div className="number">
+                        번호
+                    </div>
+                    <div className="img">
+                        게임 이미지
+                    </div>
+
+                    <div className="gameAndCouponName">
+                        <div className="gameName">게임 제목</div>
+                        <div className="couponName">(쿠폰 제목)</div>
+
+                    </div>
+                    <div className="releaseDate">
+                        만료일
+                    </div>
+                    <div className="issue">쿠폰 발급</div>
+                </div>
+                {searchData.length === 0 ? "" : (
+                    <>
+                    {/* <div className="searching_data_tab">
+                        <div className="number">
+                            번호
+                        </div>
+                        <div className="img">
+                            게임 이미지
+                        </div>
+
+                        <div className="gameAndCouponName">
+                            <div className="gameName">게임 제목</div>
+                            <div className="couponName">(쿠폰 제목)</div>
+
+                        </div>
+                        <div className="releaseDate">
+                            만료일
+                        </div>
+                        <div className="issue">쿠폰 발급</div>
+                    </div> */}
+                    <div className="searching_data">
+                        <div className="number">
+                            <div>{searchData.couponId}</div>
+                        </div>
+                        <div className="img">
+                            <img 
+                                className="headerImg"
+                                src={searchData.gameHeaderImage}
+                            />
+                        </div>
+
+                        <div className="gameAndCouponName">
+                            <div className="gameName">{searchData.gameName}</div>
+                            <div className="couponName">({searchData.couponName})</div>
+                        </div>
+                        <div className="releaseDate">{searchData.expirationDate}</div>
+                        <div className="issue">
+                            <button 
+                                className="issueCoupon"
+                                id={searchData.couponId} 
+                                onClick={IssueCoupon}
+                            >발급</button>
+                        </div>
+                    </div>
+                    </>
+                )}
+            </div>
+        </div>
+    );
+
+
+    useEffect(()=> {
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/coupon/userAndCoupon`)
+            .then((res)=>{
+                setCouponData(res.data);
+            })
+    }, []);
+
+    useEffect(()=> {
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/coupon/userAndCoupon`)
+            .then((res)=>{
+                setCouponData(res.data);
+            })
+    }, [isIssueCoupon, isDeleteCoupon]);
+
     return (
-        <div className="couponList">
+        <div className="couponList3">
             <div className="coupon_nav">
                 <div className="coupon_nav_logo">
                     <img className='logo' src={grap_logo} onClick={() => history.push("/mypage")} alt="logo"/>
@@ -66,96 +224,69 @@ function CouponList() {
                 </div>
             </div>
             <div className="couponList_container">
-                <div className="coupon_title">
-                    {/* <h1>쿠폰함</h1> */}
+                <div className="coupon_items_title">
+                    <h1>쿠폰함</h1><br/>
                 </div>
-                <div className="coupon_available">
-                    <h1>
-                        사용 가능한 쿠폰 수&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;1 &nbsp;&nbsp;&nbsp;
-                    </h1>
+                {/* <div className="coupon_tab">
+                    <button className="coupon_duedate_btn">보유 쿠폰</button>
+                    <button className="coupon_duedate_btn">만료 쿠폰</button>
+                </div> */}
+                <div className="coupon_items">
+                    {couponData.map((set, index)=> {
+                        console.log(set);
+                        const expireDate = new Date(set.expirationDate);
+                        const currentDate = new Date();
 
-                    {openGameMenu === false ? (
-                        <button onClick={()=> setOpenGameMenu(!openGameMenu)}>게임 선택</button>
-                    ): (
+                        let dateDif = Math.ceil((expireDate.getTime() - currentDate.getTime())/(1000*3600*24));
+
+                        return (
                         <>
-                            <button 
-                                id="confirm" className="issuance" 
-                                onClick={CouponIssue}
-                            >발급</button>
-                            <button 
-                                id="alert" className="cancle" 
-                                onClick={()=>setOpenGameMenu(false)}
-                            >취소</button>
-                        </>
-                    )}
-                </div>
-                <div className="coupon_issue">
-                    
+                            <div 
+                                className="coupon_item" 
+                                id={set.id}
+                                onClick={DeleteCoupon}
+                            >
+                                <div className="coupon_name" id={set.id}>{set.couponName}</div>
 
-                    { (openGameMenu === true) && (
-                        <>
-                        <div className="coupon_gameSelect">
-                            {gameData.map((set, index) =>{
-                                return (
-                                    <>
-                                    {(index <= 14) && <div className="coupon_gameList">
-                                        <input
-                                            key={index}
-                                            type="radio"
-                                            className="coupon_gameSelect_Btn"
-                                            name="coupon_gameSelect_Btn"
-                                            id={set.id}
-                                            value={index}
-                                        />
-                                        <label className="coupon_gameImg" htmlFor={set.id}>
-                                            <div className="img_container">
-                                                <img src={set.headerImg} className="coupon_gameImg"></img>
-                                            </div>
-                                        </label>
-                                    </div>}
-                                    </>
-                                )
-                            })}
-                        </div>
-                        </>
-                    )}
-                </div>
+                                <img className="coupon_img" id={set.id} src={set.gameHeaderImage}></img>
 
-                {(!openGameMenu&&gameData) && <div className="coupon_items">
-                    <div className="coupon_items_title">
-                        <h2>보유 쿠폰</h2>
-                    </div>
-                
-                    {gameData.map((set, index)=>{
-                        return(
-                            <>
-                            {(index >= 4 && index <= 7) && (
-                            <div className="coupon_item">
-                                <div className="coupon_item_img">
-                                    <img className="coupon_item_img" src={set.headerImg}></img>
+                                <div className="copone_date" id={set.id}>
+                                    {(dateDif <= 0) ? "기한이 만료되었습니다." : `만료일까지 ${dateDif}일 남았습니다`}
                                 </div>
-                                <div className="coupon_item_description">
-                                    <div className="coupon_item_gameName">
-                                        <h2>{set.gameName}</h2>
-                                    </div>
-                                    <div className="couponCode_codeNum">
-                                        <div className="coupon_number">5DFK998Z7S81</div>
-                                    </div>
-
-                                    <div className="coupon_item_couponCode">
-                                        <button onClick={openCouponCode} className="couponCode_btn" id={index-4}>쿠폰 확인</button>
-                                    </div>
-
-                                </div>
+                                <div className="coupon_code" id={set.id}>{set.code}</div>
                             </div>
-                            )}
-                            </>
-                        )    
+                        </>
+                        )
                     })}
-                </div>}
-            </div>
-            <Footer />
+                    {[...Array(10-couponData.length)].map((set, index)=>{
+                        return(
+                            <div className="blank_coupon_item">
+                                <div className="blank_coupon_img">
+                                    <img className="blank_coupon_img_detail" src={grap_logo}></img>
+                                </div>
+                                <button 
+                                    className="gameSelect_btn" 
+                                    onClick={handleOpen}
+                                ><h3>게임 선택</h3></button>
+                            </div>
+                        )
+                    })}
 
+                </div>
+            </div>
+            
+            {/* popup */}
+            <Modal 
+                open={open}
+                onClose={handleClose}
+
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                {body}
+            </Modal>
+
+            <Footer />
         </div>
     )
 }

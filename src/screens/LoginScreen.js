@@ -36,7 +36,6 @@ function LoginScreen(){
                 window.localStorage.setItem("nickname", JSON.stringify(res.data.nickName));
                 if(res.data.isRegistered == 1 && res.data.nickname !== null){
                     history.push("/");
-                    //history.push("/");
                 }
                 else{
                     history.push("/userInfo");

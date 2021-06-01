@@ -234,6 +234,7 @@ function HomeScreen(){
                                     <div className="video">
                                         <PopupRelatedVideo
                                             popupGameData={popupGameData}
+                                            popupMainVideoIndex={popupMainVideoIndex}
                                             setPopupMainVideoIndex={setPopupMainVideoIndex}
                                         />
                                     </div>

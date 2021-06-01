@@ -44,6 +44,9 @@ function App() {
                         <Route exact path="/">
                             <HomeScreen />
                         </Route>
+                        <Route exact path="/login">
+                            <LoginScreen />
+                        </Route>
                         <Route exact path="/myList">
                             <MyListScreen />
                         </Route>

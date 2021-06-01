@@ -40,7 +40,6 @@
     color: white !important;
     width: 70% !important;
     font-size: large !important;
-    font-weight: 600;
 }
 
 .react-dropdown-select-input::placeholder {
@@ -48,9 +47,11 @@
 }
 
 .react-dropdown-select-dropdown {
-    font-weight: 600;
     background: #111111 !important;
+}
 
+.react-dropdown-select-item-selected {
+    background: #111111 !important;
 }
 
 .categoryScreen_result {
@@ -59,4 +60,11 @@
     gap: 40px 40px;
     place-items: center;
     margin: 40px;
+}
+
+.categoryScreen_title {
+    color: white;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 50px;
 }

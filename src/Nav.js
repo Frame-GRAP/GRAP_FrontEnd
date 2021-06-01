@@ -9,12 +9,10 @@ import {grey} from "@material-ui/core/colors";
 import SearchIcon from '@material-ui/icons/Search';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import axios from "axios";
 
 function Nav({setSearchWord, setSearching}) {
     const history = useHistory();
     const [show, handleShow] = useState(false);
-    const user = useSelector(selectUser);
     const dispatch = useDispatch();
 
     const transitionNavBar = () => {
@@ -61,6 +59,7 @@ function Nav({setSearchWord, setSearching}) {
                 <div className="nav_menu">
                     <ul className="nav_menu">
                         <li className="nav_home" onClick={() => history.push("/")}>홈</li>
+                        <li className="nav_category" onClick={() => history.push("/category")}>카테고리</li>
                         <li className="nav_zzim" onClick={() => history.push("/myList")}>내가 찜한 콘텐츠</li>
                     </ul>
                 </div>

@@ -20,33 +20,32 @@ function SearchScreen({searchWord}) {
     const [X, setX] = useState(0);
     const [Y, setY] = useState(0);
     const [curGame, setCurGame] = useState([]);
+    const [gameName, setGameName] = useState("");
+    const [gameId, setGameId] = useState(0);
 
     useEffect(() => {
+        async function fetchSearchData() {
+            setSearchResult([]);
+            const request = await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game?name=${searchWord}`);
+
+            setSearchResult(request.data);
+            return request;
+        }
+
         async function fetchMyData() {
             setMyGame([]);
-            setMyGameData([]);
             const userId = user.user_id;
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
                 .then((res) => {
                     res.data.map((game, index) => {
                         const id = game.gameId;
                         setMyGame(myGame => [...myGame, id]);
-                        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${id}`)
-                            .then((res) => {
-                                setMyGameData(myGameData => [...myGameData, res.data]);
-                            })
                     })
                 });
             return myGameData;
         }
 
-        /*async function getSearchResult() {
-            await axios.get(``)
-                .then((res) => {
-
-                })
-            return searchResult;
-        }*/
+        fetchSearchData();
         fetchMyData();
         setLoading(false);
         return () => {
@@ -54,16 +53,15 @@ function SearchScreen({searchWord}) {
         }
     }, [searchWord]);
 
-    console.log(searchWord);
-
     if(loading) return (<div>Loading...</div>);
     return (
         <div className="searchScreen">
             <div className="searchScreen_body">
                 <h2>검색결과</h2>
                 <div className="searchScreen_result">
-                    {myGameData.map((set,index) => (
+                    {searchResult.map((set,index) => (
                         <Video
+                            key={index}
                             setVideoShow={setVideoShow}
                             setX={setX}
                             setY={setY}
@@ -72,9 +70,6 @@ function SearchScreen({searchWord}) {
                             setCurGame={setCurGame}
                         />
                     ))}
-                    {/*{searchResult.map((set,index) => (
-                        <Video OneOfGameData={set} myGame={myGame} />
-                    ))}*/}
                 </div>
             </div>
             <div className="video_modal">

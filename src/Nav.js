@@ -39,16 +39,17 @@ function Nav({setSearchWord, setSearching}) {
     }
 
     const handleChange = (e) => {
-        const temp = e.target.value;
-        console.log(temp);
-        if(temp !== ""){
-            setSearching(true);
-        }
-        else{
-            setSearching(false);
-        }
+        setTimeout(() => {
+            const temp = e.target.value;
+            if(temp.length > 0){
+                setSearching(true);
+                setSearchWord(temp);
+            }
+            else{
+                setSearching(false);
+            }
+        }, 1000);
 
-        console.log(temp);
     }
 
     return (

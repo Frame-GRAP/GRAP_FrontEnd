@@ -4,7 +4,6 @@
     alignItems: center;
     position: absolute;
     width: 24%;
-    height: 40%;
     cursor: pointer;
     animation: createBox .25s;
 }

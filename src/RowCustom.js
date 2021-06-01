@@ -49,7 +49,6 @@ function RowCustom({setVideoShow, setX, setY, title, gameArr=[], setPopupUrl, se
                     });
             })
             setGameData(tempArr);
-            console.log(gameData);
             return gameData;
         }
         fetchData().then((r) =>{

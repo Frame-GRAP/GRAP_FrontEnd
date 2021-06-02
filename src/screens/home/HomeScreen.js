@@ -24,7 +24,7 @@ import {useSelector} from "react-redux";
 import Footer from "../../Footer";
 import RowCustom from "../../RowCustom";
 import TempRow from "../../TempRow";
-import SearchScreen from "../SearchScreen";
+import SearchScreen from "../search/SearchScreen";
 import VideoModal from "../../VideoModal";
 
 function HomeScreen(){

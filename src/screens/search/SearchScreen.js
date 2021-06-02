@@ -1,15 +1,16 @@
-import React, {useCallback, useEffect, useState} from "react";
-import Nav from "../Nav";
+import React, {useCallback, useEffect, useRef, useState} from "react";
+import Nav from "../../Nav";
 import axios from "axios";
 import {useSelector} from "react-redux";
-import {selectUser} from "../features/userSlice";
+import {selectUser} from "../../features/userSlice";
 import './SearchScreen.css';
-import Video from "../Video";
-import VideoModal from "../VideoModal";
+import Video from "../../Video";
+import VideoModal from "../../VideoModal";
+import useFetchCategory from "../category/useFetchCategory";
+import useFetchSearch from "./useFetchSearch";
 
 function SearchScreen({searchWord}) {
     const [myGameData, setMyGameData] = useState([]);
-    const [searchResult, setSearchResult] = useState([]);
     const [myGame, setMyGame] = useState([]);
     const [visible, setVisible] = useState(false);
     const [posY, setPosY] = useState(false);
@@ -23,15 +24,28 @@ function SearchScreen({searchWord}) {
     const [gameName, setGameName] = useState("");
     const [gameId, setGameId] = useState(0);
 
-    useEffect(() => {
-        async function fetchSearchData() {
-            setSearchResult([]);
-            const request = await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game?name=${searchWord}`);
+    const [page, setPage] = useState(1);
+    const { pageLoading, error, searchResult, setSearchResult } = useFetchSearch(searchWord, page);
+    const loader = useRef(null);
 
-            setSearchResult(request.data);
-            return request;
+    const handleObserver = useCallback((entries) => {
+        const target = entries[0];
+        if (target.isIntersecting) {
+            setPage((prev) => prev + 1);
         }
+    }, []);
 
+    useEffect(() => {
+        const option = {
+            root: null,
+            rootMargin: "20px",
+            threshold: 0
+        };
+        const observer = new IntersectionObserver(handleObserver, option);
+        if (loader.current) observer.observe(loader.current);
+    }, [handleObserver, searchWord]);
+
+    useEffect(() => {
         async function fetchMyData() {
             setMyGame([]);
             const userId = user.user_id;
@@ -45,12 +59,15 @@ function SearchScreen({searchWord}) {
             return myGameData;
         }
 
-        fetchSearchData();
         fetchMyData();
         setLoading(false);
         return () => {
             setLoading(true);
         }
+    }, []);
+
+    useEffect(() => {
+        setSearchResult([]);
     }, [searchWord]);
 
     if(loading) return (<div>Loading...</div>);
@@ -70,6 +87,9 @@ function SearchScreen({searchWord}) {
                             setCurGame={setCurGame}
                         />
                     ))}
+                    {pageLoading && <p>Loading...</p>}
+                    {error && <p>Error!</p>}
+                    <div ref={loader} />
                 </div>
             </div>
             <div className="video_modal">

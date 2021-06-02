@@ -9,7 +9,7 @@ import {useHistory} from "react-router-dom";
 import bronze from '../../img/bronze-medal.png';
 import silver from '../../img/silver-medal.png';
 import gold from '../../img/gold-medal.png';
-import SearchScreen from "../SearchScreen";
+import SearchScreen from "../search/SearchScreen";
 
 const tiers = [
     {

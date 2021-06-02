@@ -8,6 +8,8 @@ import Modal from '@material-ui/core/Modal'
 
 import './Mypage.css'
 
+import basic from '../../img/bronze-medal.png';
+import premium from '../../img/gold-medal.png';
 import grap_logo from './../../img/grap_logo2-1.png';
 import axios from 'axios';
 import Footer from '../../Footer';
@@ -16,7 +18,8 @@ function Mypage() {
     const [couponLength, setCouponLength] = useState(0);
     const history = useHistory();
     const [loading, setLoading] = useState(false);
-    const ismembership = 1; // 멤버십 가입되있는지 정보 유저디비에서 따오기.
+    const ismembership = 1; // 멤버십 가입여부
+    const membershipLevel = 1; // 멤버십 등급
 
     const nickRef = useRef();
     const user = useSelector(selectUser);
@@ -176,7 +179,20 @@ function Mypage() {
                         {ismembership ? (
                             <>
                             <div className="account_section_info">
-                                <h3 className="membership_info">Premium Silver</h3>
+                                <h3 className="membership_info">
+                                    {membershipLevel === 1 ? (
+                                        <>
+                                        Premium
+                                        <img src={premium} className="membership_medal"></img>
+                                        </>
+                                    ) : (
+                                        <>
+                                        Basic
+                                        <img src={basic} className="membership_medal"></img>
+                                        </>
+                                    )}
+
+                                </h3>
                                 <div className="credit_date">
                                     다음 결제일은 2021/06/30 입니다.
                                 </div>

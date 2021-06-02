@@ -9,15 +9,13 @@ function useFetchCategory(categoryId, page) {
     const [lastGameId, setLastGameId] = useState("10000");
 
     const sendQuery = useCallback(async () => {
-        if(categoryId !== null){
+        if(categoryId !== ""){
             try {
                 await setPageLoading(true);
                 await setError(false);
-
                 const res = await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${lastGameId}/all?categoryId=${categoryId}&size=${size}`);
-                await setCategoryGameData((prev) => [...prev, ...res.data]);
                 await setLastGameId(res.data[res.data.length - 1].id);
-
+                await setCategoryGameData((prev) => [...prev, ...res.data]);
                 setPageLoading(false);
             } catch (err) {
                 setError(err);
@@ -29,7 +27,7 @@ function useFetchCategory(categoryId, page) {
         sendQuery(categoryId);
     }, [categoryId, sendQuery, page]);
 
-    return { pageLoading, error, categoryGameData, setCategoryGameData };
+    return { pageLoading, error, categoryGameData, setCategoryGameData, setLastGameId };
 }
 
 export default useFetchCategory;

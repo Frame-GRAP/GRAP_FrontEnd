@@ -30,19 +30,18 @@ function CategoryScreen() {
     const [Y, setY] = useState(0);
     const [curGame, setCurGame] = useState([]);
 
-    const [myGameData, setMyGameData] = useState([]);
     const [myGame, setMyGame] = useState([]);
 
-    const [page, setPage] = useState(1);
-    const { pageLoading, error, categoryGameData, setCategoryGameData } = useFetchCategory(categoryId, page);
-    const loader = useRef(null);
+    const [page, setPage] = useState(0);
+    const { pageLoading, error, categoryGameData, setCategoryGameData, setLastGameId } = useFetchCategory(categoryId, page);
+    const [loader, setLoader] = useState(null);
 
     const handleObserver = useCallback((entries) => {
         const target = entries[0];
         if (target.isIntersecting) {
             setPage((prev) => prev + 1);
         }
-    }, []);
+    }, [loader]);
 
     useEffect(() => {
         const option = {
@@ -51,9 +50,8 @@ function CategoryScreen() {
             threshold: 0
         };
         const observer = new IntersectionObserver(handleObserver, option);
-        if (loader.current) observer.observe(loader.current);
-    }, [handleObserver, categoryId]);
-
+        if (loader) observer.observe(loader);
+    }, [handleObserver]);
 
     useEffect(() => {
         async function fetchCategoryData() {
@@ -61,7 +59,7 @@ function CategoryScreen() {
                 .then((res) => {
                     setCategoryList(res.data);
                 });
-            return myGameData;
+            return categoryList;
         }
 
         fetchCategoryData();
@@ -72,7 +70,6 @@ function CategoryScreen() {
     }, []);
 
     useEffect(() => {
-        setMyGameData([]);
         setMyGame([]);
         const userId = user.user_id;
         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
@@ -80,12 +77,9 @@ function CategoryScreen() {
                 res.data.map((game, index) => {
                     const id = game.gameId;
                     setMyGame(myGame => [...myGame, id]);
-                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${id}`)
-                        .then((res) => {
-                            setMyGameData(myGameData => [...myGameData, res.data]);
-                        })
                 })
             });
+        console.log(loader);
     }, [categoryId]);
 
 
@@ -93,6 +87,8 @@ function CategoryScreen() {
         setCategoryId(getCategory.id);
         setCategoryName(getCategory.ui_name);
         setCategoryGameData([]);
+        setPage(0);
+        setLastGameId("10000");
     }
 
     if(loading) return (<div>Loading...</div>);
@@ -134,7 +130,7 @@ function CategoryScreen() {
                             ))}
                             {pageLoading && <p>Loading...</p>}
                             {error && <p>Error!</p>}
-                            <div ref={loader} />
+                            <div ref={setLoader} />
                         </div>
                     </div>
                 )}

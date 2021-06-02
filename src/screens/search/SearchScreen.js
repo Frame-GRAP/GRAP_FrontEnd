@@ -10,7 +10,6 @@ import useFetchCategory from "../category/useFetchCategory";
 import useFetchSearch from "./useFetchSearch";
 
 function SearchScreen({searchWord}) {
-    const [myGameData, setMyGameData] = useState([]);
     const [myGame, setMyGame] = useState([]);
     const [visible, setVisible] = useState(false);
     const [posY, setPosY] = useState(false);
@@ -21,19 +20,17 @@ function SearchScreen({searchWord}) {
     const [X, setX] = useState(0);
     const [Y, setY] = useState(0);
     const [curGame, setCurGame] = useState([]);
-    const [gameName, setGameName] = useState("");
-    const [gameId, setGameId] = useState(0);
 
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
     const { pageLoading, error, searchResult, setSearchResult } = useFetchSearch(searchWord, page);
-    const loader = useRef(null);
+    const [loader, setLoader] = useState(null);
 
     const handleObserver = useCallback((entries) => {
         const target = entries[0];
         if (target.isIntersecting) {
             setPage((prev) => prev + 1);
         }
-    }, []);
+    }, [loader]);
 
     useEffect(() => {
         const option = {
@@ -42,8 +39,9 @@ function SearchScreen({searchWord}) {
             threshold: 0
         };
         const observer = new IntersectionObserver(handleObserver, option);
-        if (loader.current) observer.observe(loader.current);
-    }, [handleObserver, searchWord]);
+        console.log(loader);
+        if (loader) observer.observe(loader);
+    }, [handleObserver]);
 
     useEffect(() => {
         async function fetchMyData() {
@@ -56,7 +54,7 @@ function SearchScreen({searchWord}) {
                         setMyGame(myGame => [...myGame, id]);
                     })
                 });
-            return myGameData;
+            return myGame;
         }
 
         fetchMyData();
@@ -68,6 +66,7 @@ function SearchScreen({searchWord}) {
 
     useEffect(() => {
         setSearchResult([]);
+        setPage(0);
     }, [searchWord]);
 
     if(loading) return (<div>Loading...</div>);
@@ -89,7 +88,7 @@ function SearchScreen({searchWord}) {
                     ))}
                     {pageLoading && <p>Loading...</p>}
                     {error && <p>Error!</p>}
-                    <div ref={loader} />
+                    <div ref={setLoader} />
                 </div>
             </div>
             <div className="video_modal">

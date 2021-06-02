@@ -6,7 +6,7 @@ import {selectUser} from "../../features/userSlice";
 import './CategoryScreen.css';
 import Video from "../../Video";
 import Footer from "../../Footer";
-import SearchScreen from "../SearchScreen";
+import SearchScreen from "../search/SearchScreen";
 import VideoModal from "../../VideoModal";
 import Select from 'react-dropdown-select';
 import useFetchCategory from "./useFetchCategory";

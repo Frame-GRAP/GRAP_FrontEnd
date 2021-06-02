@@ -6,7 +6,7 @@ import {selectUser} from "../features/userSlice";
 import './MyListScreen.css';
 import Video from "../Video";
 import Footer from "../Footer";
-import SearchScreen from "./SearchScreen";
+import SearchScreen from "./search/SearchScreen";
 import VideoModal from "../VideoModal";
 
 function MyListScreen() {

@@ -1,7 +1,8 @@
 import React, {useEffect, useState, useRef} from 'react'
 import {useHistory} from "react-router-dom";
-import {selectUser} from "./../../features/userSlice";
-import {useSelector} from "react-redux";
+import {login, logout, selectUser} from "./../../features/userSlice";
+import {useDispatch, useSelector} from "react-redux";
+
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 
@@ -14,11 +15,12 @@ import Footer from '../../Footer';
 function Mypage() {
     const [couponLength, setCouponLength] = useState(0);
     const history = useHistory();
-    const user = useSelector(selectUser);
-    const userId = user.user_id;
+    const [loading, setLoading] = useState(false);
     const ismembership = 0; // 멤버십 가입되있는지 정보 유저디비에서 따오기.
 
     const nickRef = useRef();
+    const user = useSelector(selectUser);
+
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
 
@@ -70,10 +72,10 @@ function Mypage() {
         axios({
             method : 'post',
             url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/nickname/${nickname}`
-        }).then((res)=> {
-            console.log(res);
+        }).then((res)=> {        
             setOpen(false);
-            history.push("/mypage");
+            window.localStorage.setItem("nickname", nickname);
+            window.location.reload();
         })
     }
 
@@ -127,12 +129,13 @@ function Mypage() {
     );
 
     useEffect(()=> {
-        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/coupon/userAndCoupon`)
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/coupon/userAndCoupon`)
             .then((res)=>{
                 console.log(res.data);
                 setCouponLength(res.data.length);
             })
     }, []);
+
 
     return (
         <div className="mypage">

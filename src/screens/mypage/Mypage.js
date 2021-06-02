@@ -1,13 +1,14 @@
 import React, {useEffect, useState, useRef} from 'react'
 import {useHistory} from "react-router-dom";
-import {login, logout, selectUser} from "./../../features/userSlice";
-import {useDispatch, useSelector} from "react-redux";
-
+import {selectUser} from "./../../features/userSlice";
+import {useSelector} from "react-redux";
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 
 import './Mypage.css'
 
+import basic from '../../img/bronze-medal.png';
+import premium from '../../img/gold-medal.png';
 import grap_logo from './../../img/grap_logo2-1.png';
 import axios from 'axios';
 import Footer from '../../Footer';
@@ -15,8 +16,8 @@ import Footer from '../../Footer';
 function Mypage() {
     const [couponLength, setCouponLength] = useState(0);
     const history = useHistory();
-    const [loading, setLoading] = useState(false);
-    const ismembership = 1; // 멤버십 가입되있는지 정보 유저디비에서 따오기.
+    const ismembership = 1; // 멤버십 가입여부
+    const membershipLevel = 1; // 멤버십 등급
 
     const nickRef = useRef();
     const user = useSelector(selectUser);
@@ -170,20 +171,33 @@ function Mypage() {
 
                     <div className="account_section">
                         <div className="account_section_header">
-                            <div className="header_title">멤버십(구독)</div>
+                            <div className="header_title" style={{"padding-top":"10px"}}>멤버십(구독)</div>
                             {ismembership ? <button className="membership_escape" onClick={escapeMembership}><h4>멤버십 해지</h4></button> : ""}
                         </div>
                         {ismembership ? (
                             <>
                             <div className="account_section_info">
-                                <h3 className="membership_info">Premium Silver</h3>
+                                <h3 className="membership_info">
+                                    {membershipLevel === 1 ? (
+                                        <>
+                                        Premium
+                                        <img src={premium} className="membership_medal"></img>
+                                        </>
+                                    ) : (
+                                        <>
+                                        Basic
+                                        <img src={basic} className="membership_medal"></img>
+                                        </>
+                                    )}
+
+                                </h3>
                                 <div className="credit_date">
                                     다음 결제일은 2021/06/30 입니다.
                                 </div>
                             </div>
                             <div className="account_section_modify">
                                 <div className="membership_modify">
-                                    <div className="modify" style={{"color":"#0073e6", "cursor": "pointer"}} onClick={() => history.push("/membership")}>
+                                    <div className="modify" style={{"color":"#0073e6", "cursor": "pointer", "padding-top": "10px"}} onClick={() => history.push("/membership")}>
                                         멤버십 변경
                                     </div>
                                 </div>
@@ -196,7 +210,12 @@ function Mypage() {
                             </div>
                             <div className="account_section_modify">
                                 <div className="membership_modify">
-                                    <div className="modify" style={{"color":"#0073e6", "cursor": "pointer"}} onClick={() => history.push("/membership")}>멤버십 가입</div>
+                                    <div 
+                                        className="modify" 
+                                        style={{"color":"#0073e6", "cursor": "pointer", "padding-top":"3px"}}
+                                    >
+                                        <span onClick={() => history.push("/membership")}>멤버십 가입</span>
+                                    </div>
                                 </div>
                             </div>
                             </>

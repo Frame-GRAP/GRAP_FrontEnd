@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Sigmar+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
 .popup__Description {
     padding: 20px 20px;
     margin: 5px 5px 50px 5px;
@@ -12,8 +14,8 @@
     font-family: 'Oswald', sans-serif;
 }
 .detail__gameName{
-    font-family: 'Roboto', sans-serif;
-
+    /* font-family: 'Roboto', sans-serif; */
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
 .description__contents {
@@ -36,7 +38,6 @@
 
 .game__Description > .detail__Description{
     margin-bottom: 10px;
-    /* font-family: 'Heebo', sans-serif; */
     font-family: 'Open Sans', sans-serif;
     font-size: 15px;
 }
@@ -49,25 +50,34 @@
 .detail__content > .detail__title{flex: 4; color: rgba(128, 128, 128, 0.966);}
 .detail__content > .detail__title > .detail__name {margin-bottom: 5px;}
 
-.detail__content > .detail__desc{flex: 7; color: rgba(10, 90, 196, 0.966);}
+.detail__content > .detail__desc{flex: 7; color: #67c1f5;}
 
 .detail__content > .detail__desc > .detail__detail {margin-bottom: 5px;}
-.detail__content>.detail__desc >.detail__detail:nth-child(3){color: rgba(255, 255, 255, 0.705);}
-/* .detail__content > .detail_download{flex: 3;} */
+.detail__content>.detail__desc >.detail__detail:nth-child(3){color: #B9A074;}
 
 .download_btn{
-    height: 50px;
-    width: 100%;
-    font-size: 15px;
+    width: 420px;
+    /* height: 50px; */
+	box-shadow: 0px 10px 14px -7px #276873;
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	background-color:#599bb3;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
 
-    border: none;
-    color: rgba(255, 255, 255, 0.685);
-    background-color: rgba(120, 127, 221, 0.4);
-
-    cursor: pointer;
+	font-size:20px;
+	font-weight:bold;
+	padding:10px 32px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
 }
 .download_btn:hover{
-    background-color: rgba(120, 127, 221, 1);
-    transition-timing-function: ease-in-out;
-    transition: all 0.2s;
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	background-color:#408c99;
+}
+.download_btn:active{
+	position:relative;
+	top:1px;
 }

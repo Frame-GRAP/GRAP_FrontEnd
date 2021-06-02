@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import styled from 'styled-components'
 import {CgCloseO} from 'react-icons/cg'
 import "./PopupDeclaration.css"
@@ -11,6 +11,7 @@ function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible
     const user = useSelector(selectUser);
     const [reportType, setReportType] = useState("")
     const [videoId, setVideoId] = useState(1);
+    const declare_ref = useRef();
 
     function CloseVideoDelaration(){ // 신고창 X 버튼
         setDeclare_visible(false);
@@ -19,25 +20,34 @@ function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible
       setDeclare_visible(false);
     }
     function SubmitVideoDeclare() {
-      console.log(user.user_id, declare_part, declare_contents, reportType, videoId);
+      console.log(user.user_id, declare_part, declare_contents, reportType, videoId, declare_ref.current.value);
 
-      axios({
-          method: 'post',
-          url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/video/${videoId}/report`,
-          data: {
-            reportType: reportType,
-            content: declare_contents
-          }
-      }).then((res) => {
-          if(res){
-              console.log(res);
-              alert("영상 신고가 완료되었습니다.");
-              // 받아온 response(=review id)를 해당 리뷰의 id로 추가.
-          }
-          else
-              alert("Declare's data sending fail");
-      })
-      setDeclare_visible(false);
+      if(declare_ref.current.value===""){
+          alert("신고 내용을 입력해주세요.")
+      }else{  
+        if(window.confirm("신고 하시겠습니까?")===true){
+          axios({
+              method: 'post',
+              url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/video/${videoId}/report`,
+              data: {
+                reportType: declare_contents,
+                content: declare_ref.current.value
+              }
+          }).then((res) => {
+              if(res){
+                  console.log(res);
+                  alert("영상 신고가 완료되었습니다.");
+                  // 받아온 response(=review id)를 해당 리뷰의 id로 추가.
+              }
+              else
+                  alert("Declare's data sending fail");
+          })
+          setDeclare_visible(false);
+          declare_ref.current.value = "";
+        }
+      }
+      
+
   }
   function SubmitReviewDeclare() {
       console.log(user.user_id, declare_part, declare_contents, declare_reviewId);
@@ -66,19 +76,28 @@ function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible
     }
 
     useEffect(() => { // popupGameData 또는 popupMainVideoIndex가 바뀌면 그에 따른 '메인 비디오에 들어갈 Id(=videoId)'를 갱신한다.
-      async function fetchData() {
-        const request = await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`);
-
-        setVideoId(request.data[popupMainVideoIndex].id);
-      }
-    
-      fetchData();
+      axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`)
+      .then((res)=>{
+          let temp;
+          res.data.map((set) => {
+              if(set.id === popupMainVideoIndex) {
+                  temp = set;
+              }
+          })
+          console.log(temp);
+          setVideoId(temp.id);
+          // setVideoId(res.data[popupMainVideoIndex].id);
+      })
     }, [popupGameData, popupMainVideoIndex]);
 
     return (
         <DeclareBackground className="declare_background" declare_visible={declare_visible} >
           
-            <DeclarationWrapper declare_visible={declare_visible} className="declare_wrapper">
+            <DeclarationWrapper 
+              declare_visible={declare_visible} 
+              declare_part={declare_part}
+              className="declare_wrapper"
+            >
         
                 <DeclarationContent className="declare_contents" >
                 <CloseDeclarationButton aria-label='close declare' className="declare_closeBtn" onClick={CloseVideoDelaration}/>
@@ -111,6 +130,11 @@ function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible
                       </div> 
 
                       <hr className="hr_tag"/>
+                      <input 
+                        className="declare_contents_input"
+                        placeholder="신고 내용을 입력해주세요."
+                        ref={declare_ref}
+                      />
 
                       <div className="declare_submit_part">
                           <button onClick={CancleDeclare} className="declare_cancel">취소</button>
@@ -182,7 +206,7 @@ const DeclarationWrapper = styled.div`
   left: 20%;
   right: 20%;
   bottom: 20%;
-  height: 500px;
+  height: ${(props) => (props.declare_part ? '520px' : '450px')};
   width: 700px;
   max-width: 1500px;
   z-index: 1000;

@@ -8,7 +8,7 @@ import {login, selectUser} from "../../features/userSlice";
 import Footer from "../../Footer";
 import {TextField} from "@material-ui/core";
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 function UserInfo() {
     const history = useHistory();
@@ -16,7 +16,6 @@ function UserInfo() {
     const [validateNickname, setValidateNickname] = useState(false);
     const [gameData, setGameData] = useState([]);
     const user = useSelector(selectUser);
-    const dispatch = useDispatch();
 
     function TotalSubmit(){
         const nickname = preNickname.current.value;
@@ -28,68 +27,52 @@ function UserInfo() {
             }
         })
 
-        if(!validateNickname){
-            alert("닉네임 중복확인을 해주세요");
-        }
-        else{
-            if(userFavor.length < 3) {
-                alert("게임을 3개 이상 선택해주세요");
-            }
-            else{
+
+            const gameData = new Object();
+            const gameArray = new Array();
+
+
+            userFavor.map((id, index) => {
                 const gameData = new Object();
-                const gameArray = new Array();
+                gameData.gameId = id;
+                gameArray.push(gameData);
+            })
 
-                userFavor.map((id, index) => {
-                    const gameData = new Object();
-                    gameData.gameId = id;
-                    gameArray.push(gameData);
-                })
+            gameData.data = gameArray;
 
-                gameData.data = gameArray;
+            const selectedGames = JSON.stringify(gameData);
 
-                const selectedGames = JSON.stringify(gameData);
+            console.log(selectedGames);
 
-                console.log(selectedGames);
+            axios({
+                method: 'post',
+                url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/nickname/${nickname}`,
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                data : nickname
+            }).then((res) => {
+                if(res){
+                    console.log(res.data);
+                }
+            })
 
-                axios({
-                    method: 'post',
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/nickname/${nickname}`,
-                    headers:{
-                        "Content-Type": "application/json"
-                    },
-                    data : nickname
-                }).then((res) => {
-                    if(res){
-                        console.log(res.data);
-                    }
-                })
+            axios({
+                method: 'post',
+                url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/userGamePreference`,
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                data: selectedGames
+            }).then((res) => {
+                if(res){
+                    console.log(res.data);
+                    history.push("/");
+                }
+            }).catch((err) => {
+                alert(err);
+            })
 
-                dispatch(login({
-                    user_id : user.user_id,
-                    name : user.name,
-                    nickname: nickname
-                }))
-                window.localStorage.setItem("user_id", JSON.stringify(user.user_id));
-                window.localStorage.setItem("name", user.name);
-                window.localStorage.setItem("nickname", nickname);
-
-                axios({
-                    method: 'post',
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/userGamePreference`,
-                    headers:{
-                        "Content-Type": "application/json"
-                    },
-                    data: selectedGames
-                }).then((res) => {
-                    if(res){
-                        console.log(res.data);
-                        history.push("/");
-                    }
-                }).catch((err) => {
-                    alert(err);
-                })
-            }
-        }
     }
 
     function IsOverlap(){
@@ -99,8 +82,9 @@ function UserInfo() {
             .then((res) =>{
                 console.log(res.data);
                 if(res.data.isDup == true){ //중복이니까 다시 입력받아야 함
-                    alert("닉네임이 중복 되었습니다. 다른 닉네임을 입력해주세요.");
-                    setValidateNickname(false);
+                    //alert("닉네임이 중복 되었습니다. 다른 닉네임을 입력해주세요.");
+                    alert("사용가능한 닉네임입니다.");
+                    setValidateNickname(true);
                 }
                 else{ // 가능
                     alert("사용가능한 닉네임입니다.");
@@ -145,15 +129,15 @@ function UserInfo() {
                             return (
                                 <>
                                 <div className="question_answer_item">
+                                    <input
+                                        key={index}
+                                        type="checkbox"
+                                        className="question2_selectBtn"
+                                        name="question2_selectBtn"
+                                        id={set.id}
+                                        value={set.id}
+                                    />
                                     <label className="question2_gameImg" htmlFor={set.id}>
-                                        <input
-                                            key={index}
-                                            type="checkbox"
-                                            className="question2_check"
-                                            name="question2_selectBtn"
-                                            id={set.id}
-                                            value={set.id}
-                                        />
                                         <div className="img_container">
                                             <img src={set.headerImg} className="question2_gameImg"></img>
                                         </div>

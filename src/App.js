@@ -29,16 +29,24 @@ function App() {
         else {
             dispatch(logout());
         }
-
     }, [dispatch]);
 
     console.log(user);
+
+
+    const check = () => {
+        if(!user){
+            return <LoginScreen />
+        }
+        if(user.nickname == null)
+            return <UserInfo />
+    }
 
     return (
         <div className="app">
             <Router>
                 {!user ? (
-                    <LoginScreen />
+                    check()
                 ) : (
                     <Switch>
                         <Route exact path="/">

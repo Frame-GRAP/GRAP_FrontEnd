@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import Nav from "../../Nav";
 import axios from "axios";
 import {useSelector} from "react-redux";
@@ -9,6 +9,7 @@ import Footer from "../../Footer";
 import SearchScreen from "../SearchScreen";
 import VideoModal from "../../VideoModal";
 import Select from 'react-dropdown-select';
+import useFetchCategory from "./useFetchCategory";
 
 
 function CategoryScreen() {
@@ -19,7 +20,7 @@ function CategoryScreen() {
     const [categoryList, setCategoryList] = useState([]);
     const [categoryId, setCategoryId] = useState("");
     const [categoryName, setCategoryName] = useState("");
-    const [gameData, setGameData] = useState([]);
+
 
     const [searching, setSearching] = useState(false);
     const [searchWord, setSearchWord] = useState("");
@@ -31,6 +32,28 @@ function CategoryScreen() {
 
     const [myGameData, setMyGameData] = useState([]);
     const [myGame, setMyGame] = useState([]);
+
+    const [page, setPage] = useState(1);
+    const { pageLoading, error, categoryGameData, setCategoryGameData } = useFetchCategory(categoryId, page);
+    const loader = useRef(null);
+
+    const handleObserver = useCallback((entries) => {
+        const target = entries[0];
+        if (target.isIntersecting) {
+            setPage((prev) => prev + 1);
+        }
+    }, []);
+
+    useEffect(() => {
+        const option = {
+            root: null,
+            rootMargin: "20px",
+            threshold: 0
+        };
+        const observer = new IntersectionObserver(handleObserver, option);
+        if (loader.current) observer.observe(loader.current);
+    }, [handleObserver, categoryId]);
+
 
     useEffect(() => {
         async function fetchCategoryData() {
@@ -51,7 +74,6 @@ function CategoryScreen() {
     useEffect(() => {
         setMyGameData([]);
         setMyGame([]);
-        setGameData([]);
         const userId = user.user_id;
         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
             .then((res) => {
@@ -64,17 +86,13 @@ function CategoryScreen() {
                         })
                 })
             });
-        if(categoryId !== ""){
-            axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/category/${categoryId}/game`)
-                .then((res) => {
-                    setGameData(res.data);
-                })
-        }
-    }, [categoryId])
+    }, [categoryId]);
+
 
     const getCategoryResult = (getCategory) => {
         setCategoryId(getCategory.id);
         setCategoryName(getCategory.ui_name);
+        setCategoryGameData([]);
     }
 
     if(loading) return (<div>Loading...</div>);
@@ -103,19 +121,20 @@ function CategoryScreen() {
                             <h2>{categoryName}</h2>
                         </div>
                         <div className="categoryScreen_result">
-                            {gameData.map((set,index) => (
-                                (index <= 10) && (
-                                    <Video
-                                        key={index}
-                                        setVideoShow={setVideoShow}
-                                        setX={setX}
-                                        setY={setY}
-                                        OneOfGameData={set}
-                                        myGame={myGame}
-                                        setCurGame={setCurGame}
-                                    />
-                                )
+                            {categoryGameData.map((set,index) => (
+                                <Video
+                                    key={index}
+                                    setVideoShow={setVideoShow}
+                                    setX={setX}
+                                    setY={setY}
+                                    OneOfGameData={set}
+                                    myGame={myGame}
+                                    setCurGame={setCurGame}
+                                />
                             ))}
+                            {pageLoading && <p>Loading...</p>}
+                            {error && <p>Error!</p>}
+                            <div ref={loader} />
                         </div>
                     </div>
                 )}

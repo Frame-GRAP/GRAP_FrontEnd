@@ -16,7 +16,7 @@ function Mypage() {
     const [couponLength, setCouponLength] = useState(0);
     const history = useHistory();
     const [loading, setLoading] = useState(false);
-    const ismembership = 0; // 멤버십 가입되있는지 정보 유저디비에서 따오기.
+    const ismembership = 1; // 멤버십 가입되있는지 정보 유저디비에서 따오기.
 
     const nickRef = useRef();
     const user = useSelector(selectUser);

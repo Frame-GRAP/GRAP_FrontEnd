@@ -3,26 +3,18 @@ import $ from "jquery"
 import axios from "axios";
 import {useSelector} from "react-redux";
 import {selectUser} from "./features/userSlice";
-import Popover from "@material-ui/core/Popover";
-import {
-    MuiThemeProvider,
-    createMuiTheme
-} from "@material-ui/core/styles";
-import {Grow, IconButton, Popper, Tooltip, Typography} from "@material-ui/core";
+import {IconButton, Tooltip} from "@material-ui/core";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import {grey, red} from "@material-ui/core/colors";
+import {grey} from "@material-ui/core/colors";
 import "./VideoModal.css";
-import Row from "./Row";
-
 
 function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVisible, posY, myGame = []}) {
     const [loading, setLoading] = useState(true);
     const [videoData, setVideoData] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
     const user = useSelector(selectUser);
-    const [anchorEl, setAnchorEl] = useState(null);
     const [curY, setCurY] = useState(0);
     const [curX, setCurX] = useState(0);
 
@@ -34,11 +26,11 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
                 .then( (res) => {
                     setVideoData(res.data[0]);
                 }).catch((err)=> {
-                    // console.log(err);
+                    console.log(err);
                 });
             return videoData;
         }
-        async function check() {
+        function check() {
             myGame.map((gameId) => {
                 if(gameId === OneOfGameData.id){
                     setIsAdded(true);
@@ -46,20 +38,22 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
             })
         }
 
-        if(Y < 0){
-            setCurY(0);
+        function setPosition() {
+            if(Y < 0){
+                setCurY(0);
+            }
+            else if(Y > 1200){
+                setCurY(Y - 80);
+            }
+            else{
+                setCurY(Y - 30);
+            }
+            setCurX(X + window.scrollY - 50);
         }
-        else if(Y > 1200){
-            setCurY(Y - 80);
-        }
-        else{
-            setCurY(Y - 30);
-        }
-
-        setCurX(X + window.scrollY - 50);
 
         fetchData();
         check();
+        setPosition();
         setLoading(false);
         return () => {
             setLoading(true);
@@ -69,7 +63,6 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
 
     function OpenModal(e){
         e.preventDefault();
-        setAnchorEl(null);
         const popupId = Number(e.target.id);
         console.log(popupId);
         setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1`);

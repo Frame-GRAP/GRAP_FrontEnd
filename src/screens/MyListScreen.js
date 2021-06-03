@@ -63,6 +63,7 @@ function MyListScreen() {
                         <div className="myListScreen_result">
                             {myGameData.map((set,index) => (
                                 <Video
+                                    key={index}
                                     setVideoShow={setVideoShow}
                                     setX={setX}
                                     setY={setY}
@@ -76,7 +77,7 @@ function MyListScreen() {
                 )}
             </div>
             <div className="video_modal">
-                {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y}OneOfGameData={curGame}/>}
+                {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y}OneOfGameData={curGame} myGame={myGame}/>}
             </div>
             <Footer />
         </>

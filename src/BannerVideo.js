@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import ReactPlayer from "react-player";
 import axios from "axios";
 
 function BannerVideo({mainGameData = []}){
@@ -8,10 +7,10 @@ function BannerVideo({mainGameData = []}){
     const [videoData, setVideoData] = useState("");
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
+    /*useEffect(() => {
         window.addEventListener("scroll", playAuto);
         return () => window.removeEventListener("scroll", playAuto);
-    }, [loading]);
+    }, [loading]);*/
 
 
     useEffect(() => {
@@ -29,6 +28,13 @@ function BannerVideo({mainGameData = []}){
                 setLoading(false);
             })
         }
+
+        toggleContent(false);
+        setDelayHandler(setTimeout(() => {
+            toggleContent(false);
+        }, 700));
+        clearTimeout(delayHandler);
+
         return () => {
             setLoading(true);
         }
@@ -41,7 +47,7 @@ function BannerVideo({mainGameData = []}){
         player_Url = `https://www.youtube.com/embed/${videoData.urlKey}?autoplay=1&controls=0&mute=0`
     }
 
-    const playAuto = () => {
+    /*const playAuto = () => {
         if(window.scrollY < 100){
             toggleContent(false);
             setDelayHandler(setTimeout(() => {
@@ -54,7 +60,7 @@ function BannerVideo({mainGameData = []}){
             }, 700));
             clearTimeout(delayHandler);
         }
-    }
+    }*/
 
     if(loading) return (<div>Loading...</div>);
     return (
@@ -68,7 +74,7 @@ function BannerVideo({mainGameData = []}){
                     src={player_Url}
                     scrolling="no"
                     frameBorder="0"
-                    allow="autoplay"
+                    /*allow="autoplay"*/
                 />
             )}
         </div>

@@ -2,8 +2,8 @@ import React, {useEffect, useRef, useState} from "react";
 import './Nav.css';
 import grap_logo from './img/grap_logo2-1.png';
 import {useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {logout} from "./features/userSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {logout, selectUser} from "./features/userSlice";
 import {IconButton} from "@material-ui/core";
 import {grey} from "@material-ui/core/colors";
 import SearchIcon from '@material-ui/icons/Search';
@@ -13,6 +13,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 function Nav({setSearchWord, setSearching}) {
     const history = useHistory();
     const [show, handleShow] = useState(false);
+    const [openSearch, setOpenSearch] = useState(false);
     const dispatch = useDispatch();
 
     const transitionNavBar = () => {
@@ -66,20 +67,20 @@ function Nav({setSearchWord, setSearching}) {
                 <div className="nav_secondary">
                     <div className="secondary_element">
                         <div className="search_element">
-                            <input className="search expandright" id="searchright"
-                                   type="search" name="q" placeholder="Search" onChange={handleChange}/>
+                            {openSearch && <input className="search expandright" id="searchright"
+                                                  type="search" name="q" placeholder="Search" onChange={handleChange}/>}
                             <label className="button searchbutton" htmlFor="searchright">
                                 <IconButton
                                     aria-label="delete"
                                     className="nav_search"
-                                    /*onClick={() => history.push("/")}*/
+                                    onClick={() => setOpenSearch(!openSearch)}
                                 >
                                     <SearchIcon style={{ fontSize: 40, color: grey[50]}}/>
                                 </IconButton>
                             </label>
                         </div>
                     </div>
-                    <div className="secondary_element">
+                    {/* <div className="secondary_element">
                         <div className="membership_element">
                             <IconButton
                                 aria-label="delete"
@@ -89,7 +90,7 @@ function Nav({setSearchWord, setSearching}) {
                                 <VpnKeyIcon style={{ fontSize: 40, color: grey[50]}}/>
                             </IconButton>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="secondary_element">
                         <div className="dropdown_element">
                             <IconButton

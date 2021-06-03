@@ -7,7 +7,7 @@ import axios from "axios";
 import {useSelector} from "react-redux";
 import {selectUser} from "./features/userSlice";
 
-function Row({setVideoShow, setX, setY, title, category = [], setPopupUrl, setVisible, posY, setCurGame}) {
+function Row({index, setVideoShow, setX, setY, title, category = [], setPopupUrl, setVisible, posY, setCurGame}) {
     const [loading, setLoading] = useState(true);
     const [myGame, setMyGame] = useState([]);
     const [gameData, setGameData] = useState([]);
@@ -43,12 +43,16 @@ function Row({setVideoShow, setX, setY, title, category = [], setPopupUrl, setVi
             axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/categoryTab/category/${categoryId}/game`)
                 .then((res) => {
                     if(res){
-                        setLastGame(res.data.pop());
                         shuffleJson(res.data);
                         setGameData(res.data);
                     }else{
                         console.log("err");
                     }
+                })
+
+            axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8802`)
+                .then((res) => {
+                    setLastGame(res.data);
                 })
 
             setLoading(false);
@@ -94,9 +98,23 @@ function Row({setVideoShow, setX, setY, title, category = [], setPopupUrl, setVi
                                 itemClass="list_item"
                                 sliderClass="row_posters"
                                 dotListClass="dot_list">
+                    {index == 0 && (
+                        <Video
+                            className="row_poster"
+                            setVideoShow={setVideoShow}
+                            setX={setX}
+                            setY={setY}
+                            OneOfGameData={lastGame}
+                            setVisible={setVisible}
+                            setPopupUrl={setPopupUrl}
+                            posY={posY}
+                            myGame={myGame}
+                            setCurGame={setCurGame}
+                        />
+                    )}
                     {
                         (gameData.map((set, index) => (
-                            (index <= 10 && set.name!==`${lastGame}`) && (
+                            (index <= 9 && set.name!==`${lastGame}`) && (
                                 <Video
                                     key={index}
                                     className="row_poster"

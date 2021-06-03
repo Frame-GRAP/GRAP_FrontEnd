@@ -12,7 +12,7 @@ function Banner() {
 
     useEffect(() => {
         async function fetchData() {
-            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1`)
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8845`)
                 .then(async (res) => {
                     setMainGame(res.data);
                 });

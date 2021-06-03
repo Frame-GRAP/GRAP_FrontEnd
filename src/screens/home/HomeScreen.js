@@ -32,7 +32,7 @@ function HomeScreen(){
     const [popupUrl, setPopupUrl] = useState("");
     const [popupGameData, setPopupGameData] = useState([]);
     // MainVideoIndex 초기 값 이거 설정 팝업 많아지면 그거에 맞춰서 바꿔야되겠는데..
-    const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(1);
+    const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(80);
 
     const [declare_visible, setDeclare_visible] = useState(false);
     const [declare_part, setDeclare_part] = useState(true);
@@ -204,6 +204,7 @@ function HomeScreen(){
                             return(
                                 <Row
                                     key={index}
+                                    index={index}
                                     videoShow={videoShow}
                                     setVideoShow={setVideoShow}
                                     setX={setX}

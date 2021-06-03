@@ -92,7 +92,7 @@ function SearchScreen({searchWord}) {
                 </div>
             </div>
             <div className="video_modal">
-                {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y-25}OneOfGameData={curGame}/>}
+                {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y-25}OneOfGameData={curGame} myGame={myGame}/>}
             </div>
         </div>
     )

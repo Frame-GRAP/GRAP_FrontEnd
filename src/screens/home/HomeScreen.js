@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./HomeScreen.css"
 import $ from "jquery"
-import styled from 'styled-components'
 import axios from 'axios'
 import grap_logo from '../../img/grap_logo2-1.png'
 
@@ -23,7 +22,6 @@ import {selectUser} from './../../features/userSlice'
 import {useSelector} from "react-redux";
 import Footer from "../../Footer";
 import RowCustom from "../../RowCustom";
-import TempRow from "../../TempRow";
 import SearchScreen from "../search/SearchScreen";
 import VideoModal from "../../VideoModal";
 

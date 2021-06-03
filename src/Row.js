@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import './Row.css';
 import Video from "./Video";
 import Multi_Carousel from 'react-multi-carousel';

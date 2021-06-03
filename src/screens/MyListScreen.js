@@ -77,7 +77,7 @@ function MyListScreen() {
                 )}
             </div>
             <div className="video_modal">
-                {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y}OneOfGameData={curGame}/>}
+                {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y}OneOfGameData={curGame} myGame={myGame}/>}
             </div>
             <Footer />
         </>

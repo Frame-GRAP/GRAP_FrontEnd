@@ -42,7 +42,7 @@
 .mypage_header{ /* 계정 */
     margin-bottom: 5px;
     color: #fff;
-    font-family: 'Nanum Gothic Coding', monospace;
+    /* font-family: 'Nanum Gothic Coding', monospace; */
     display: flex;
 }
 .mypage_header > .account_header{
@@ -91,7 +91,7 @@
 .account_section_info > .no_membership {font-size: 20px; font-weight: bold;
  padding-top: 7px; padding-bottom: 10px; color: gray;}
 .account_section_info > .available_coupon {font-size: 20px;  font-weight: bold;}
-
+.account_section_info > .available_coupon_null {font-size: 20px; font-weight: bold; color: gray;}
 .account_section_modify{
     flex: 1;
     font-size: 18px;
@@ -101,33 +101,34 @@
 }
 
 .user_escape{
-    font-size: 13px;
+    font-size: 15px;
     height: 25px;
     cursor: pointer;
-    color: rgba(44, 40, 40, 0.844);
+    color: rgb(44, 40, 40);
 }
 
 
 .membership_escape {
     margin-top: 10px;
-    box-shadow:inset 0px 1px 0px 0px #97c4fe;
-	background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
-	background-color:#111;
+    margin-left: 5px;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+	background-color:#ededed;
 	border-radius:6px;
-	border:1px solid #337fed;
+	border:1px solid #dcdcdc;
 	display:inline-block;
 	cursor:pointer;
-	color:#ffffff;
+	color:#777777;
 	font-family:Arial;
-	font-size:17px;
-	font-weight: 900;
+	font-size:15px;
+	font-weight:bold;
 	padding:6px 24px;
 	text-decoration:none;
-	text-shadow:0px 1px 0px #1570cd;
+	text-shadow:0px 1px 0px #ffffff;
 }
 .membership_escape:hover {
-	background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
-	background-color:#1e62d0;
+	background:linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+	background-color:#dfdfdf;
 }
 .membership_escape:active {
 	position:relative;
@@ -174,6 +175,7 @@
     width: 150px;
     height: 25px;
     text-align: center;
+    border: 1px solid rgba(17, 17, 17, 0.651);
 }
 
 /* modify Button */

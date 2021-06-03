@@ -17,14 +17,21 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const id = window.localStorage.getItem('user_id');
+        const user_id = window.localStorage.getItem('user_id');
         const name = window.localStorage.getItem('name');
         const nickname = window.localStorage.getItem('nickname');
-        if(id) {
+        const membershipName = window.localStorage.getItem("membershipName");
+        const availableCoupon = window.localStorage.getItem("availableCoupon");
+        const nextPaymentDay = window.localStorage.getItem("nextPaymentDay");
+
+        if(user_id) {
             dispatch(login({
-                user_id : id,
+                user_id : user_id,
                 name : name,
-                nickname: nickname
+                nickname: nickname,
+                membershipName: membershipName,
+                availableCoupon: availableCoupon,
+                nextPaymentDay: nextPaymentDay
             }))
         }
         else {

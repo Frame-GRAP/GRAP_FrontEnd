@@ -42,14 +42,21 @@ function PopupGameDescription({popupGameData}) {
                                     popupGameData.developer
                                 )}
                             </div>
+                            
                             <div className="detail__detail">
-                                {popupGameData.publisher ? (
+                                Unity
+                                {/* {popupGameData.publisher ? (
                                     popupGameData.publisher.replaceAll("\"", "").replace("[","").replace("]","")
                                     ) : (
                                     popupGameData.publisher
-                                )}
+                                    
+                                )} */}
                             </div>
-                            <div className="detail__detail">{popupGameData.releaseDate}</div>
+                            <div className="detail__detail">
+                                {console.log(popupGameData.releaseDate)}
+                                
+                                {popupGameData.releaseDate}
+                            </div>
                         </div>
 
                     </div>

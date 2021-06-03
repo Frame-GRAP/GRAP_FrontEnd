@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
-import {useSelector} from "react-redux";
-import {selectUser} from "../../features/userSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {selectUser, login} from "../../features/userSlice";
 import Footer from "../../Footer";
 import Nav from "../../Nav";
 import './MembershipScreen.css';
@@ -32,6 +32,8 @@ function MembershipScreen() {
     const user = useSelector(selectUser);
     const [loading, setLoading] = useState(true);
     const history = useHistory();
+    const dispatch = useDispatch();
+
     const [searching, setSearching] = useState(false);
     const [searchWord, setSearchWord] = useState("");
     const [membershipData, setMembershipData] = useState([]);
@@ -76,9 +78,25 @@ function MembershipScreen() {
                     url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/membership/${info.membershipId}`, // 서비스 웹서버
                     method: "put",
                     headers: { "Content-Type": "application/json" }
-                });
-                alert("결제에 성공하였습니다.");
-                history.push("/");
+                }).then(() =>{
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}`)
+                    .then((res) => {
+                        console.log(res.data);
+    
+                        dispatch(login({
+                            membershipName : res.data.membershipName,
+                            availableCoupon : res.data.availableCoupon,
+                            price: res.data.price
+                        }))
+                        window.localStorage.setItem("membershipName", res.data.membershipName);
+                        window.localStorage.setItem("availableCoupon", res.data.availableCoupon);
+                        window.localStorage.setItem("price", res.data.price);
+                    }).then(() =>{
+                        alert("결제에 성공하였습니다.");
+                        history.push("/");
+                        window.location.reload();
+                    })
+                })
 
             } else {
                 // 빌링키 발급 실패
@@ -150,7 +168,7 @@ function MembershipScreen() {
                                                     {getTierImg(index)}
                                                 </div>
                                                 <h3 className="membership_name">{tier.name}<br/></h3>
-                                                <h4 className="membership_description">사용 가능한 쿠폰 {tier.availableCoupon}장<br/></h4>
+                                                <h4 className="membership_description">사용 가능한 쿠폰 {tier.couponNum}장<br/></h4>
                                                 <h6 className="membership_price">월 {tier.price}원</h6>
                                             </div>
                                         </label>

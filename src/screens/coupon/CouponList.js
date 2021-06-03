@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useStyles, useRef} from 'react'
 import {useHistory} from "react-router-dom";
-import {selectUser} from './../../features/userSlice'
-import {useSelector} from "react-redux";
+import {selectUser, login} from "./../../features/userSlice";
+import {useDispatch, useSelector} from "react-redux";
 import { makeStyles } from '@material-ui/core/styles'
 
 import axios from 'axios'
@@ -18,6 +18,8 @@ import {HiOutlinePlusCircle} from 'react-icons/hi'
 function CouponList() { 
     const [couponData, setCouponData] = useState([]);
     const [searchData, setSearchData] = useState([]);
+    const [userData, setUserData] = useState([]);
+
 
     const [isIssueCoupon, setIsIssueCoupon] = useState(false);
     const [isDeleteCoupon, setIsDeleteCoupon] = useState(false);
@@ -27,7 +29,9 @@ function CouponList() {
     
     const history = useHistory();
     const searchRef = useRef();
-    const userId = useSelector(selectUser).user_id;
+    const user = useSelector(selectUser);
+    const userId = user.user_id;
+    const dispatch = useDispatch();
 
     
     function getModalStyle() {
@@ -89,16 +93,31 @@ function CouponList() {
 
     function IssueCoupon(e) {
         const couponId = e.target.getAttribute('id')
+        console.log(couponId);
         
         if(window.confirm("해당 쿠폰을 발급 하시겠습니까?")===true) {
             axios({
                 method : 'post',
-                url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/coupon/${couponId}/userAndCoupon`
+                url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/coupon/${couponId}/userAndCoupon`
             }).then((res)=> {
-                console.log(res.data);
+                console.log(res);
                 setIsIssueCoupon(!isIssueCoupon);
+            
+                axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}`)
+                .then((res) => {
+                    console.log(res.data);
+                    setUserData(res.data);
+                    dispatch(login({
+                        user_id: res.data.id,
+                        availableCoupon : res.data.availableCoupon,
+                    }))
+                    window.localStorage.setItem("user_id", res.data.id);
+                    window.localStorage.setItem("availableCoupon", res.data.availableCoupon);
+
+                    alert("발급되었습니다.")
+                })
             })
-            alert("발급되었습니다.")
+
             setOpen(false);
         }
     }
@@ -184,11 +203,24 @@ function CouponList() {
             .then((res)=>{
                 setCouponData(res.data);
             })
+
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}`)
+        .then((res) => {
+            console.log(res.data);
+            setUserData(res.data);
+            dispatch(login({
+                user_id: res.data.id,
+                availableCoupon : res.data.availableCoupon,
+            }))
+            window.localStorage.setItem("user_id", res.data.id);
+            window.localStorage.setItem("availableCoupon", res.data.availableCoupon);
+        })
     }, []);
 
     useEffect(()=> {
         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/coupon/userAndCoupon`)
             .then((res)=>{
+                console.log(res.data.length);
                 setCouponData(res.data);
             })
     }, [isIssueCoupon, isDeleteCoupon]);
@@ -223,23 +255,16 @@ function CouponList() {
                                 <img className="coupon_img" id={set.id} src={set.gameHeaderImage}></img>
 
                                 <div className="copone_date" id={set.id}>
-                                    {(dateDif <= 0) ? "기한이 만료되었습니다." : `만료일까지 ${dateDif}일 남았습니다`}
+                                    {(dateDif < 0) ? "기한이 만료되었습니다." : `만료일까지 ${dateDif}일 남았습니다`}
                                 </div>
                                 <div className="coupon_code" id={set.id}>{set.code}</div>
                             </div>
                         </>
                         )
                     })}
-                    {[...Array(10-couponData.length)].map(()=>{
+                    {userData.availableCoupon > 0 && [...Array(userData.availableCoupon)].map(()=>{
                         return(
                             <div className="blank_coupon_item">
-                                <div className="blank_coupon_img">
-                                    {/* <img className="blank_coupon_img_detail" src={grap_logo}></img> */}
-                                </div>
-                                {/* <button 
-                                    className="gameSelect_btn" 
-                                    onClick={handleOpen}
-                                ><h3>게임 선택</h3></button> */}
                                 <HiOutlinePlusCircle 
                                     size="120" 
                                     className="plusBtn" 

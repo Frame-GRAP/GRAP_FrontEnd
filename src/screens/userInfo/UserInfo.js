@@ -24,7 +24,6 @@ function UserInfo() {
         let userFavor=[];
         checked.forEach((set) => {
             if(set.checked===true){
-                console.log(set.value);
                 userFavor.push(set.value);
             }
         })
@@ -57,6 +56,8 @@ function UserInfo() {
 
                 const selectedGames = JSON.stringify(gameData);
 
+                console.log(selectedGames);
+
                 axios({
                     method: 'post',
                     url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/nickname/${nickname}`,
@@ -79,7 +80,6 @@ function UserInfo() {
                 window.localStorage.setItem("name", user.name);
                 window.localStorage.setItem("nickname", nickname);
 
-                console.log(selectedGames);
                 axios({
                     method: 'post',
                     url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/userGamePreference`,
@@ -152,15 +152,15 @@ function UserInfo() {
                             return (
                                 <>
                                 <div className="question_answer_item">
+                                    <input
+                                        key={index}
+                                        type="checkbox"
+                                        className="question2_selectBtn"
+                                        name="question2_selectBtn"
+                                        id={set.id}
+                                        value={set.id}
+                                    />
                                     <label className="question2_gameImg" htmlFor={set.id}>
-                                        <input
-                                            key={index}
-                                            type="checkbox"
-                                            className="question2_check"
-                                            name="question2_selectBtn"
-                                            id={set.id}
-                                            value={set.game_id}
-                                        />
                                         <div className="img_container">
                                             <img src={set.headerImg} className="question2_gameImg"></img>
                                         </div>

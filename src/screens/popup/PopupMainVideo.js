@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import "./PopupMainVideo.css"
+import {AiOutlineDislike, AiOutlineLike, AiFillLike, AiFillDislike} from 'react-icons/ai'
+
 
 function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible, setDeclare_part }) {
     const [mainVideo, setMainVideo] = useState([]);
@@ -50,6 +52,10 @@ function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible,
                 frameBorder="0"
                 allowFullScreen
                 allow="autoplay"/>
+            {/* <span className="video_like">
+                <AiFillLike size="30" className="video_like_btn" color="blue"/>&nbsp;
+                <span>{popupGameData.voteCount}</span>
+            </span> */}
             <span className="Video__declaration2" onClick={OpenVideoDeclaration}>신고</span>
         </div>
         </>

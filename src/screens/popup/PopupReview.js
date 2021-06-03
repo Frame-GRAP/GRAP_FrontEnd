@@ -33,7 +33,8 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     const [modifyReviewComplete, setModifyReviewComplete] = useState(false); // 수정 완료시 갱신.
 
     // user, ref
-    const userId = useSelector(selectUser).user_id;
+    const user = useSelector(selectUser);
+    const userId = user.user_id;
     const commentRef = useRef();
     const modifyRef = useRef();
 
@@ -347,14 +348,14 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
             <div className="Reviews">
                 <div className="Review__contents">
                     {reviewData.map((set, index) => {
-                        // {console.log(set.reviewValue)}
+                        {console.log(set)}
                         return (
                             <div className="Review" key={index}>
                                 {/* <AccountBoxIcon className="Review__profile__image" fontSize="large" /> */}
                                 <img src={User_Icon} className="Review__profile__image"></img>
 
                                 <div className="Reveiw__items">
-                                    <span className="Name">{set.username}&nbsp;</span><br/>
+                                    <span className="Name">{set.nickname}&nbsp;</span><br/>
 
                                     {(set.modify===1) ? (
                                         <>
@@ -416,12 +417,18 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                                     }
 
                                 </div>
+                                {console.log(user.name, set.name)}
                                 <div className="Review__modifyTab">
                                     <button className="modify_ReviewBtn" onClick={OpenModifyReview} index={index}>▼</button>
                                     <div className="review_tab1 review_tab2">
                                         <ul className="review__modify__ul">
-                                            <li index={index}name={set.review_id} onClick={ModifyReview}>수정</li>
-                                            <li index={index}name={set.review_id} onClick={DeleteReview}>삭제</li>
+                                            {(user.name == set.username) && (      
+                                                <>                              
+                                                <li index={index}name={set.review_id} onClick={ModifyReview}>수정</li>
+                                                <li index={index}name={set.review_id} onClick={DeleteReview}>삭제</li>
+                                                </>
+                                            )}
+
                                             <li index={index}name={set.review_id} onClick={OpenReviewDeclaration}>신고</li>
                                         </ul>
                                     </div>

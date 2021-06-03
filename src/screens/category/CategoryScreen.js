@@ -41,7 +41,7 @@ function CategoryScreen() {
         if (target.isIntersecting) {
             setPage((prev) => prev + 1);
         }
-    }, []);
+    }, [loader]);
 
     useEffect(() => {
         const option = {

@@ -35,22 +35,37 @@ function MembershipScreen() {
     const [searching, setSearching] = useState(false);
     const [searchWord, setSearchWord] = useState("");
     const [membershipData, setMembershipData] = useState([]);
+    const [membership, setMembership] = useState([]);
 
+
+    useEffect(() => {
+        async function fetchMembershipData() {
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/membership/all`)
+                .then( (res) => {
+                    setMembershipData(res.data);
+                }).catch((err)=> {
+                     console.log(err);
+                });
+            return membershipData;
+        }
+        fetchMembershipData();
+    }, [])
 
     const { IMP } = window;
     IMP.init('imp40158151');
 
     const payment = () => {
-        const price = RegisterMembership();
+        const info = RegisterMembership();
+
         const customerUid = user.name + '_' + user.user_id;
 
         IMP.request_pay({
             merchant_uid : 'merchant_' + new Date().getTime(),
-            name : '최초인증결제',
-            amount : "100000", // 빌링키 발급만 진행하며 결제승인을 하지 않습니다.
+            name : '최초결제',
+            amount : `${info.price}`, // 빌링키 발급만 진행하며 결제승인을 하지 않습니다.
             customer_uid : `${customerUid}`, //customer_uid 파라메터가 있어야 빌링키 발급이 정상적으로 이뤄집니다.
             buyer_email : 'iamport@siot.do',
-            buyer_name : '아임포트',
+            buyer_name : `${user.name}`,
             buyer_tel : '02-1234-1234'
         }, rsp => {
             if (rsp.success) {
@@ -58,19 +73,13 @@ function MembershipScreen() {
                 // axios로 HTTP 요청
                 console.log(rsp);
                 axios({
-                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/checkPayment/${rsp.imp_uid}`, // 서비스 웹서버
-                    method: "post",
-                    headers: { "Content-Type": "application/json" },
-                    data: {
-                        customerUid: `${rsp.customer_uid}`, // 카드(빌링키)와 1:1로 대응하는 값
-                        merchantUid: `${rsp.merchant_uid}`,
-                        paid_amount: `${rsp.paid_amount}`
-                    }
-                }).then((r) => {
-                    console.log(r.data);
-                    alert("결제에 성공하였습니다.");
-                    history.push("/");
-                })
+                    url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/membership/${info.membershipId}`, // 서비스 웹서버
+                    method: "put",
+                    headers: { "Content-Type": "application/json" }
+                });
+                alert("결제에 성공하였습니다.");
+                history.push("/");
+
             } else {
                 // 빌링키 발급 실패
                 alert("결제에 실패하였습니다.");
@@ -79,7 +88,6 @@ function MembershipScreen() {
     };
 
     useEffect(() => {
-        setMembershipData(tiers);
 
 
         setLoading(false);
@@ -96,15 +104,20 @@ function MembershipScreen() {
     }
 
     function RegisterMembership() {
-        let price = "";
+        const info = new Object();
         const checked = document.getElementsByName("membership_selectBtn");
 
         checked.forEach((set) => {
             if (set.checked === true) {
-                price = set.value;
+                info.price = set.value[0];
+                info.price += set.value[1];
+                info.price += set.value[2];
+                info.price += set.value[3];
+                info.membershipId = set.value[5];
+
             }
         })
-        return price;
+        return info;
     }
 
     if(loading) return (<div>Loading...</div>);
@@ -122,22 +135,22 @@ function MembershipScreen() {
                             <div className="membershipScreen_result">
                                 <div className="membership_container">
                                     {membershipData.map((tier, index) => (
-                                        <label className="membership_item" htmlFor={tier.title}>
+                                        <label className="membership_item" htmlFor={tier.name}>
                                             <input
                                                 key={index}
                                                 type="radio"
                                                 className="membership_check"
                                                 name="membership_selectBtn"
-                                                id={tier.title}
-                                                value={tier.price}
+                                                id={tier.name}
+                                                value={[tier.price, tier.id]}
                                                 defaultChecked={index == 0}
                                             />
                                             <div className="item_inner">
                                                 <div className="membership_img">
                                                     {getTierImg(index)}
                                                 </div>
-                                                <h3 className="membership_name">{tier.title}<br/></h3>
-                                                <h4 className="membership_description">{tier.description}<br/></h4>
+                                                <h3 className="membership_name">{tier.name}<br/></h3>
+                                                <h4 className="membership_description">사용 가능한 쿠폰 {tier.availableCoupon}장<br/></h4>
                                                 <h6 className="membership_price">월 {tier.price}원</h6>
                                             </div>
                                         </label>

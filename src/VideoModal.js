@@ -10,7 +10,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import {grey} from "@material-ui/core/colors";
 import "./VideoModal.css";
 
-
 function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVisible, posY, myGame = []}) {
     const [loading, setLoading] = useState(true);
     const [videoData, setVideoData] = useState([]);

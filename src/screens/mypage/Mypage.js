@@ -98,7 +98,13 @@ function Mypage() {
     function escapeMembership() {
         console.log(user)
         if(window.confirm("멤버십을 해지하시겠습니까?")===true){
-           
+            /*axios({
+                method : 'delete',
+                url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/membership`
+            }).then((res)=> {
+                console.log(res);
+                window.location.reload();
+            })*/
             console.log("해지 완료")
             window.confirm("해지되었습니다!")
         }
@@ -149,6 +155,7 @@ function Mypage() {
             <div className="mypage_container">
                 <div className="mypage_header">
                     <h1 className="account_header">계정</h1>
+                    <div className="user_escape" onClick={escapeUser}><h4>회원 탈퇴</h4></div>
                 </div>
                 
 
@@ -156,7 +163,7 @@ function Mypage() {
                     <div className="account_section">
                         <div className="account_section_header">
                             <div className="header_title">회원 정보</div>
-                            <button className="user_escape" onClick={escapeUser}><h4>회원 탈퇴</h4></button>
+                            {/* <button className="user_escape" onClick={escapeUser}><h4>회원 탈퇴</h4></button> */}
                         </div>
 
                         <div className="account_section_info">

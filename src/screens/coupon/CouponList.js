@@ -10,7 +10,9 @@ import Modal from '@material-ui/core/Modal'
 
 import './CouponList.css'
 import grap_logo from './../../img/grap_logo2-1.png';
-
+import {BsPlusCircle} from 'react-icons/bs'
+import {BiPlusCircle, BiPlus} from 'react-icons/bi'
+import {HiOutlinePlusCircle} from 'react-icons/hi'
 
 
 function CouponList() { 
@@ -201,7 +203,7 @@ function CouponList() {
             </div>
             <div className="couponList_container">
                 <div className="coupon_items_title">
-                    <h1>쿠폰함</h1><br/>
+                    <h1>쿠 폰 함</h1><br/>
                 </div>
 
                 <div className="coupon_items">
@@ -232,12 +234,17 @@ function CouponList() {
                         return(
                             <div className="blank_coupon_item">
                                 <div className="blank_coupon_img">
-                                    <img className="blank_coupon_img_detail" src={grap_logo}></img>
+                                    {/* <img className="blank_coupon_img_detail" src={grap_logo}></img> */}
                                 </div>
-                                <button 
+                                {/* <button 
                                     className="gameSelect_btn" 
                                     onClick={handleOpen}
-                                ><h3>게임 선택</h3></button>
+                                ><h3>게임 선택</h3></button> */}
+                                <HiOutlinePlusCircle 
+                                    size="120" 
+                                    className="plusBtn" 
+                                    onClick={handleOpen}
+                                />
                             </div>
                         )
                     })}

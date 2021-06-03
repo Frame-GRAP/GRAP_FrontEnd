@@ -43,8 +43,14 @@
     margin-bottom: 5px;
     color: #fff;
     font-family: 'Nanum Gothic Coding', monospace;
+    display: flex;
 }
-
+.mypage_header > .account_header{
+    flex: 9;
+}
+.mypage_header > .user_escape{
+    flex: 1;
+}
 
 /* Row 전체 */
 .account_sections {
@@ -62,7 +68,7 @@
 }
 .account_section:nth-child(1){ /* 회원 정보 Row */
     border-top: 3px solid rgba(255, 255, 255, 0.63);
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 }
 .account_section:nth-child(2){ /* 멤버십 정보 Row */
     margin-bottom: 30px;
@@ -94,12 +100,19 @@
     margin-top: 3px;
 }
 
+.user_escape{
+    font-size: 13px;
+    height: 25px;
+    cursor: pointer;
+    color: rgba(44, 40, 40, 0.844);
+}
 
-.membership_escape, .user_escape{
+
+.membership_escape {
     margin-top: 10px;
     box-shadow:inset 0px 1px 0px 0px #97c4fe;
 	background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
-	background-color:#3d94f6;
+	background-color:#111;
 	border-radius:6px;
 	border:1px solid #337fed;
 	display:inline-block;
@@ -112,11 +125,11 @@
 	text-decoration:none;
 	text-shadow:0px 1px 0px #1570cd;
 }
-.membership_escape:hover, .user_escape:hover {
+.membership_escape:hover {
 	background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
 	background-color:#1e62d0;
 }
-.membership_escape:active, .user_escape:active {
+.membership_escape:active {
 	position:relative;
 	top:1px;
 }

@@ -57,7 +57,7 @@ function PopupGameDescription({popupGameData}) {
                         <a
                             href={popupGameData.downloadUrl}
                         >
-                            <button className="download_btn">다운로드</button>
+                            <button className="download_btn">구매하기  5,500원</button>
                         </a>
                     </div>
                 </div>

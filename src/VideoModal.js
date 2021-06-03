@@ -21,10 +21,10 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
     useEffect(() => {
         async function fetchData() {
             const gameId = OneOfGameData.id;
-            //await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
-            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8842/video/all`)
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
+            //await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8802/video/all`)
                 .then( (res) => {
-                    setVideoData(res.data[0]);
+                    setVideoData(res.data[10]);
                 }).catch((err)=> {
                     console.log(err);
                 });
@@ -58,14 +58,14 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
         return () => {
             setLoading(true);
         }
-    }, []);
+    }, [OneOfGameData, setVideoShow]);
 
 
     function OpenModal(e){
         e.preventDefault();
         const popupId = Number(e.target.id);
         console.log(popupId);
-        setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1`);
+        setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8802`);
         //setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
 
         setVisible(true);
@@ -104,10 +104,12 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
     }
 
     let player_Url = "";
-    if(videoData.platform === "twitch"){
-        player_Url = `https://clips.twitch.tv/embed?clip=${videoData.urlKey}&parent=localhost&controls=0&autoplay=true&origin=http://localhost:3000`
-    }else if(videoData.platform === "youtube"){
-        player_Url = `https://www.youtube.com/embed/${videoData.urlKey}?mute=0&controls=0`
+    if(videoData !== undefined){
+        if(videoData.platform === "twitch"){
+            player_Url = `https://clips.twitch.tv/embed?clip=${videoData.urlKey}&parent=localhost&controls=0&autoplay=true&origin=http://localhost:3000`
+        }else if(videoData.platform === "youtube"){
+            player_Url = `https://www.youtube.com/embed/${videoData.urlKey}?autoplay=1&mute=0&controls=0`
+        }
     }
 
     const handleOut = () => {
@@ -125,13 +127,17 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
             }}
         >
             <div className="modal_item">
-                <iframe
-                    className="modal_video"
-                    width="100%" height="270px"
-                    src={player_Url}
-                    scrolling="no"
-                    frameBorder="0"
-                    allow="autoplay"/>
+                {player_Url !== "" ? (
+                    <iframe
+                        className="modal_video"
+                        width="100%" height="270px"
+                        src={player_Url}
+                        scrolling="no"
+                        frameBorder="0"
+                        allow="autoplay"/>
+                ) : (
+                    <img className="row_img" src={OneOfGameData.headerImg} alt="game"/>
+                )}
                 <Tooltip title="상세정보" placement="bottom">
                     <IconButton
                         aria-label="delete"

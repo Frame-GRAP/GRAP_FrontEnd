@@ -22,8 +22,6 @@ function Video({setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVi
     const [videoData, setVideoData] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
     const user = useSelector(selectUser);
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [delayHandler, setDelayHandler] = useState(null);
 
     useEffect(() => {
         async function fetchData() {
@@ -44,9 +42,11 @@ function Video({setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVi
                 }
             })
         }
-        fetchData();
-        check();
-        setCurGame(OneOfGameData);
+        if(OneOfGameData.length !== 0){
+            fetchData();
+            check();
+            setCurGame(OneOfGameData);
+        }
         setLoading(false);
         return () => {
             setLoading(true);
@@ -56,7 +56,6 @@ function Video({setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVi
 
     function OpenModal(e){
         e.preventDefault();
-        setAnchorEl(null);
         const popupId = Number(e.target.id);
         console.log(popupId);
         setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1`);
@@ -69,46 +68,11 @@ function Video({setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVi
         $(".not_scroll").css("top", -posY)
     }
 
-    const addMyList = (gameId, e) => {
-        e.preventDefault();
-        const userId = user.user_id;
-        axios({
-            method: 'post',
-            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/game/${gameId}/favor`,
-        }).then((res) => {
-            setIsAdded(true);
-            console.log(res);
-        }).catch((err)=>{
-            console.log(err);
-        })
-    }
-
-    const deleteMyList = (gameId, e) => {
-        e.preventDefault();
-        const userId = user.user_id;
-        axios({
-            method: 'delete',
-            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/game/${gameId}/favor`,
-        }).then((res) => {
-            setIsAdded(false);
-            console.log(res);
-        }).catch((err)=>{
-            console.log(err);
-        })
-    }
-
-    let player_Url = "";
-    if(videoData.platform === "twitch"){
-        player_Url = `https://clips.twitch.tv/embed?clip=${videoData.urlKey}&parent=localhost&controls=0&autoplay=true&origin=http://localhost:3000`
-    }else if(videoData.platform === "youtube"){
-        player_Url = `https://www.youtube.com/embed/${videoData.urlKey}?mute=0&controls=0`
-    }
-
     const handleOver = event => {
         setX(event.getBoundingClientRect().top);
         setY(event.getBoundingClientRect().left);
         setVideoShow(true);
-        ///setAnchorEl(event.currentTarget);
+        setCurGame(OneOfGameData);
     };
 
     const handleOut = event => {

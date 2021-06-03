@@ -63,6 +63,7 @@ function MyListScreen() {
                         <div className="myListScreen_result">
                             {myGameData.map((set,index) => (
                                 <Video
+                                    key={index}
                                     setVideoShow={setVideoShow}
                                     setX={setX}
                                     setY={setY}

@@ -1,4 +1,7 @@
-# GRAP_FrontEnd
+# GRAP_FrontEnd  
+- [GRAP_Admin](https://github.com/Frame-GRAP/GRAP_Admin)  
+- [GRAP BackEnd](https://github.com/Frame-GRAP/GRAP_BackEnd)  
+- [GRAP_RecommendationSystem](https://github.com/Frame-GRAP/GRAP_RecommendationSystem)
 
 ----------------------------------------------------------------
 ## 목차
@@ -105,8 +108,10 @@ npm start
    
 + 쿠폰 검색 기능
 + 쿠폰 발급 기능
-+ 쿠폰 삭제 기능
++ 쿠폰 삭제 기능  
 
+이 외 관리자 기능은 아래 레포지토리에 소개되어 있습니다.  
+[GRAP_Admin](https://github.com/Frame-GRAP/GRAP_Admin)
 
 
 ## 5. 소개 영상

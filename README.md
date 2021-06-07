@@ -37,77 +37,75 @@ npm start
 
 
 ## 4. 페이지 구성
-###1. 메인 페이지
+### 1. 메인 페이지
 
 
-   ![main](./src/img/readmeImg/details.png)
+<img src="./src/img/readmeImg/mainPage.png" width="500">
    
    + 사용자가 원하는 게임을 손쉽게 확인가능한 UI
 
-   ![hover](./src/img/readmeImg/hoverVideo.png)
+<img src="./src/img/readmeImg/hoverVideo.png" width="500">
 
    + 원하는 게임을 찜하는 기능
 
-   ![hover](./src/img/readmeImg/searchPage.png)
+<img src="./src/img/readmeImg/searchPage.png" width="500">
 
    + 원하는 장르의 게임 검색 기능
    
-###2. 팝업 페이지
+### 2. 팝업 페이지
 
-   ![review](./src/img/readmeImg/details.png)
+<img src="./src/img/readmeImg/details.png" width="500">
    
    + 해당 게임의 메인 영상 송출 기능
    + 해당 게임과 관련된 영상 송출 기능
    + 해당 게임에 대한 Description
 
-   ![review](./src/img/readmeImg/review.png)
+<img src="./src/img/readmeImg/review.png" width="500">
    
    + 해당 게임의 리뷰 작성 기능
 
-   ![report](./src/img/readmeImg/report.png)
+<img src="./src/img/readmeImg/report.png" width="500">
    
    + 영상, 댓글 신고 기능
 
 
-###3. 카테고리 페이지
+### 3. 카테고리 페이지
 
-   ![category](./src/img/readmeImg/categryPage.png)
+<img src="./src/img/readmeImg/categryPage.png" width="500">
    
    + 원하는 장르 선택 후 검색 기능
 
 
-###4. 내가 찜한 게임 페이지
+### 4. 내가 찜한 게임 페이지
 
-   ![myList](./src/img/readmeImg/myList.png)
+<img src="./src/img/readmeImg/myList.png" width="500">
    
    + 찜한 게임의 목록 확인 기능
 
 
-###5. 마이 페이지
+### 5. 마이 페이지
 
-
-   ![myPage](./src/img/readmeImg/myPage.png)
+<img src="./src/img/readmeImg/myPage.png" width="500">
    
    + 닉네임 변경 기능
    + 회원 탈퇴 기능 
    + 멤버십 해지 기능
 
 
-###6. 멤버십 페이지
+### 6. 멤버십 페이지
 
-
-   ![membership](./src/img/readmeImg/membershipPage.png)
+<img src="./src/img/readmeImg/membershipPage.png" width="500">
 
    + 멤버십 가입 결제 기능
 
 
-###7. 쿠폰함 페이지
+### 7. 쿠폰함 페이지
 
-   ![coupon](./src/img/readmeImg/couponList.png)
+<img src="./src/img/readmeImg/couponList.png" width="500">
    
-    + 쿠폰 검색 기능
-    + 쿠폰 발급 기능
-    + 쿠폰 삭제 기능
++ 쿠폰 검색 기능
++ 쿠폰 발급 기능
++ 쿠폰 삭제 기능
 
 
 

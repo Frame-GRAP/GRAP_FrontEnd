@@ -162,7 +162,7 @@ function HomeScreen(){
                     <>
                         <Banner />
 
-                        <Row
+                        {/*<Row
                             videoShow={videoShow}
                             setVideoShow={setVideoShow}
                             setX={setX}
@@ -173,7 +173,7 @@ function HomeScreen(){
                             setVisible={setVisible}
                             posY={posY}
                             setCurGame={setCurGame}
-                        />
+                        />*/}
 
                         <RowCustom
                             videoShow={videoShow}

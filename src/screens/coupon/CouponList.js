@@ -15,7 +15,7 @@ import {BiPlusCircle, BiPlus} from 'react-icons/bi'
 import {HiOutlinePlusCircle} from 'react-icons/hi'
 
 
-function CouponList() { 
+function CouponList() {
     const [couponData, setCouponData] = useState([]);
     const [searchData, setSearchData] = useState([]);
     const [userData, setUserData] = useState([]);
@@ -26,18 +26,18 @@ function CouponList() {
 
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
-    
+
     const history = useHistory();
     const searchRef = useRef();
     const user = useSelector(selectUser);
     const userId = user.user_id;
     const dispatch = useDispatch();
 
-    
+
     function getModalStyle() {
         const top = 50;
         const left = 50;
-        
+
         return {
             top: `${top}%`,
             left: `${left}%`,
@@ -94,7 +94,7 @@ function CouponList() {
     function IssueCoupon(e) {
         const couponId = e.target.getAttribute('id')
         console.log(couponId);
-        
+
         if(window.confirm("해당 쿠폰을 발급 하시겠습니까?")===true) {
             axios({
                 method : 'post',
@@ -102,7 +102,7 @@ function CouponList() {
             }).then((res)=> {
                 console.log(res);
                 setIsIssueCoupon(!isIssueCoupon);
-            
+
                 axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}`)
                 .then((res) => {
                     console.log(res.data);
@@ -172,7 +172,7 @@ function CouponList() {
                             <div>{searchData.couponId}</div>
                         </div>
                         <div className="img">
-                            <img 
+                            <img
                                 className="headerImg"
                                 src={searchData.gameHeaderImage}
                             />
@@ -180,13 +180,13 @@ function CouponList() {
 
                         <div className="gameAndCouponName">
                             <div className="gameName">{searchData.gameName}</div>
-                            <div className="couponName">({searchData.couponName})</div>
+                            <div className="couponName">({searchData.name})</div>
                         </div>
                         <div className="releaseDate">{searchData.expirationDate}</div>
                         <div className="issue">
-                            <button 
+                            <button
                                 className="issueCoupon"
-                                id={searchData.couponId} 
+                                id={searchData.couponId}
                                 onClick={IssueCoupon}
                             >발급</button>
                         </div>
@@ -245,8 +245,8 @@ function CouponList() {
                         let dateDif = Math.ceil((expireDate.getTime() - currentDate.getTime())/(1000*3600*24));
                         return (
                         <>
-                            <div 
-                                className="coupon_item" 
+                            <div
+                                className="coupon_item"
                                 id={set.id}
                                 onClick={DeleteCoupon}
                             >
@@ -265,9 +265,9 @@ function CouponList() {
                     {userData.availableCoupon > 0 && [...Array(userData.availableCoupon)].map(()=>{
                         return(
                             <div className="blank_coupon_item">
-                                <HiOutlinePlusCircle 
-                                    size="120" 
-                                    className="plusBtn" 
+                                <HiOutlinePlusCircle
+                                    size="120"
+                                    className="plusBtn"
                                     onClick={handleOpen}
                                 />
                             </div>
@@ -276,9 +276,9 @@ function CouponList() {
 
                 </div>
             </div>
-            
+
             {/* popup */}
-            <Modal 
+            <Modal
                 open={open}
                 onClose={handleClose}
 

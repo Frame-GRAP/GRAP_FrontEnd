@@ -64,7 +64,7 @@ function RowCustom({setVideoShow, setX, setY, title, gameArr=[], setPopupUrl, se
         return () => {
             setLoading(true);
         }
-    }, [gameArr]);
+    }, [gameArr, title]);
 
     useEffect(() => {
         async function fetchFavorData() {

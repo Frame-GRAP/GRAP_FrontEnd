@@ -152,15 +152,15 @@ function UserInfo() {
                             return (
                                 <>
                                 <div className="question_answer_item">
-                                    <input
-                                        key={index}
-                                        type="checkbox"
-                                        className="question2_selectBtn"
-                                        name="question2_selectBtn"
-                                        id={set.id}
-                                        value={set.id}
-                                    />
                                     <label className="question2_gameImg" htmlFor={set.id}>
+                                        <input
+                                            key={index}
+                                            type="checkbox"
+                                            className="question2_check"
+                                            name="question2_selectBtn"
+                                            id={set.id}
+                                            value={set.game_id}
+                                        />
                                         <div className="img_container">
                                             <img src={set.headerImg} className="question2_gameImg"></img>
                                         </div>

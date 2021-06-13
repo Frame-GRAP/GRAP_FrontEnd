@@ -7,11 +7,13 @@ import axios from 'axios'
 import {selectUser} from './../../features/userSlice'
 import {useSelector} from "react-redux";
 
-function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible, setDeclare_visible, declare_part, declare_contents, setDeclare_contents, declare_reviewId } ) {
+function PopupDeclaration( { popupGameData=[], popupMainVideoIndex=[], declare_visible, setDeclare_visible, declare_part, declare_contents, setDeclare_contents, declare_reviewId } ) {
     const user = useSelector(selectUser);
     const [reportType, setReportType] = useState("")
     const [videoId, setVideoId] = useState(1);
     const declare_ref = useRef();
+    const [loading, setLoading] = useState(true);
+
 
     function CloseVideoDelaration(){ // 신고창 X 버튼
         setDeclare_visible(false);
@@ -78,16 +80,20 @@ function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible
     useEffect(() => { // popupGameData 또는 popupMainVideoIndex가 바뀌면 그에 따른 '메인 비디오에 들어갈 Id(=videoId)'를 갱신한다.
       axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`)
       .then((res)=>{
-          let temp;
+          let temp=null;
           res.data.map((set) => {
               if(set.id === popupMainVideoIndex) {
                   temp = set;
               }
           })
           console.log(temp);
-          setVideoId(temp.id);
+          if(temp) setVideoId(temp.id);
           // setVideoId(res.data[popupMainVideoIndex].id);
       })
+      setLoading(false);
+      return () => {
+          setLoading(true);
+      }
     }, [popupGameData, popupMainVideoIndex]);
 
     return (

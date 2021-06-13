@@ -31,8 +31,8 @@ function HomeScreen(){
 
     const [popupUrl, setPopupUrl] = useState("");
     const [popupGameData, setPopupGameData] = useState([]);
-    // MainVideoIndex 초기 값 이거 설정 팝업 많아지면 그거에 맞춰서 바꿔야되겠는데..
-    const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(80);
+    const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(0);
+    // const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(80);
 
     const [declare_visible, setDeclare_visible] = useState(false);
     const [declare_part, setDeclare_part] = useState(true);
@@ -108,13 +108,18 @@ function HomeScreen(){
 
     // popupGameData Fetch (popupUrl이 바뀔때 마다)
     useEffect(()=> {
-        async function fetchData() {
-            const request = await axios.get(popupUrl);
-
-            setPopupGameData(request.data);
-            return request;
+        axios.get(popupUrl).then((res)=>{
+            console.log(res.data.id);
+            setPopupGameData(res.data);
+            axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${res.data.id}/video/all`).then((res)=>{
+                console.log(res);
+                setPopupMainVideoIndex(res.data[0].id);
+            })
+        })
+        setLoading(false);
+        return () => {
+            setLoading(true);
         }
-        fetchData();
     }, [popupUrl])
 
     // ESC 누르면 팝업창 사라짐
@@ -223,12 +228,22 @@ function HomeScreen(){
             </div>
             <div>
                 <div className="video_modal">
-                    {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y} setPopupUrl={setPopupUrl} OneOfGameData={curGame} setVisible={setVisible} posY={posY}/>}
+                    {videoShow && 
+                        <VideoModal 
+                            setVideoShow={setVideoShow} 
+                            X={X} Y={Y} 
+                            setPopupUrl={setPopupUrl} 
+                            OneOfGameData={curGame} 
+                            setVisible={setVisible} 
+                            posY={posY}
+                        />
+                    }
                 </div>
 
                 <Modal
                     modalRef={modalRef}
                     visible={visible}
+                    setVisible={setVisible}
                     posY={posY} >
                     {(visible &&
                         <>
@@ -260,6 +275,7 @@ function HomeScreen(){
                                     <div className="video">
                                         <PopupRelatedVideo
                                             popupGameData={popupGameData}
+                                            popupMainVideoIndex={popupMainVideoIndex}
                                             setPopupMainVideoIndex={setPopupMainVideoIndex}
                                         />
                                     </div>

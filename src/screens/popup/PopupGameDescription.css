@@ -51,6 +51,7 @@
 .detail__content > .detail__title > .detail__name {margin-bottom: 5px;}
 
 .detail__content > .detail__desc{flex: 7; color: #67c1f5;}
+.detail__content > .detail__favor{flex: 2; padding-top: 10px;}
 
 .detail__content > .detail__desc > .detail__detail {margin-bottom: 5px;}
 .detail__content>.detail__desc >.detail__detail:nth-child(3){color: #B9A074;}
@@ -76,7 +77,4 @@
 .download_btn:hover{
 	background-color:#ff6f00e7;
 }
-.download_btn:active{
-	position:relative;
-	top:1px;
-}
+

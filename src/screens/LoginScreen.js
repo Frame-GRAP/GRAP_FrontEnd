@@ -99,7 +99,7 @@ function LoginScreen(){
                     </a>
                     <GoogleLogin
                         className="sns_icon google"
-                        clientId="803232667536-pn5n3kpul7vsq0uftg6np601iikka7e6.apps.googleusercontent.com"
+                        clientId="803232667536-laafp22eio1k1kl9qrj4jabrusq1vo81.apps.googleusercontent.com"
                         render={renderProps => (
                             <span onClick={renderProps.onClick} disabled={renderProps.disabled} className="sns_icon google"></span>
                         )}

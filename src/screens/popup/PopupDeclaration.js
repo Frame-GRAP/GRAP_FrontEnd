@@ -7,11 +7,13 @@ import axios from 'axios'
 import {selectUser} from './../../features/userSlice'
 import {useSelector} from "react-redux";
 
-function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible, setDeclare_visible, declare_part, declare_contents, setDeclare_contents, declare_reviewId } ) {
+function PopupDeclaration( { popupGameData=[], popupMainVideoIndex=[], declare_visible, setDeclare_visible, declare_part, declare_contents, setDeclare_contents, declare_reviewId } ) {
     const user = useSelector(selectUser);
     const [reportType, setReportType] = useState("")
     const [videoId, setVideoId] = useState(1);
     const declare_ref = useRef();
+    const [loading, setLoading] = useState(true);
+
 
     function CloseVideoDelaration(){ // 신고창 X 버튼
         setDeclare_visible(false);
@@ -85,9 +87,13 @@ function PopupDeclaration( { popupGameData, popupMainVideoIndex, declare_visible
               }
           })
           console.log(temp);
-          setVideoId(temp.id);
+          if(temp) setVideoId(temp.id);
           // setVideoId(res.data[popupMainVideoIndex].id);
       })
+      setLoading(false);
+      return () => {
+          setLoading(true);
+      }
     }, [popupGameData, popupMainVideoIndex]);
 
     return (

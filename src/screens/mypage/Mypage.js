@@ -4,6 +4,7 @@ import {selectUser, login} from "./../../features/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
+import moment from 'moment'
 
 import './Mypage.css'
 
@@ -243,7 +244,7 @@ function Mypage() {
 
                                 </h3>
                                 <div className="credit_date">
-                                    다음 결제일은 2021/07/03 입니다.
+                                    {userData.nextPaymentDay ? "다음 결제일은"+moment(userData.nextPaymentDay).format('YYYY/MM/DD')+"입니다." : "다음 달 결제가 해지됩니다."}
                                 </div>
                             </div>
                             <div className="account_section_modify">

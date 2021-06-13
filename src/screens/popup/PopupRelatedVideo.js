@@ -4,6 +4,7 @@ import {AiOutlineDislike, AiOutlineLike, AiFillLike, AiFillDislike} from 'react-
 
 function PopupRelatedVideo({popupGameData, popupMainVideoIndex, setPopupMainVideoIndex}) {
     const [videoData, setVideoData] = useState([]);
+    
 
     // Video Data Fetch
     const axios = require('axios');
@@ -16,7 +17,6 @@ function PopupRelatedVideo({popupGameData, popupMainVideoIndex, setPopupMainVide
                 const sortedArrayByLength = [...res.data].sort(function(a, b){ 
                     return parseFloat(b.length) - parseFloat(a.length);
                 })
-                console.log(sortedArrayByLength);
 
                 setVideoData(sortedArrayByLength);
                 // setVideoData(res.data);
@@ -66,8 +66,8 @@ function PopupRelatedVideo({popupGameData, popupMainVideoIndex, setPopupMainVide
                                     >{set.title}</div>
                                     <div className="video_uploader">{set.uploader}</div>
                                     <div className="video_length">
-                                        {/* <AiFillLike size="17" className="likeBtns"/>&nbsp;{set.liked===0 ? 0 : set.like} · {set.length} */}
-                                        {set.length}
+                                        {/* <AiFillLike size="17" className="likeBtns"/>&nbsp; {set.liked} ·  */}
+                                        {set.length.substring(0, 5)}
                                     </div>
                                 </div>
                             </div>}

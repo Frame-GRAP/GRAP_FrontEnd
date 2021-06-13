@@ -37,7 +37,7 @@ function CouponList() {
     function getModalStyle() {
         const top = 50;
         const left = 50;
-
+        
         return {
             top: `${top}%`,
             left: `${left}%`,
@@ -67,32 +67,43 @@ function CouponList() {
     const classes = useStyles();
 
     const handleClose = () => {
+        setSearchData([]);
         setOpen(false);
     };
     const handleOpen = () => {
+        // axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/coupon/all")
+        // .then((res)=>{
+        //     setSearchData(res.data);
+        // })
         setOpen(true);
     };
 
     function GameSearching(e) {
         const searchText = searchRef.current.value;
         console.log(searchText);
+        setSearchData([]);
 
         // 검색하면 해당 게임 나오게.
         axios({
             method : 'get',
             url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game?name=${searchText}`
         }).then((res)=> {
-            if(res){
-                axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${res.data[0].id}/coupon/all`)
+            res.data.map((set, index)=> {
+                axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${set.id}/coupon/all`)
                 .then((res)=>{
-                    setSearchData(res.data[0]);
+                    if(res.data.length > 0){
+                        res.data.map((set, index)=>{
+                            setSearchData(searchData => [...searchData, set]);
+                        })
+                    }
                 })
-            }
+            })
+
         })
     }
 
     function IssueCoupon(e) {
-        const couponId = e.target.getAttribute('id')
+        const couponId = e.currentTarget.getAttribute('id')
         console.log(couponId);
 
         if(window.confirm("해당 쿠폰을 발급 하시겠습니까?")===true) {
@@ -143,7 +154,7 @@ function CouponList() {
             <div className="gameSelect_container">
                 <h1>G R A P</h1>
                 <div className="gameSelect_contents">
-                    <input type="text" ref={searchRef} className="game_Searching" />
+                    <input type="text" ref={searchRef} onKeyPress={(e)=>{if(e.key === "Enter"){GameSearching()}}} className="game_Searching" />
                     <button className="submit" onClick={GameSearching}><i class="fa fa-search"></i></button>
                 </div>
 
@@ -165,34 +176,39 @@ function CouponList() {
                     </div>
                     <div className="issue">쿠폰 발급</div>
                 </div>
-                {searchData.length === 0 ? "" : (
-                    <>
-                    <div className="searching_data">
-                        <div className="number">
-                            <div>{searchData.couponId}</div>
-                        </div>
-                        <div className="img">
-                            <img
-                                className="headerImg"
-                                src={searchData.gameHeaderImage}
-                            />
-                        </div>
 
-                        <div className="gameAndCouponName">
-                            <div className="gameName">{searchData.gameName}</div>
-                            <div className="couponName">({searchData.name})</div>
+                <div className="searching_datas">
+                    {searchData.map((set, index)=>{
+                        return (
+                        <>
+                        <div className="searching_data">
+                            <div className="number">
+                                <div>{index}</div>
+                            </div>
+                            <div className="img">
+                                <img
+                                    className="headerImg"
+                                    src={set.gameHeaderImage}
+                                />
+                            </div>
+
+                            <div className="gameAndCouponName">
+                                <div className="gameName">{set.gameName}</div>
+                                <div className="couponName">({set.name})</div>
+                            </div>
+                            <div className="releaseDate">{set.expirationDate}</div>
+                            <div className="issue">
+                                {<button
+                                    className="issueCoupon"
+                                    id={set.couponId}
+                                    onClick={IssueCoupon}
+                                >발급</button>}
+                            </div>
                         </div>
-                        <div className="releaseDate">{searchData.expirationDate}</div>
-                        <div className="issue">
-                            <button
-                                className="issueCoupon"
-                                id={searchData.couponId}
-                                onClick={IssueCoupon}
-                            >발급</button>
-                        </div>
-                    </div>
-                    </>
-                )}
+                        </>
+                    )})}
+                </div>
+                
             </div>
         </div>
     );

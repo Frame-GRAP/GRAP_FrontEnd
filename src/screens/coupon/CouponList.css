@@ -274,6 +274,23 @@
 	top:1px;
 }
 
+.searching_datas{
+    height: 380px;
+    overflow-y: scroll;
+}
+.searching_datas::-webkit-scrollbar {
+    width: 20px;
+}
+.searching_datas::-webkit-scrollbar-thumb {
+    background-color: rgb(218, 213, 213);
+    background-clip: padding-box;
+    border: 4px solid transparent;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
 .searching_data, .searching_data_tab {
     margin: 10px;
     display: flex;

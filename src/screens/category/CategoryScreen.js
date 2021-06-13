@@ -111,8 +111,15 @@ function CategoryScreen() {
             console.log(res.data.id);
             setPopupGameData(res.data);
             axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${res.data.id}/video/all`).then((res)=>{
-                console.log(res);
-                setPopupMainVideoIndex(res.data[0].id);
+
+                // 영상 없으면 1번 영상으로 대체하는 코드
+                if(res.data.length==0){
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`).then((res)=>{
+                        setPopupMainVideoIndex(res.data[0].id);
+                    })
+                }else{
+                    setPopupMainVideoIndex(res.data[0].id);
+                }
             })
         })
         setLoading(false);
@@ -125,9 +132,9 @@ function CategoryScreen() {
     const keyPress = useCallback(e=> {
         if(e.key === 'Escape'&& visible){
             setVisible(false);
-            $(".not_scroll").css("top", '');
-            $("#homeScreen").removeClass("not_scroll")
-            document.getElementById('homeScreen').classList.remove("not_scroll")
+            // $(".not_scroll").css("top", '');
+            // $("#homeScreen").removeClass("not_scroll")
+            // document.getElementById('homeScreen').classList.remove("not_scroll")
         }
     }, [visible, setVisible])
     useEffect(() => {

@@ -10,20 +10,26 @@ function Video({setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVi
     useEffect(() => {
         async function fetchData() {
             const gameId = OneOfGameData.id;
-            //await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
-            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8842/video/all`)
-                .then( (res) => {
-                    setVideoData(res.data[0]);
+            console.log(gameId);
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
+                .then((res) => {
+                    // 영상 없으면 1번 영상으로 대체하는 코드
+                    if(res.data.length == 0){
+                        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`).then((res)=>{
+                            setVideoData(res.data[0]);
+                        })
+                    }else{
+                        setVideoData(res.data[0]);
+                    }
                 }).catch((err)=> {
                     console.log(err);
                 });
             return videoData;
         }
 
-        if(OneOfGameData.length !== 0){
-            fetchData();
-            setCurGame(OneOfGameData);
-        }
+        fetchData();
+        setCurGame(OneOfGameData);
+
         setLoading(false);
         return () => {
             setLoading(true);

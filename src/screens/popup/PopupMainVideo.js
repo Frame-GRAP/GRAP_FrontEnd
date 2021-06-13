@@ -15,17 +15,28 @@ function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible,
                 console.log(res.data);
                 console.log(popupMainVideoIndex)
 
-                // -> 이 아래 코드 처음 실행할 때 오류가 뜨네
-                let temp = null;
-                res.data.map((set) => {
-                    if(set.id === popupMainVideoIndex) {
-                        temp = set;
-                    }
-                })
-                console.log(temp);
-                if(temp) setMainVideo(temp);
-
-                // setMainVideo(res.data[popupMainVideoIndex]);
+                // 영상 없으면 1번 영상으로 대체하는 코드
+                if(res.data.length == 0){
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`).then((res)=>{
+                        let temp = null;
+                        res.data.map((set) => {
+                            if(set.id === popupMainVideoIndex) {
+                                temp = set;
+                            }
+                        })
+                        console.log(temp);
+                        if(temp) setMainVideo(temp);
+                    })
+                }else{
+                    let temp = null;
+                    res.data.map((set) => {
+                        if(set.id === popupMainVideoIndex) {
+                            temp = set;
+                        }
+                    })
+                    console.log(temp);
+                    if(temp) setMainVideo(temp);
+                }
             })
             
     }, [popupGameData, popupMainVideoIndex]);

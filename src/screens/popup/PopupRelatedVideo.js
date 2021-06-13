@@ -11,14 +11,24 @@ function PopupRelatedVideo({popupGameData, popupMainVideoIndex, setPopupMainVide
     useEffect(()=> {
         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`)
             .then((res)=>{
-                // 나중에 liked가 높은 순으로 정렬.
-                // 이거 적용하려면 일단 관련 비디오의 index 따오는 코드를 id 따오는 코드로 변환해야 함.
+                // 영상 없으면 1번 영상으로 대체하는 코드
+                if(res.data.length==0){
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`).then((res)=>{
+                        const sortedArrayByLength = [...res.data].sort(function(a, b){ 
+                            return parseFloat(b.length) - parseFloat(a.length);
+                        })
+        
+                        setVideoData(sortedArrayByLength);
+                    })
+                }else{
+                    const sortedArrayByLength = [...res.data].sort(function(a, b){ 
+                        return parseFloat(b.length) - parseFloat(a.length);
+                    })
+    
+                    setVideoData(sortedArrayByLength);
+                }
 
-                const sortedArrayByLength = [...res.data].sort(function(a, b){ 
-                    return parseFloat(b.length) - parseFloat(a.length);
-                })
 
-                setVideoData(sortedArrayByLength);
                 // setVideoData(res.data);
 
                 // console.log(videoData);

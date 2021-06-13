@@ -16,7 +16,7 @@ function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible,
                 console.log(popupMainVideoIndex)
 
                 // -> 이 아래 코드 처음 실행할 때 오류가 뜨네
-                let temp;
+                let temp = null;
                 res.data.map((set) => {
                     if(set.id === popupMainVideoIndex) {
                         temp = set;
@@ -30,12 +30,14 @@ function PopupMainVideo({popupGameData, popupMainVideoIndex, setDeclare_visible,
             
     }, [popupGameData, popupMainVideoIndex]);
 
-    let player_Url;
-    if(mainVideo.platform === "twitch"){
+    let player_Url = "";
+    if(mainVideo && mainVideo.platform === "twitch"){
         player_Url = `https://clips.twitch.tv/embed?clip=${mainVideo.urlKey}&parent=localhost&controls=0&origin=http://localhost:3000`
-    }else if(mainVideo.platform === "youtube"){
+    }else if(mainVideo && mainVideo.platform === "youtube"){
         player_Url = `https://www.youtube.com/embed/${mainVideo.urlKey}?mute=0&controls=0`
     }
+    
+
 
     function OpenVideoDeclaration(){
         setDeclare_visible(true);

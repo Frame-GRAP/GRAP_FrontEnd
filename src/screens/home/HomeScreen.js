@@ -31,10 +31,8 @@ function HomeScreen(){
 
     const [popupUrl, setPopupUrl] = useState("");
     const [popupGameData, setPopupGameData] = useState([]);
-    // MainVideoIndex 초기 값 이거 설정 팝업 많아지면 그거에 맞춰서 바꿔야되겠는데..
-    // => PopupGameData 바뀌면 useEffect에 mainvideoIndex도 해당 video들 중 첫번째로 셋팅하면 될듯 ?
-    // const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(0);
-    const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(80);
+    const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(0);
+    // const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(80);
 
     const [declare_visible, setDeclare_visible] = useState(false);
     const [declare_part, setDeclare_part] = useState(true);
@@ -230,12 +228,22 @@ function HomeScreen(){
             </div>
             <div>
                 <div className="video_modal">
-                    {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y} setPopupUrl={setPopupUrl} OneOfGameData={curGame} setVisible={setVisible} posY={posY}/>}
+                    {videoShow && 
+                        <VideoModal 
+                            setVideoShow={setVideoShow} 
+                            X={X} Y={Y} 
+                            setPopupUrl={setPopupUrl} 
+                            OneOfGameData={curGame} 
+                            setVisible={setVisible} 
+                            posY={posY}
+                        />
+                    }
                 </div>
 
                 <Modal
                     modalRef={modalRef}
                     visible={visible}
+                    setVisible={setVisible}
                     posY={posY} >
                     {(visible &&
                         <>

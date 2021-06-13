@@ -80,7 +80,7 @@ function PopupDeclaration( { popupGameData=[], popupMainVideoIndex=[], declare_v
     useEffect(() => { // popupGameData 또는 popupMainVideoIndex가 바뀌면 그에 따른 '메인 비디오에 들어갈 Id(=videoId)'를 갱신한다.
       axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`)
       .then((res)=>{
-          let temp;
+          let temp=null;
           res.data.map((set) => {
               if(set.id === popupMainVideoIndex) {
                   temp = set;

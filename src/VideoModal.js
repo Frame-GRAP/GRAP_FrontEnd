@@ -70,17 +70,16 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
 
     function OpenModal(e){
         e.preventDefault();
-        const popupId = Number(e.target.id);
+        const popupId = Number(e.currentTarget.id);
         console.log(popupId);
-        setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1`);
-        // setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8802`);
-        //setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
+
+        setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
 
         setVisible(true);
-        posY = Math.round($(window).scrollTop());
+        // posY = Math.round($(window).scrollTop());
 
-        $("#homeScreen").addClass('not_scroll')
-        $(".not_scroll").css("top", -posY)
+        // $("#homeScreen").addClass('not_scroll')
+        // $(".not_scroll").css("top", -posY)
     }
 
     const addMyList = (gameId, e) => {

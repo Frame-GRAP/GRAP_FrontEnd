@@ -24,7 +24,14 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
             //await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8802/video/all`)
                 .then( (res) => {
-                    setVideoData(res.data[10]);
+                    console.log(res.data.length);
+                    if(res.data.length == 0){
+                        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`).then((res)=>{
+                            setVideoData(res.data[2]);
+                        })
+                    }else{
+                        setVideoData(res.data[10]);
+                    }
                 }).catch((err)=> {
                     console.log(err);
                 });
@@ -65,7 +72,8 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
         e.preventDefault();
         const popupId = Number(e.target.id);
         console.log(popupId);
-        setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8802`);
+        setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1`);
+        // setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8802`);
         //setPopupUrl(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupId}`);
 
         setVisible(true);

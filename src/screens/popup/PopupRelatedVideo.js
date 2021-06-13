@@ -61,7 +61,7 @@ function PopupRelatedVideo({popupGameData, popupMainVideoIndex, setPopupMainVide
                                 <div className="related_desc">
                                     <div
                                         className="video_title"
-                                        id={index}
+                                        id={set.id}
                                         onClick={toggleMainVideo}
                                     >{set.title}</div>
                                     <div className="video_uploader">{set.uploader}</div>

@@ -10,7 +10,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import {grey} from "@material-ui/core/colors";
 import "./VideoModal.css";
 
-function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVisible, posY, myGame = []}) {
+function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setOneOfGameData, setVisible, posY, myGame = []}) {
     const [loading, setLoading] = useState(true);
     const [videoData, setVideoData] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
@@ -19,18 +19,18 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
     const [curX, setCurX] = useState(0);
 
     useEffect(() => {
+        console.log(OneOfGameData)
         async function fetchData() {
             const gameId = OneOfGameData.id;
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
-            //await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8802/video/all`)
                 .then( (res) => {
                     console.log(res.data.length);
                     if(res.data.length == 0){
                         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`).then((res)=>{
-                            setVideoData(res.data[2]);
+                            setVideoData(res.data[0]);
                         })
                     }else{
-                        setVideoData(res.data[10]);
+                        setVideoData(res.data[0]);
                     }
                 }).catch((err)=> {
                     console.log(err);
@@ -57,7 +57,6 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
             }
             setCurX(X + window.scrollY - 50);
         }
-
         fetchData();
         check();
         setPosition();
@@ -65,7 +64,7 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
         return () => {
             setLoading(true);
         }
-    }, [OneOfGameData, setVideoShow]);
+    }, [OneOfGameData]);
 
 
     function OpenModal(e){
@@ -120,6 +119,7 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
     }
 
     const handleOut = () => {
+        setOneOfGameData([]);
         setVideoShow(false);
     };
 

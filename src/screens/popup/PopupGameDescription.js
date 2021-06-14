@@ -131,12 +131,12 @@ function PopupGameDescription({popupGameData}) {
                         <div className="detail__favor">                
                             {isFavor == true ? 
                                 <Tooltip title="찜한목록에서 삭제" placement="bottom">
-                                    <FavoriteIcon style={{ fontSize: 40, color: "red", cursor: "pointer" }} onClick={DeleteMylist}/>
+                                    <FavoriteIcon style={{ fontSize: 40, color: grey[50], cursor: "pointer" }} onClick={DeleteMylist}/>
                                 </Tooltip>
                                 :
                                 <Tooltip title="찜한목록에 추가" placement="bottom">
-                                    <FavoriteIcon style={{ fontSize: 40, color: grey[50], cursor: "pointer" }} onClick={AddMylist}/>
-                                    {/* <FavoriteBorderIcon style={{ fontSize: 40, color: grey[50], cursor: "pointer" }} onClick={AddMylist}/> */}
+                                    {/* <FavoriteIcon style={{ fontSize: 40, color: grey[50], cursor: "pointer" }} onClick={AddMylist}/> */}
+                                    <FavoriteBorderIcon style={{ fontSize: 40, color: grey[50], cursor: "pointer" }} onClick={AddMylist}/>
                                 </Tooltip>
                             }
                         </div>
@@ -146,6 +146,7 @@ function PopupGameDescription({popupGameData}) {
                             href={popupGameData.downloadUrl}
                         >
                             <button className="download_btn">구매하기  5,500원</button>
+                            {/* <button className="download_btn">구매하기  {popupGameData.price}원</button> */}
                         </a>
                     </div>
                 </div>

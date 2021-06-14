@@ -22,15 +22,14 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
         async function fetchData() {
             const gameId = OneOfGameData.id;
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
-            //await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8802/video/all`)
                 .then( (res) => {
                     console.log(res.data.length);
                     if(res.data.length == 0){
                         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`).then((res)=>{
-                            setVideoData(res.data[2]);
+                            setVideoData(res.data[0]);
                         })
                     }else{
-                        setVideoData(res.data[10]);
+                        setVideoData(res.data[0]);
                     }
                 }).catch((err)=> {
                     console.log(err);
@@ -72,7 +71,7 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
         return () => {
             setLoading(true);
         }
-    }, [setVideoShow]);
+    }, [OneOfGameData]);
 
 
     function OpenModal(e){
@@ -127,6 +126,7 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setVis
     }
 
     const handleOut = () => {
+        setOneOfGameData([]);
         setVideoShow(false);
     };
 

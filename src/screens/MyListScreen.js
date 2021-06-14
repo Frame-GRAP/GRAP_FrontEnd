@@ -136,13 +136,17 @@ function MyListScreen() {
             </div>
             <div className="video_modal">
                 {videoShow &&
-                <VideoModal
-                    setVideoShow={setVideoShow}
-                    setPopupUrl={setPopupUrl}
-                    setVisible={setVisible}
-                    X={X} Y={Y}
-                    OneOfGameData={curGame}
-                />
+                    <VideoModal
+                        videoShow={videoShow}
+                        setVideoShow={setVideoShow}
+                        setPopupUrl={setPopupUrl}
+                        setVisible={setVisible}
+
+                        X={X} Y={Y}
+                        OneOfGameData={curGame}
+                        setOneOfGameData={setCurGame}
+                        myGame={myGame}
+                    />
                 }
             </div>
 

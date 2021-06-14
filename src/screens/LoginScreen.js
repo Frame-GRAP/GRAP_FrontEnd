@@ -130,7 +130,6 @@ function LoginScreen(){
                 <div className="loginScreen_info">
                     <span className="info_gray" onClick={() => history.push("/register")}>아아디 찾기</span>
                     <span className="info_gray" onClick={() => history.push("/register")}>비밀번호 찾기</span>
-                    <span className="info_gray" onClick={() => history.push("/register")}>회원가입</span>
                 </div>
                 <div className="loginScreen_sns">
                     <div className="sns_icon">

@@ -284,6 +284,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
         ).then((res) => {
             if(res){
                 console.log(res.data);
+
                 const tp = res.data.map((set) => {
                     axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/review/${set.review_id}/reviewValue`).then((res)=>{
                         // console.log(res);
@@ -294,6 +295,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                         }else if(res.data===false){ // false
                             set.reviewValue=res.data;
                         }
+                        
                         setChangeReviewValue(!changeReviewValue);
                         set.modify = 0;
                     })

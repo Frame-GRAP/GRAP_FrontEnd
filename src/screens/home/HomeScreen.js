@@ -241,6 +241,7 @@ function HomeScreen(){
                             X={X} Y={Y} 
                             setPopupUrl={setPopupUrl} 
                             OneOfGameData={curGame} 
+                            setOneOfGameData={setCurGame}
                             setVisible={setVisible} 
                             posY={posY}
                         />

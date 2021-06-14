@@ -184,6 +184,7 @@ function CategoryScreen() {
                                     setX={setX}
                                     setY={setY}
                                     OneOfGameData={set}
+                                    setOneOfGameData={setCurGame}
                                     myGame={myGame}
                                     setCurGame={setCurGame}
                                 />

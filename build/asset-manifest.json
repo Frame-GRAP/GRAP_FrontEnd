@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.21800e4f.chunk.css",
+    "main.js": "/static/js/main.b16ed52a.chunk.js",
+    "main.js.map": "/static/js/main.b16ed52a.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.b3eb49ce.js",
+    "runtime-main.js.map": "/static/js/runtime-main.b3eb49ce.js.map",
+    "static/css/2.5cc0d35e.chunk.css": "/static/css/2.5cc0d35e.chunk.css",
+    "static/js/2.ff37b507.chunk.js": "/static/js/2.ff37b507.chunk.js",
+    "static/js/2.ff37b507.chunk.js.map": "/static/js/2.ff37b507.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.5cc0d35e.chunk.css.map": "/static/css/2.5cc0d35e.chunk.css.map",
+    "static/css/main.21800e4f.chunk.css.map": "/static/css/main.21800e4f.chunk.css.map",
+    "static/js/2.ff37b507.chunk.js.LICENSE.txt": "/static/js/2.ff37b507.chunk.js.LICENSE.txt",
+    "static/media/bronze-medal.6cb4162c.png": "/static/media/bronze-medal.6cb4162c.png",
+    "static/media/CouponList.css": "/static/media/coupon.590d986d.jpg",
+    "static/media/LoginScreen.css": "/static/media/game6.e84ed74f.jpg",
+    "static/media/gold-medal.76b5e912.png": "/static/media/gold-medal.76b5e912.png",
+    "static/media/grap_logo2-1.b3d7d5a8.png": "/static/media/grap_logo2-1.b3d7d5a8.png",
+    "static/media/styles.css": "/static/media/revicons.e8746a62.woff",
+    "static/media/silver-medal.d3e5a6e8.png": "/static/media/silver-medal.d3e5a6e8.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b3eb49ce.js",
+    "static/css/2.5cc0d35e.chunk.css",
+    "static/js/2.ff37b507.chunk.js",
+    "static/css/main.21800e4f.chunk.css",
+    "static/js/main.b16ed52a.chunk.js"
+  ]
+}

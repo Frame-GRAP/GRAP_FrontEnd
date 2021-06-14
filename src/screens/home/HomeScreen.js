@@ -61,7 +61,7 @@ function HomeScreen(){
 
         //유저맞춤형
         async function fetchForUserData() {
-            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/{userId}/RecommendGameForUser`)
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/RecommendGameForUser`)
                 .then((res) => {
                     setForUserGame(res.data);
                 })
@@ -121,7 +121,6 @@ function HomeScreen(){
     // popupGameData Fetch (popupUrl이 바뀔때 마다)
     useEffect(()=> {
         axios.get(popupUrl).then((res)=>{
-            console.log(res.data.id);
             setPopupGameData(res.data);
             axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${res.data.id}/video/all`).then((res)=>{
 
@@ -173,7 +172,7 @@ function HomeScreen(){
                 $("#homeScreen").scrollTop(posY);
             }
         })
-    }, [])
+    }, []);
 
     if(loading) return (<div>Loading...</div>);
     return (
@@ -185,7 +184,7 @@ function HomeScreen(){
                 ) : (
                     <>
                         <Banner />
-
+                        {(forUserGame.length > 0) &&
                         <RowCustom
                             videoShow={videoShow}
                             setVideoShow={setVideoShow}
@@ -197,7 +196,8 @@ function HomeScreen(){
                             setVisible={setVisible}
                             posY={posY}
                             setCurGame={setCurGame}
-                        />
+                        />}
+
 
                         <RowCustom
                             videoShow={videoShow}

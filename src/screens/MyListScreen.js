@@ -48,15 +48,15 @@ function MyListScreen() {
     const [curGame, setCurGame] = useState([]);
 
     useEffect(() => {
-        async function fetchMyData() {
-            setMyGame([]);
+        async function fetchMyData() {/*
+            setMyGame([]);*/
             setMyGameData([]);
             const userId = user.user_id;
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
                 .then((res) => {
                     res.data.map((game, index) => {
-                        const id = game.gameId;
-                        setMyGame(myGame => [...myGame, id]);
+                        const id = game.gameId;/*
+                        setMyGame(myGame => [...myGame, id]);*/
                         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${id}`)
                             .then((res) => {
                                 setMyGameData(myGameData => [...myGameData, res.data]);

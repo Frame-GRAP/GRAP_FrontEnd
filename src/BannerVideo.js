@@ -26,6 +26,9 @@ function BannerVideo({mainGameData = []}){
         if(mainGameData !== undefined){
             fetchData(mainGameData.id).then(r => {
                 setLoading(false);
+                setTimeout(() => {
+                    toggleContent(false);
+                }, 3000);
             })
         }
 
@@ -46,12 +49,12 @@ function BannerVideo({mainGameData = []}){
             toggleContent(false);
             setDelayHandler(setTimeout(() => {
                 toggleContent(false);
-            }, 700));
+            }, 1000));
             clearTimeout(delayHandler);
         } else {
             setDelayHandler(setTimeout(() => {
                 toggleContent(true);
-            }, 700));
+            }, 1000));
             clearTimeout(delayHandler);
         }
     }

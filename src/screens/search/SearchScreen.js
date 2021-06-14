@@ -68,27 +68,6 @@ function SearchScreen({searchWord}) {
     }, [handleObserver]);
 
     useEffect(() => {
-        async function fetchMyData() {
-            setMyGame([]);
-            const userId = user.user_id;
-            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
-                .then((res) => {
-                    res.data.map((game, index) => {
-                        const id = game.gameId;
-                        setMyGame(myGame => [...myGame, id]);
-                    })
-                });
-            return myGame;
-        }
-
-        fetchMyData();
-        setLoading(false);
-        return () => {
-            setLoading(true);
-        }
-    }, []);
-
-    useEffect(() => {
         setSearchResult([]);
         setPage(0);
     }, [searchWord]);

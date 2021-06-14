@@ -104,7 +104,7 @@ function RowCustom({setVideoShow, setX, setY, title, gameArr=[], setPopupUrl, se
                                 sliderClass="row_posters"
                                 dotListClass="dot_list">
                     {gameData.map((set,index) => (
-                        (index <= 10) && (
+
                             <Video
                                 key={index}
                                 className="row_poster"
@@ -118,7 +118,7 @@ function RowCustom({setVideoShow, setX, setY, title, gameArr=[], setPopupUrl, se
                                 myGame={myGame}
                                 setCurGame={setCurGame}
                             />
-                        ))
+                        )
                     )}
                 </Multi_Carousel>
             </div>

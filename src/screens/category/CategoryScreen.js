@@ -196,15 +196,13 @@ function CategoryScreen() {
                 )}
             </div>
             <div className="video_modal">
-                {videoShow && 
-                    <VideoModal     
-                        setVideoShow={setVideoShow} 
-                        setPopupUrl={setPopupUrl} 
-                        setVisible={setVisible} 
-
+                {videoShow &&
+                    <VideoModal
+                        setVideoShow={setVideoShow}
+                        setPopupUrl={setPopupUrl}
+                        setVisible={setVisible}
                         X={X} Y={Y}
-                        OneOfGameData={curGame} 
-                        myGame={myGame}
+                        OneOfGameData={curGame}
                     />
                 }
             </div>

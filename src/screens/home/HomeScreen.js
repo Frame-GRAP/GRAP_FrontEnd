@@ -31,8 +31,8 @@ function HomeScreen(){
 
     const [popupUrl, setPopupUrl] = useState("");
     const [popupGameData, setPopupGameData] = useState([]);
-    const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(0);
-    // const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(80);
+    // MainVideoIndex 초기 값 이거 설정 팝업 많아지면 그거에 맞춰서 바꿔야되겠는데..
+    const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(80);
 
     const [declare_visible, setDeclare_visible] = useState(false);
     const [declare_part, setDeclare_part] = useState(true);
@@ -41,8 +41,8 @@ function HomeScreen(){
 
     const [categoryResult, setCategoryResult] = useState([]);
 
-    const [userOwnCategory, setUserOwnCategory] = useState([]);
     const [popGame, setPopGame] = useState([]);
+    const [forUserGame, setForUserGame] = useState([]);
     const [mainGameName, setMainGameName] = useState("");
     const [relatedGame, setRelatedGame] = useState([]);
     const user = useSelector(selectUser);
@@ -57,10 +57,20 @@ function HomeScreen(){
     const [curGame, setCurGame] = useState([]);
 
     useEffect(()=> {
+
+        //유저맞춤형
+        async function fetchForUserData() {
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/{userId}/RecommendGameForUser`)
+                .then((res) => {
+                    setForUserGame(res.data);
+                })
+            return forUserGame;
+        }
+
+        //유저가 즐겨하는 카테고리
         async function fetchUserData() {
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/userCategoryPreference/all`)
                 .then((res) => {
-                    setUserOwnCategory(res.data[1]);
                     setCategoryResult(res.data);
                 })
             return categoryResult;
@@ -96,6 +106,7 @@ function HomeScreen(){
                 })
         }
 
+        fetchForUserData();
         fetchUserData();
         fetchCustomData();
         fetchRelatedData();
@@ -108,25 +119,13 @@ function HomeScreen(){
 
     // popupGameData Fetch (popupUrl이 바뀔때 마다)
     useEffect(()=> {
-        axios.get(popupUrl).then((res)=>{
-            console.log(res.data.id);
-            setPopupGameData(res.data);
-            axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${res.data.id}/video/all`).then((res)=>{
+        async function fetchData() {
+            const request = await axios.get(popupUrl);
 
-                // 영상 없으면 1번 영상으로 대체하는 코드
-                if(res.data.length==0){
-                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`).then((res)=>{
-                        setPopupMainVideoIndex(res.data[0].id);
-                    })
-                }else{
-                    setPopupMainVideoIndex(res.data[0].id);
-                }
-            })
-        })
-        setLoading(false);
-        return () => {
-            setLoading(true);
+            setPopupGameData(request.data);
+            return request;
         }
+        fetchData();
     }, [popupUrl])
 
     // ESC 누르면 팝업창 사라짐
@@ -169,23 +168,23 @@ function HomeScreen(){
             <div id="homeScreen" className="homeScreen">
                 <Nav setSearchWord={setSearchWord} setSearching={setSearching}/>
                 { searching ? (
-                        <SearchScreen searchWord={searchWord} />
+                    <SearchScreen searchWord={searchWord} />
                 ) : (
                     <>
                         <Banner />
 
-                        {/*<Row
+                        <RowCustom
                             videoShow={videoShow}
                             setVideoShow={setVideoShow}
                             setX={setX}
                             setY={setY}
                             title={`${user.nickname}님을 위한 맞춤 콘텐츠`}
-                            category={userOwnCategory}
+                            gameArr={forUserGame}
                             setPopupUrl={setPopupUrl}
                             setVisible={setVisible}
                             posY={posY}
                             setCurGame={setCurGame}
-                        />*/}
+                        />
 
                         <RowCustom
                             videoShow={videoShow}
@@ -235,22 +234,20 @@ function HomeScreen(){
             </div>
             <div>
                 <div className="video_modal">
-                    {videoShow && 
-                        <VideoModal 
-                            setVideoShow={setVideoShow} 
-                            X={X} Y={Y} 
-                            setPopupUrl={setPopupUrl} 
-                            OneOfGameData={curGame} 
-                            setVisible={setVisible} 
-                            posY={posY}
-                        />
+                    {videoShow &&
+                    <VideoModal
+                        setVideoShow={setVideoShow}
+                        setPopupUrl={setPopupUrl}
+                        setVisible={setVisible}
+                        X={X} Y={Y}
+                        OneOfGameData={curGame}
+                    />
                     }
                 </div>
 
                 <Modal
                     modalRef={modalRef}
                     visible={visible}
-                    setVisible={setVisible}
                     posY={posY} >
                     {(visible &&
                         <>
@@ -282,7 +279,6 @@ function HomeScreen(){
                                     <div className="video">
                                         <PopupRelatedVideo
                                             popupGameData={popupGameData}
-                                            popupMainVideoIndex={popupMainVideoIndex}
                                             setPopupMainVideoIndex={setPopupMainVideoIndex}
                                         />
                                     </div>

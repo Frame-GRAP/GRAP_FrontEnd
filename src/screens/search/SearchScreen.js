@@ -143,7 +143,6 @@ function SearchScreen({searchWord}) {
                             setX={setX}
                             setY={setY}
                             OneOfGameData={set}
-                            myGame={myGame}
                             setCurGame={setCurGame}
                         />
                     ))}
@@ -154,16 +153,15 @@ function SearchScreen({searchWord}) {
             </div>
             <div className="video_modal">
                 {/* {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y-25}OneOfGameData={curGame} myGame={myGame}/>} */}
-                {videoShow && 
-                        <VideoModal 
-                            setVideoShow={setVideoShow} 
-                            X={X} Y={Y} 
-                            setPopupUrl={setPopupUrl} 
-                            OneOfGameData={curGame} 
-                            setVisible={setVisible} 
-                            posY={posY}
-                        />
-                    }
+                {videoShow &&
+                    <VideoModal
+                        setVideoShow={setVideoShow}
+                        setPopupUrl={setPopupUrl}
+                        setVisible={setVisible}
+                        X={X} Y={Y}
+                        OneOfGameData={curGame}
+                    />
+                }
                 <Modal
                     modalRef={modalRef}
                     visible={visible}

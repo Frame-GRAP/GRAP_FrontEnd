@@ -60,7 +60,7 @@ function BannerVideo({mainGameData = []}){
     return (
         <div className="banner_item">
             {content ? (
-                <img className="banner_img" src={mainGameData.headerImg} alt="game"/>
+                <img className="banner_img" src={mainGameData.headerImg} alt="game" style={{width:"100%", height:"600px"}}/>
             ) : (
                 <iframe
                     className="row_video"

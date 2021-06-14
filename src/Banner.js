@@ -47,24 +47,24 @@ function Banner() {
     return (
         <header className="banner">
             <div className="banner_contents">
-                <Carousel
+                {/*<Carousel
                     className="banner_carousel"
                     infiniteLoop={true}
                     showThumbs={false}
-                    onChange={onChange}>
-                    <div className="banner_container">
-                        <div className="banner_item">
-                            <BannerVideo check={curVideo(0)} mainGameData={mainGame} />
-                        </div>
-                        <div className="banner_info">
-                            <h1 className="banner_title">{mainGame.name}</h1>
-                            <h1 className="banner_description">{truncate(mainGame?.description, 150)}</h1>
-                            <div className="banner_buttons">
-                                <button className="banner_button">상세정보</button>
-                            </div>
+                    onChange={onChange}>*/}
+                <div className="banner_container">
+                    <div className="banner_item">
+                        <BannerVideo check={curVideo(0)} mainGameData={mainGame} />
+                    </div>
+                    <div className="banner_info">
+                        <h1 className="banner_title">{mainGame.name}</h1>
+                        <h1 className="banner_description">{truncate(mainGame?.description, 150)}</h1>
+                        <div className="banner_buttons">
+                            <button className="banner_button">상세정보</button>
                         </div>
                     </div>
-                </Carousel>
+                </div>{/*
+                </Carousel>*/}
             </div>
 
             <div className="banner_fadeBottom" />

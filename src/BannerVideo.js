@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import ReactPlayer from "react-player";
 import axios from "axios";
 
 function BannerVideo({mainGameData = []}){
@@ -29,17 +28,18 @@ function BannerVideo({mainGameData = []}){
                 setLoading(false);
             })
         }
+
         return () => {
             setLoading(true);
         }
     }, [mainGameData]);
 
-    let player_Url;
+    /*let player_Url;
     if(videoData.platform === "twitch"){
         player_Url = `https://clips.twitch.tv/embed?clip=${videoData.urlKey}&parent=localhost&controls=0&autoplay=true&origin=http://localhost:3000`
     }else if(videoData.platform === "youtube"){
         player_Url = `https://www.youtube.com/embed/${videoData.urlKey}?autoplay=1&controls=0&mute=0`
-    }
+    }*/
 
     const playAuto = () => {
         if(window.scrollY < 100){
@@ -65,7 +65,7 @@ function BannerVideo({mainGameData = []}){
                 <iframe
                     className="row_video"
                     width="100%" height="600px"
-                    src={player_Url}
+                    src={"https://www.youtube.com/embed/OYOrBlNdZ9E?autoplay=1&controls=0&mute=0"}
                     scrolling="no"
                     frameBorder="0"
                     allow="autoplay"

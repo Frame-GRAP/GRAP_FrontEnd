@@ -9,11 +9,7 @@ import $ from "jquery"
 import StarRating from './StarRating'
 import ReviewStarRating from './ReviewStarRating'
 import User_Icon from "../../img/user_icon.png"
-import {AiOutlineDislike, AiOutlineLike, AiFillLike, AiFillDislike} from 'react-icons/ai'
-
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-
-import img from './../../img/white_icon.png'
+import {AiFillLike, AiFillDislike} from 'react-icons/ai'
 
 function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDeclare_reviewId}) {
     const [rating, setRating] = useState(0);
@@ -33,7 +29,8 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     const [modifyReviewComplete, setModifyReviewComplete] = useState(false); // 수정 완료시 갱신.
 
     // user, ref
-    const userId = useSelector(selectUser).user_id;
+    const user = useSelector(selectUser);
+    const userId = user.user_id;
     const commentRef = useRef();
     const modifyRef = useRef();
 
@@ -110,13 +107,14 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                     }
                 })
                 setModifyReviewComplete(!modifyReviewComplete)
+            // Default 값으로 변경
+            setModifyRating(0);
+            modifyRef.current.value = "";
+            setModifyBtn(false);
             }
+
         }
 
-        // Default 값으로 변경
-        setModifyRating(0);
-        modifyRef.current.value = "";
-        setModifyBtn(false);
 
     }
     function CancleModify(e){ // 리뷰 수정 취소
@@ -143,7 +141,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     }
 
     function UpLike(e){
-        const reviewId = e.target.parentNode.id; // id값 저장해야 함.
+        const reviewId = e.currentTarget.id; // id값 저장해야 함.
         console.log(reviewId);
 
         let user_ReviewValue;
@@ -214,7 +212,7 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     }
 
     function UpDislike(e){
-        const reviewId = e.target.parentNode.id;
+        const reviewId = e.currentTarget.id;
         console.log(reviewId);
 
         let user_ReviewValue;
@@ -343,18 +341,16 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
     return (
         <div className="popup__Review">
             <div className="title__font">Review</div>
-
             <div className="Reviews">
                 <div className="Review__contents">
                     {reviewData.map((set, index) => {
-                        // {console.log(set.reviewValue)}
                         return (
                             <div className="Review" key={index}>
                                 {/* <AccountBoxIcon className="Review__profile__image" fontSize="large" /> */}
                                 <img src={User_Icon} className="Review__profile__image"></img>
 
                                 <div className="Reveiw__items">
-                                    <span className="Name">{set.username}&nbsp;</span><br/>
+                                    <span className="Name">{set.nickname}&nbsp;</span><br/>
 
                                     {(set.modify===1) ? (
                                         <>
@@ -397,13 +393,13 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                                             </span><br/><br/>
 
                                             <div className="Review__likes">
-                                                {set.reviewValue === true?
+                                                {set.reviewValue == true?
                                                     <AiFillLike className="Review__like" id={set.review_id} onClick={UpLike} color="blue"/>
                                                     :
                                                     <AiFillLike className="Review__like" id={set.review_id} onClick={UpLike}/>
                                                 }&nbsp;&nbsp;{set.like} &nbsp;
 
-                                                {set.reviewValue===false ? (
+                                                {set.reviewValue==false ? (
                                                     <AiFillDislike className="Review__like" id={set.review_id} onClick={UpDislike} color="blue"/>
                                                 ) : (
                                                     <AiFillDislike className="Review__like" id={set.review_id} onClick={UpDislike} />
@@ -416,12 +412,18 @@ function PopupReview({popupGameData, setDeclare_visible, setDeclare_part, setDec
                                     }
 
                                 </div>
+
                                 <div className="Review__modifyTab">
                                     <button className="modify_ReviewBtn" onClick={OpenModifyReview} index={index}>▼</button>
                                     <div className="review_tab1 review_tab2">
                                         <ul className="review__modify__ul">
-                                            <li index={index}name={set.review_id} onClick={ModifyReview}>수정</li>
-                                            <li index={index}name={set.review_id} onClick={DeleteReview}>삭제</li>
+                                            {(user.nickname == set.nickname) && (      
+                                                <>                              
+                                                <li index={index}name={set.review_id} onClick={ModifyReview}>수정</li>
+                                                <li index={index}name={set.review_id} onClick={DeleteReview}>삭제</li>
+                                                </>
+                                            )}
+
                                             <li index={index}name={set.review_id} onClick={OpenReviewDeclaration}>신고</li>
                                         </ul>
                                     </div>

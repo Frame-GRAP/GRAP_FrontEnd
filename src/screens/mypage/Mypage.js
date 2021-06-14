@@ -1,9 +1,10 @@
 import React, {useEffect, useState, useRef} from 'react'
 import {useHistory} from "react-router-dom";
-import {selectUser} from "./../../features/userSlice";
-import {useSelector} from "react-redux";
+import {selectUser, login} from "./../../features/userSlice";
+import {useDispatch, useSelector} from "react-redux";
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
+import moment from 'moment'
 
 import './Mypage.css'
 
@@ -14,10 +15,9 @@ import axios from 'axios';
 import Footer from '../../Footer';
 
 function Mypage() {
-    const [couponLength, setCouponLength] = useState(0);
+    const [userData, setUserData] = useState([]);
     const history = useHistory();
-    const ismembership = 1; // 멤버십 가입여부
-    const membershipLevel = 1; // 멤버십 등급
+    const dispatch = useDispatch();
 
     const nickRef = useRef();
     const user = useSelector(selectUser);
@@ -69,19 +69,29 @@ function Mypage() {
         const nickname = nickRef.current.value;
 
         console.log(userId, nickname)
-        
-        axios({
-            method : 'post',
-            url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/nickname/${nickname}`
-        }).then((res)=> {        
-            setOpen(false);
-            window.localStorage.setItem("nickname", nickname);
-            window.location.reload();
+
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/nickname/${nickname}`)
+            .then((res) =>{
+                console.log(res.data);
+                if(res.data.isDup == true){ //중복이니까 다시 입력받아야 함
+                    alert("닉네임이 중복 되었습니다. 다른 닉네임을 입력해주세요.");
+                }
+                else{ // 가능
+                    axios({
+                        method : 'post',
+                        url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/nickname/${nickname}`
+                    }).then((res)=> {        
+                        setOpen(false);
+                        window.localStorage.setItem("nickname", nickname);
+                        window.location.reload();
+                    })
+                }
         })
+
+
     }
 
     function escapeUser(){
-        console.log(user)
         const userId = user.user_id;
         if(window.confirm("회원 탈퇴를 진행하시겠습니까?")===true){
             axios({
@@ -96,11 +106,18 @@ function Mypage() {
     }
 
     function escapeMembership() {
-        console.log(user)
+        const userId = user.user_id;
         if(window.confirm("멤버십을 해지하시겠습니까?")===true){
-           
-            console.log("해지 완료")
-            window.confirm("해지되었습니다!")
+            axios({
+                method : 'put',
+                url: `http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/membership`
+            }).then((res)=> {
+                console.log(res);
+                console.log("해지 완료")
+                window.confirm("해지되었습니다!")
+                // window.location.reload();
+            })
+
         }
     }
 
@@ -113,7 +130,7 @@ function Mypage() {
             <div className="modify_nickname_container">
                 <div className="current_nickname">
                     <h5>현재 닉네임</h5>
-                    <span><h3>{user.nickname.replaceAll("\"", "")}</h3></span>
+                    <span><h3>{user.nickname && user.nickname.replaceAll("\"", "")}</h3></span>
                 </div>
                 <div className="modify_nickname">
                     <div className="modify_nickname_title">
@@ -130,11 +147,29 @@ function Mypage() {
     );
 
     useEffect(()=> {
-        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/coupon/userAndCoupon`)
-            .then((res)=>{
+        console.log(user);
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}`)
+            .then((res) => {
                 console.log(res.data);
-                setCouponLength(res.data.length);
+                setUserData(res.data);
+                dispatch(login({
+                    user_id: res.data.id,
+                    name: res.data.name,
+                    nickname : res.data.nickname,
+                    membershipName : res.data.membershipName,
+                    availableCoupon : res.data.availableCoupon,
+                    nextPaymentDay: res.data.nextPaymentDay
+                }))
+                window.localStorage.setItem("user_id", res.data.id);
+                window.localStorage.setItem("name", res.data.name);
+                window.localStorage.setItem("nickname", res.data.nickname);
+                window.localStorage.setItem("membershipName", res.data.membershipName);
+                window.localStorage.setItem("availableCoupon", res.data.availableCoupon);
+                window.localStorage.setItem("nextPaymentDay", res.data.nextPaymentDay);
+            }).then(()=>{
+                console.log(userData);
             })
+
     }, []);
 
 
@@ -149,6 +184,7 @@ function Mypage() {
             <div className="mypage_container">
                 <div className="mypage_header">
                     <h1 className="account_header">계정</h1>
+                    <div className="user_escape" onClick={escapeUser}><h4>회원 탈퇴</h4></div>
                 </div>
                 
 
@@ -156,12 +192,11 @@ function Mypage() {
                     <div className="account_section">
                         <div className="account_section_header">
                             <div className="header_title">회원 정보</div>
-                            <button className="user_escape" onClick={escapeUser}><h4>회원 탈퇴</h4></button>
                         </div>
 
                         <div className="account_section_info">
                             <div className="nickname">
-                                {user.nickname ? user.nickname.replaceAll("\"", "") : ""}
+                                {userData.nickname ? userData.nickname.replaceAll("\"", "") : ""}
                             </div>
                         </div>
                         <div className="account_section_modify">
@@ -172,38 +207,10 @@ function Mypage() {
                     <div className="account_section">
                         <div className="account_section_header">
                             <div className="header_title" style={{"padding-top":"10px"}}>멤버십(구독)</div>
-                            {ismembership ? <button className="membership_escape" onClick={escapeMembership}><h4>멤버십 해지</h4></button> : ""}
+                            {userData.membershipName !== null ? <button className="membership_escape" onClick={escapeMembership}><h4>멤버십 해지</h4></button> : ""}
                         </div>
-                        {ismembership ? (
-                            <>
-                            <div className="account_section_info">
-                                <h3 className="membership_info">
-                                    {membershipLevel === 1 ? (
-                                        <>
-                                        Premium
-                                        <img src={premium} className="membership_medal"></img>
-                                        </>
-                                    ) : (
-                                        <>
-                                        Basic
-                                        <img src={basic} className="membership_medal"></img>
-                                        </>
-                                    )}
 
-                                </h3>
-                                <div className="credit_date">
-                                    다음 결제일은 2021/06/30 입니다.
-                                </div>
-                            </div>
-                            <div className="account_section_modify">
-                                <div className="membership_modify">
-                                    <div className="modify" style={{"color":"#0073e6", "cursor": "pointer", "padding-top": "10px"}} onClick={() => history.push("/membership")}>
-                                        멤버십 변경
-                                    </div>
-                                </div>
-                            </div>
-                            </>
-                        ) : (
+                        {userData.membershipName == null ? (
                             <>
                             <div className="account_section_info">
                                 <div className="no_membership">가입된 멤버십이 없습니다.</div>
@@ -219,6 +226,35 @@ function Mypage() {
                                 </div>
                             </div>
                             </>
+                        ) : (
+                            <>
+                            <div className="account_section_info">
+                                <h3 className="membership_info">
+                                    {userData.membershipName == "Basic" ? (
+                                        <>
+                                        Basic
+                                        <img src={basic} className="membership_medal"></img>
+                                        </>
+                                    ) : (
+                                        <>
+                                        Premium
+                                        <img src={premium} className="membership_medal"></img>
+                                        </>
+                                    )}
+
+                                </h3>
+                                <div className="credit_date">
+                                    {userData.nextPaymentDay ? "다음 결제일은"+moment(userData.nextPaymentDay).format('YYYY/MM/DD')+"입니다." : "다음 달 결제가 해지됩니다."}
+                                </div>
+                            </div>
+                            <div className="account_section_modify">
+                                <div className="membership_modify">
+                                    <div className="modify" style={{"color":"#0073e6", "cursor": "pointer", "padding-top": "10px"}} onClick={() => history.push("/membership")}>
+                                        멤버십 변경
+                                    </div>
+                                </div>
+                            </div>
+                            </>
                         )}
                         
                     </div>
@@ -228,11 +264,20 @@ function Mypage() {
                             <div className="header_title">쿠폰</div>
                         </div>
                         <div className="account_section_info">
-                            <div className="available_coupon">사용 가능 쿠폰 수 &nbsp;: {10-couponLength}</div>
+                        {userData.membershipName==null ? (
+                            <div className="available_coupon_null">
+                                가입된 멤버십이 없습니다.
+                            </div>
+                            ) : (
+                            <div className="available_coupon">
+                                사용 가능 쿠폰 수 : {userData.availableCoupon}
+                            </div>
+                        )}
+                            
                         </div>
                         <div className="account_section_modify">
                             <div className="coupon_selected">
-                                <div className="modify" style={{"color":"#0073e6", "cursor": "pointer"}} onClick={() => history.push("/coupon")}>쿠폰함 확인</div>
+                                {userData.membershipName && <div className="modify" style={{"color":"#0073e6", "cursor": "pointer"}} onClick={() => history.push("/coupon")}>쿠폰함 확인</div>}
                             </div>
                         </div>
                     </div>

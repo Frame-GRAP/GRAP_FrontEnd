@@ -33,29 +33,38 @@ function RowCustom({setVideoShow, setX, setY, title, gameArr=[], setPopupUrl, se
         }
     };
 
+
     const [lastGame, setLastGame] = useState([]);
     useEffect(()=> {
         async function fetchData() {
             const tempArr = new Array();
             await gameArr.map((gameId, index) => {
                 const id = gameId.gameId
-                axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${id}`)
-                    .then((res) => {
-                        const game = new Object();
-                        game.id = res.data.id;
-                        game.name = res.data.name;
-                        game.headerImg = res.data.headerImg;
-                        tempArr.push(game);
-                    });
+                if(id !== ""){
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${id}`)
+                        .then((res) => {
+                            const game = new Object();
+                            game.id = res.data.id;
+                            game.name = res.data.name;
+                            game.headerImg = res.data.headerImg;
+                            tempArr.push(game);
+                        });
+                }
             })
             setGameData(tempArr);
             return gameData;
         }
-        fetchData().then((r) =>{
-            setLoading(false);
-        })
 
-    }, [gameArr]);
+        if(gameArr.length > 0){
+            fetchData().then((r) =>{
+                setLoading(false);
+            })
+        }
+
+        return () => {
+            setLoading(true);
+        }
+    }, [gameArr, title]);
 
     useEffect(() => {
         async function fetchFavorData() {
@@ -66,7 +75,6 @@ function RowCustom({setVideoShow, setX, setY, title, gameArr=[], setPopupUrl, se
                     res.data.map((game) => {
                         const id = game.gameId;
                         temp.push(id);
-
                     })
                     setMyGame(temp);
                 })
@@ -95,11 +103,10 @@ function RowCustom({setVideoShow, setX, setY, title, gameArr=[], setPopupUrl, se
                                 itemClass="list_item"
                                 sliderClass="row_posters"
                                 dotListClass="dot_list">
-
-
                     {gameData.map((set,index) => (
                         (index <= 10) && (
                             <Video
+                                key={index}
                                 className="row_poster"
                                 setVideoShow={setVideoShow}
                                 setX={setX}
@@ -113,7 +120,6 @@ function RowCustom({setVideoShow, setX, setY, title, gameArr=[], setPopupUrl, se
                             />
                         ))
                     )}
-
                 </Multi_Carousel>
             </div>
         </div>

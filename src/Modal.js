@@ -5,7 +5,7 @@ import {CgCloseO} from 'react-icons/cg'
 import "./Modal.css"
 
 
-function Modal({ children, modalRef, gameData, gameId, visible, posY}) {
+function Modal({ children, modalRef, gameData, gameId, visible, setVisible, posY}) {
   return (
     <>
         {/* 팝업창 띄워져있을 때에는 바탕화면 스크롤은 안되게 */}
@@ -14,7 +14,7 @@ function Modal({ children, modalRef, gameData, gameId, visible, posY}) {
             <ModalWrapper visible={visible} className="modal_wrapper">
            
                 <ModalContent className="modal_contents">
-                  <CloseModalButton aria-label='Close modal' className="modal_closeBtn"/>
+                  <CloseModalButton aria-label='Close modal' className="modal_closeBtn" onClick={()=>setVisible(false)}/>
                   {children}
                 </ModalContent>
               

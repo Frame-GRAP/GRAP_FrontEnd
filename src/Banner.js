@@ -1,10 +1,9 @@
-import React, {useEffect, useLayoutEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import './Banner.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import BannerVideo from "./BannerVideo";
 import axios from "axios";
-import Delay from "react-delay";
 
 function Banner() {
     const [mainGame, setMainGame] = useState([]);
@@ -13,7 +12,7 @@ function Banner() {
 
     useEffect(() => {
         async function fetchData() {
-            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1`)
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/8845`)
                 .then(async (res) => {
                     setMainGame(res.data);
                 });

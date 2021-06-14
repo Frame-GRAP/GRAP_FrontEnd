@@ -106,22 +106,21 @@ function UserInfo() {
             .then((res) =>{
                 console.log(res.data);
                 if(res.data.isDup == true){ //중복이니까 다시 입력받아야 함
-                    //alert("닉네임이 중복 되었습니다. 다른 닉네임을 입력해주세요.");
-                    alert("사용가능한 닉네임입니다.");
-                    setValidateNickname(true);
+                    alert("닉네임이 중복 되었습니다. 다른 닉네임을 입력해주세요.");
+                    setValidateNickname(false);
                 }
                 else{ // 가능
                     alert("사용가능한 닉네임입니다.");
                     setValidateNickname(true);
                 }
-            })
+        })
     }
 
     useEffect(()=> {
         axios.get("http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/starter/all")
-            .then((res)=>{
-                setGameData(res.data);
-            })
+        .then((res)=>{
+            setGameData(res.data);
+        })
     }, []);
 
     return (
@@ -152,21 +151,21 @@ function UserInfo() {
                         {gameData.map((set, index) =>{
                             return (
                                 <>
-                                    <div className="question_answer_item">
-                                        <label className="question2_gameImg" htmlFor={set.id}>
-                                            <input
-                                                key={index}
-                                                type="checkbox"
-                                                className="question2_check"
-                                                name="question2_selectBtn"
-                                                id={set.id}
-                                                value={set.id}
-                                            />
-                                            <div className="img_container">
-                                                <img src={set.headerImg} className="question2_gameImg"></img>
-                                            </div>
-                                        </label>
-                                    </div>
+                                <div className="question_answer_item">
+                                    <label className="question2_gameImg" htmlFor={set.id}>
+                                        <input
+                                            key={index}
+                                            type="checkbox"
+                                            className="question2_check"
+                                            name="question2_selectBtn"
+                                            id={set.id}
+                                            value={set.game_id}
+                                        />
+                                        <div className="img_container">
+                                            <img src={set.headerImg} className="question2_gameImg"></img>
+                                        </div>
+                                    </label>
+                                </div>
                                 </>
                             )
                         })}

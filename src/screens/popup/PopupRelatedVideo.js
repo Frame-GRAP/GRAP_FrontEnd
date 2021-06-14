@@ -4,21 +4,31 @@ import {AiOutlineDislike, AiOutlineLike, AiFillLike, AiFillDislike} from 'react-
 
 function PopupRelatedVideo({popupGameData, popupMainVideoIndex, setPopupMainVideoIndex}) {
     const [videoData, setVideoData] = useState([]);
+    
 
     // Video Data Fetch
     const axios = require('axios');
     useEffect(()=> {
         axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${popupGameData.id}/video/all`)
             .then((res)=>{
-                // 나중에 liked가 높은 순으로 정렬.
-                // 이거 적용하려면 일단 관련 비디오의 index 따오는 코드를 id 따오는 코드로 변환해야 함.
+                // 영상 없으면 1번 영상으로 대체하는 코드
+                if(res.data.length==0){
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`).then((res)=>{
+                        const sortedArrayByLength = [...res.data].sort(function(a, b){ 
+                            return parseFloat(b.length) - parseFloat(a.length);
+                        })
+        
+                        setVideoData(sortedArrayByLength);
+                    })
+                }else{
+                    const sortedArrayByLength = [...res.data].sort(function(a, b){ 
+                        return parseFloat(b.length) - parseFloat(a.length);
+                    })
+    
+                    setVideoData(sortedArrayByLength);
+                }
 
-                const sortedArrayByLength = [...res.data].sort(function(a, b){ 
-                    return parseFloat(b.length) - parseFloat(a.length);
-                })
-                console.log(sortedArrayByLength);
 
-                setVideoData(sortedArrayByLength);
                 // setVideoData(res.data);
 
                 // console.log(videoData);
@@ -61,13 +71,13 @@ function PopupRelatedVideo({popupGameData, popupMainVideoIndex, setPopupMainVide
                                 <div className="related_desc">
                                     <div
                                         className="video_title"
-                                        id={index}
+                                        id={set.id}
                                         onClick={toggleMainVideo}
                                     >{set.title}</div>
                                     <div className="video_uploader">{set.uploader}</div>
                                     <div className="video_length">
-                                        {/* <AiFillLike size="17" className="likeBtns"/>&nbsp;{set.liked===0 ? 0 : set.like} · {set.length} */}
-                                        {set.length}
+                                        {/* <AiFillLike size="17" className="likeBtns"/>&nbsp; {set.liked} ·  */}
+                                        {set.length.substring(0, 5)}
                                     </div>
                                 </div>
                             </div>}

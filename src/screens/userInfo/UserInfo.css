@@ -126,11 +126,12 @@
     margin-top: 50px;
 }
 
+
 .question_answer_item{
     padding: 10px;
 }
 
-.question2_check{
+.question2_check {
     display: none;
 }
 
@@ -138,6 +139,7 @@
     position: relative;
     cursor: pointer;
     border: 5px solid transparent;
+
 }
 
 .question2_gameImg{
@@ -169,7 +171,6 @@
     top: 50%;
     left: 50%;
 }
-
 .userInfo_btn:hover{
     background-color: #e6e6e613;
     transition: all 0.5s;

@@ -71,6 +71,16 @@
     height: 45px;
 }
 
+.search_element > .expandright {
+    height: 30px;
+    outline: none;
+    background-color: #111;
+    border: 1px solid #fff;
+    color: #fff;
+    font-size: 15px;
+    padding: 5px;
+}
+
 .nav_element {
     position: relative;
     display: inline-block;

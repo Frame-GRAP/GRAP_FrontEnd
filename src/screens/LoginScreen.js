@@ -27,14 +27,27 @@ function LoginScreen(){
         }).then((res) => {
             if(res){
                 console.log(res.data)
-                dispatch(login({
-                    user_id : res.data.id,
-                    name : user.name,
-                    nickname: res.data.nickname
-                }))
-                window.localStorage.setItem("user_id", JSON.stringify(res.data.id));
-                window.localStorage.setItem("name", user.name);
-                window.localStorage.setItem("nickname", res.data.nickname);
+
+                axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${res.data.id}`)
+                .then((res)=>{
+                    console.log(res.data);  
+                    dispatch(login({
+                        user_id : res.data.id,
+                        name : user.name,
+                        nickname: res.data.nickname,
+                        membershipName : res.data.membershipName,
+                        availableCoupon: res.data.availableCoupon,
+                        nextPaymentDay: res.data.nextPaymentDay
+                    }))
+                    window.localStorage.setItem("user_id", JSON.stringify(res.data.id));
+                    window.localStorage.setItem("name", user.name);
+                    window.localStorage.setItem("nickname", res.data.nickname);
+                    window.localStorage.setItem("membershipName", res.data.membershipName);
+                    window.localStorage.setItem("availableCoupon", res.data.availableCoupon);
+                    window.localStorage.setItem("nextPaymentDay", res.data.nextPaymentDay);
+                
+                })
+
                 if(res.data.isRegistered == 1 && res.data.nickname !== null){
                     history.push("/");
                 }
@@ -86,7 +99,7 @@ function LoginScreen(){
                     </a>
                     <GoogleLogin
                         className="sns_icon google"
-                        clientId="803232667536-pn5n3kpul7vsq0uftg6np601iikka7e6.apps.googleusercontent.com"
+                        clientId="803232667536-laafp22eio1k1kl9qrj4jabrusq1vo81.apps.googleusercontent.com"
                         render={renderProps => (
                             <span onClick={renderProps.onClick} disabled={renderProps.disabled} className="sns_icon google"></span>
                         )}

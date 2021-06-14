@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./HomeScreen.css"
 import $ from "jquery"
-import styled from 'styled-components'
 import axios from 'axios'
 import grap_logo from '../../img/grap_logo2-1.png'
 
@@ -23,7 +22,6 @@ import {selectUser} from './../../features/userSlice'
 import {useSelector} from "react-redux";
 import Footer from "../../Footer";
 import RowCustom from "../../RowCustom";
-import TempRow from "../../TempRow";
 import SearchScreen from "../search/SearchScreen";
 import VideoModal from "../../VideoModal";
 
@@ -33,8 +31,8 @@ function HomeScreen(){
 
     const [popupUrl, setPopupUrl] = useState("");
     const [popupGameData, setPopupGameData] = useState([]);
-    // MainVideoIndex 초기 값 이거 설정 팝업 많아지면 그거에 맞춰서 바꿔야되겠는데..
-    const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(1);
+    const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(0);
+    // const [popupMainVideoIndex, setPopupMainVideoIndex] = useState(80);
 
     const [declare_visible, setDeclare_visible] = useState(false);
     const [declare_part, setDeclare_part] = useState(true);
@@ -110,13 +108,25 @@ function HomeScreen(){
 
     // popupGameData Fetch (popupUrl이 바뀔때 마다)
     useEffect(()=> {
-        async function fetchData() {
-            const request = await axios.get(popupUrl);
+        axios.get(popupUrl).then((res)=>{
+            console.log(res.data.id);
+            setPopupGameData(res.data);
+            axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${res.data.id}/video/all`).then((res)=>{
 
-            setPopupGameData(request.data);
-            return request;
+                // 영상 없으면 1번 영상으로 대체하는 코드
+                if(res.data.length==0){
+                    axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/1/video/all`).then((res)=>{
+                        setPopupMainVideoIndex(res.data[0].id);
+                    })
+                }else{
+                    setPopupMainVideoIndex(res.data[0].id);
+                }
+            })
+        })
+        setLoading(false);
+        return () => {
+            setLoading(true);
         }
-        fetchData();
     }, [popupUrl])
 
     // ESC 누르면 팝업창 사라짐
@@ -164,7 +174,7 @@ function HomeScreen(){
                     <>
                         <Banner />
 
-                        <Row
+                        {/*<Row
                             videoShow={videoShow}
                             setVideoShow={setVideoShow}
                             setX={setX}
@@ -175,7 +185,7 @@ function HomeScreen(){
                             setVisible={setVisible}
                             posY={posY}
                             setCurGame={setCurGame}
-                        />
+                        />*/}
 
                         <RowCustom
                             videoShow={videoShow}
@@ -206,6 +216,7 @@ function HomeScreen(){
                             return(
                                 <Row
                                     key={index}
+                                    index={index}
                                     videoShow={videoShow}
                                     setVideoShow={setVideoShow}
                                     setX={setX}
@@ -224,12 +235,22 @@ function HomeScreen(){
             </div>
             <div>
                 <div className="video_modal">
-                    {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y} setPopupUrl={setPopupUrl} OneOfGameData={curGame} setVisible={setVisible} posY={posY}/>}
+                    {videoShow && 
+                        <VideoModal 
+                            setVideoShow={setVideoShow} 
+                            X={X} Y={Y} 
+                            setPopupUrl={setPopupUrl} 
+                            OneOfGameData={curGame} 
+                            setVisible={setVisible} 
+                            posY={posY}
+                        />
+                    }
                 </div>
 
                 <Modal
                     modalRef={modalRef}
                     visible={visible}
+                    setVisible={setVisible}
                     posY={posY} >
                     {(visible &&
                         <>
@@ -261,6 +282,7 @@ function HomeScreen(){
                                     <div className="video">
                                         <PopupRelatedVideo
                                             popupGameData={popupGameData}
+                                            popupMainVideoIndex={popupMainVideoIndex}
                                             setPopupMainVideoIndex={setPopupMainVideoIndex}
                                         />
                                     </div>

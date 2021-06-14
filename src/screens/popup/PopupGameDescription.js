@@ -82,7 +82,6 @@ function PopupGameDescription({popupGameData}) {
     if(loading) return (<div>Loading...</div>);
     return (
         <div className="popup__Description">
-            {/* <div className="title__font">Game Description</div> */}
             <h2 className="detail__gameName"> {popupGameData.name}</h2><br/>
 
             <div className="description__contents">
@@ -135,7 +134,6 @@ function PopupGameDescription({popupGameData}) {
                                 </Tooltip>
                                 :
                                 <Tooltip title="찜한목록에 추가" placement="bottom">
-                                    {/* <FavoriteIcon style={{ fontSize: 40, color: grey[50], cursor: "pointer" }} onClick={AddMylist}/> */}
                                     <FavoriteBorderIcon style={{ fontSize: 40, color: grey[50], cursor: "pointer" }} onClick={AddMylist}/>
                                 </Tooltip>
                             }
@@ -145,8 +143,9 @@ function PopupGameDescription({popupGameData}) {
                         <a
                             href={popupGameData.downloadUrl}
                         >
-                            <button className="download_btn">구매하기  5,500원</button>
-                            {/* <button className="download_btn">구매하기  {popupGameData.price}원</button> */}
+                            <button className="download_btn">구매하기 &nbsp;
+                            {popupGameData.price ? popupGameData.price +"$" : ""}
+                            </button>
                         </a>
                     </div>
                 </div>

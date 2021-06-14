@@ -10,7 +10,7 @@ function Video({setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVi
     useEffect(() => {
         async function fetchData() {
             const gameId = OneOfGameData.id;
-            console.log(gameId);
+            // console.log(gameId);
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
                 .then((res) => {
                     // 영상 없으면 1번 영상으로 대체하는 코드

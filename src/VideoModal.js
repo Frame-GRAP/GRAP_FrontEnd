@@ -36,7 +36,7 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setOne
                 });
             return videoData;
         }
-        /*async function fetchMyData() {
+        async function fetchMyData() {
             const userId = user.user_id;
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
                 .then((res) => {
@@ -49,14 +49,14 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setOne
                 });
 
             return isAdded;
-        }*/
-        function check() {
+        }
+        /*function check() {
             myGame.map((gameId) => {
                 if(gameId === OneOfGameData.id){
                     setIsAdded(true);
                 }
             })
-        }
+        }*/
 
         function setPosition() {
             if(Y < 0){
@@ -73,8 +73,8 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setOne
 
         if(OneOfGameData !== undefined){
             fetchData();
-            /*fetchMyData();*/
-            check();
+            fetchMyData();
+            /*check();*/
             setPosition();
             setLoading(false);
         }

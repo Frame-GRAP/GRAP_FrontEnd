@@ -10,7 +10,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import {grey} from "@material-ui/core/colors";
 import "./VideoModal.css";
 
-function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setOneOfGameData, setVisible, posY}) {
+function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setOneOfGameData, setVisible, posY, myGame=[]}) {
     const [loading, setLoading] = useState(true);
     const [videoData, setVideoData] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
@@ -36,7 +36,7 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setOne
                 });
             return videoData;
         }
-        async function fetchMyData() {
+        /*async function fetchMyData() {
             const userId = user.user_id;
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
                 .then((res) => {
@@ -49,6 +49,13 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setOne
                 });
 
             return isAdded;
+        }*/
+        function check() {
+            myGame.map((gameId) => {
+                if(gameId === OneOfGameData.id){
+                    setIsAdded(true);
+                }
+            })
         }
 
         function setPosition() {
@@ -64,10 +71,13 @@ function VideoModal({setVideoShow, X, Y, setPopupUrl, OneOfGameData = [], setOne
             setCurX(X + window.scrollY - 50);
         }
 
-        fetchData();
-        fetchMyData();
-        setPosition();
-        setLoading(false);
+        if(OneOfGameData !== undefined){
+            fetchData();
+            /*fetchMyData();*/
+            check();
+            setPosition();
+            setLoading(false);
+        }
         return () => {
             setLoading(true);
         }

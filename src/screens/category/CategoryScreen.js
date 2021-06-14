@@ -53,6 +53,8 @@ function CategoryScreen() {
     const [Y, setY] = useState(0);
     const [curGame, setCurGame] = useState([]);
 
+    const [myGame, setMyGame] = useState([]);
+
     const [page, setPage] = useState(0);
     const { pageLoading, error, categoryGameData, setCategoryGameData, setLastGameId } = useFetchCategory(categoryId, page);
     const [loader, setLoader] = useState(null);
@@ -89,6 +91,19 @@ function CategoryScreen() {
             setLoading(true);
         }
     }, []);
+
+    useEffect(() => {
+        setMyGame([]);
+        const userId = user.user_id;
+        axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
+            .then((res) => {
+                res.data.map((game, index) => {
+                    const id = game.gameId;
+                    setMyGame(myGame => [...myGame, id]);
+                })
+            });
+        console.log(loader);
+    }, [categoryId]);
 
     // popupGameData Fetch (popupUrl이 바뀔때 마다)
     useEffect(()=> {
@@ -170,6 +185,7 @@ function CategoryScreen() {
                                     setY={setY}
                                     OneOfGameData={set}
                                     setOneOfGameData={setCurGame}
+                                    myGame={myGame}
                                     setCurGame={setCurGame}
                                 />
                             ))}
@@ -182,13 +198,15 @@ function CategoryScreen() {
             </div>
             <div className="video_modal">
                 {videoShow &&
-                    <VideoModal
-                        setVideoShow={setVideoShow}
-                        setPopupUrl={setPopupUrl}
-                        setVisible={setVisible}
-                        X={X} Y={Y}
-                        OneOfGameData={curGame}
-                    />
+                <VideoModal
+                    setVideoShow={setVideoShow}
+                    setPopupUrl={setPopupUrl}
+                    setVisible={setVisible}
+                    setOneOfGameData={setCurGame}
+                    X={X} Y={Y}
+                    OneOfGameData={curGame}
+                    myGame={myGame}
+                />
                 }
             </div>
 

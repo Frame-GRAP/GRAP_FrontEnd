@@ -26,6 +26,9 @@ function BannerVideo({mainGameData = []}){
         if(mainGameData !== undefined){
             fetchData(mainGameData.id).then(r => {
                 setLoading(false);
+                setTimeout(() => {
+                    toggleContent(false);
+                }, 3000);
             })
         }
 
@@ -46,12 +49,12 @@ function BannerVideo({mainGameData = []}){
             toggleContent(false);
             setDelayHandler(setTimeout(() => {
                 toggleContent(false);
-            }, 700));
+            }, 1000));
             clearTimeout(delayHandler);
         } else {
             setDelayHandler(setTimeout(() => {
                 toggleContent(true);
-            }, 700));
+            }, 1000));
             clearTimeout(delayHandler);
         }
     }
@@ -60,7 +63,7 @@ function BannerVideo({mainGameData = []}){
     return (
         <div className="banner_item">
             {content ? (
-                <img className="banner_img" src={mainGameData.headerImg} alt="game"/>
+                <img className="banner_img" src={mainGameData.headerImg} alt="game" style={{width:"100%", height:"600px"}}/>
             ) : (
                 <iframe
                     className="row_video"

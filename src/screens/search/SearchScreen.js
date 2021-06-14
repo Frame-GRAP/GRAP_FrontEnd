@@ -68,27 +68,6 @@ function SearchScreen({searchWord}) {
     }, [handleObserver]);
 
     useEffect(() => {
-        async function fetchMyData() {
-            setMyGame([]);
-            const userId = user.user_id;
-            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${userId}/favor/all`)
-                .then((res) => {
-                    res.data.map((game, index) => {
-                        const id = game.gameId;
-                        setMyGame(myGame => [...myGame, id]);
-                    })
-                });
-            return myGame;
-        }
-
-        fetchMyData();
-        setLoading(false);
-        return () => {
-            setLoading(true);
-        }
-    }, []);
-
-    useEffect(() => {
         setSearchResult([]);
         setPage(0);
     }, [searchWord]);
@@ -143,7 +122,6 @@ function SearchScreen({searchWord}) {
                             setX={setX}
                             setY={setY}
                             OneOfGameData={set}
-                            myGame={myGame}
                             setCurGame={setCurGame}
                         />
                     ))}
@@ -154,14 +132,14 @@ function SearchScreen({searchWord}) {
             </div>
             <div className="video_modal">
                 {/* {videoShow && <VideoModal setVideoShow={setVideoShow} X={X} Y={Y-25}OneOfGameData={curGame} myGame={myGame}/>} */}
-                {videoShow && 
-                        <VideoModal 
-                            setVideoShow={setVideoShow} 
-                            X={X} Y={Y} 
-                            setPopupUrl={setPopupUrl} 
-                            OneOfGameData={curGame} 
+                {videoShow &&
+                        <VideoModal
+                            setVideoShow={setVideoShow}
+                            X={X} Y={Y}
+                            setPopupUrl={setPopupUrl}
+                            OneOfGameData={curGame}
                             setOneOfGameData={setCurGame}
-                            setVisible={setVisible} 
+                            setVisible={setVisible}
                             posY={posY}
                         />
                     }

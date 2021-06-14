@@ -43,6 +43,7 @@ function HomeScreen(){
 
     const [userOwnCategory, setUserOwnCategory] = useState([]);
     const [popGame, setPopGame] = useState([]);
+    const [forUserGame, setForUserGame] = useState([]);
     const [mainGameName, setMainGameName] = useState("");
     const [relatedGame, setRelatedGame] = useState([]);
     const user = useSelector(selectUser);
@@ -57,10 +58,20 @@ function HomeScreen(){
     const [curGame, setCurGame] = useState([]);
 
     useEffect(()=> {
+
+        //유저맞춤형
+        async function fetchForUserData() {
+            await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/RecommendGameForUser`)
+                .then((res) => {
+                    setForUserGame(res.data);
+                })
+            return forUserGame;
+        }
+
+        //유저가 즐겨하는 카테고리
         async function fetchUserData() {
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/user/${user.user_id}/userCategoryPreference/all`)
                 .then((res) => {
-                    setUserOwnCategory(res.data[1]);
                     setCategoryResult(res.data);
                 })
             return categoryResult;
@@ -96,6 +107,7 @@ function HomeScreen(){
                 })
         }
 
+        fetchForUserData();
         fetchUserData();
         fetchCustomData();
         fetchRelatedData();
@@ -109,7 +121,6 @@ function HomeScreen(){
     // popupGameData Fetch (popupUrl이 바뀔때 마다)
     useEffect(()=> {
         axios.get(popupUrl).then((res)=>{
-            console.log(res.data.id);
             setPopupGameData(res.data);
             axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${res.data.id}/video/all`).then((res)=>{
 
@@ -161,7 +172,7 @@ function HomeScreen(){
                 $("#homeScreen").scrollTop(posY);
             }
         })
-    }, [])
+    }, []);
 
     if(loading) return (<div>Loading...</div>);
     return (
@@ -169,23 +180,24 @@ function HomeScreen(){
             <div id="homeScreen" className="homeScreen">
                 <Nav setSearchWord={setSearchWord} setSearching={setSearching}/>
                 { searching ? (
-                        <SearchScreen searchWord={searchWord} />
+                    <SearchScreen searchWord={searchWord} />
                 ) : (
                     <>
                         <Banner />
-
-                        {/*<Row
+                        {(forUserGame.length > 0) &&
+                        <RowCustom
                             videoShow={videoShow}
                             setVideoShow={setVideoShow}
                             setX={setX}
                             setY={setY}
                             title={`${user.nickname}님을 위한 맞춤 콘텐츠`}
-                            category={userOwnCategory}
+                            gameArr={forUserGame}
                             setPopupUrl={setPopupUrl}
                             setVisible={setVisible}
                             posY={posY}
                             setCurGame={setCurGame}
-                        />*/}
+                        />}
+
 
                         <RowCustom
                             videoShow={videoShow}
@@ -235,14 +247,14 @@ function HomeScreen(){
             </div>
             <div>
                 <div className="video_modal">
-                    {videoShow && 
-                        <VideoModal 
-                            setVideoShow={setVideoShow} 
-                            X={X} Y={Y} 
-                            setPopupUrl={setPopupUrl} 
-                            OneOfGameData={curGame} 
+                    {videoShow &&
+                        <VideoModal
+                            setVideoShow={setVideoShow}
+                            X={X} Y={Y}
+                            setPopupUrl={setPopupUrl}
+                            OneOfGameData={curGame}
                             setOneOfGameData={setCurGame}
-                            setVisible={setVisible} 
+                            setVisible={setVisible}
                             posY={posY}
                         />
                     }

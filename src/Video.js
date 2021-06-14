@@ -8,7 +8,7 @@ function Video({setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVi
     const [videoData, setVideoData] = useState([]);
 
     useEffect(() => {
-        async function fetchData() {
+        /*async function fetchData() {
             const gameId = OneOfGameData.id;
             // console.log(gameId);
             await axios.get(`http://ec2-3-35-250-221.ap-northeast-2.compute.amazonaws.com:8080/api/game/${gameId}/video/all`)
@@ -28,7 +28,7 @@ function Video({setVideoShow, setX, setY, setPopupUrl, OneOfGameData = [], setVi
         }
 
         fetchData();
-        setCurGame(OneOfGameData);
+        setCurGame(OneOfGameData);*/
 
         setLoading(false);
         return () => {
